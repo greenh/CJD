@@ -51,7 +51,7 @@
    (nss #{}) (munged-ns-map nil) (level 0) (items {}) (css nil)
    (title nil) (overview nil) (throw-on-warn nil) 
    (gen-time (java.util.Date.)) (version *cjd-version*) 
-   (verbiage #{}) (theme :light)]
+   (verbiage #{}) (theme :light) (header nil) (footer nil)]
   
   (context-file [context] file)
   (context-file! [context file] (assoc context :file file))
@@ -101,6 +101,12 @@
   
   (context-theme [context] theme)
   (context-theme! [context t] (assoc context :theme t))
+  
+  (context-header [context] header)
+  (context-header! [context h] (assoc context :header h))
+  
+  (context-footer [context] footer)
+  (context-footer! [context f] (assoc context :footer f))
   
   Messaging
   (msg [context opt stuff]

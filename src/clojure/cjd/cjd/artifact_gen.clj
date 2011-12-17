@@ -14,7 +14,7 @@
       using the :requires option @(link cjd.exome/cjd-gen).)
 (ns cjd.cjd.artifact-gen
   (:use
-    [cjd.cjd.cjd-artifacts]
+    [cjd.cjd cjd-artifacts]
     [cjd.artifact-base]
     [cjd.core-artifacts]
     [cjd.generate]

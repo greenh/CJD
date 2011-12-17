@@ -131,15 +131,28 @@
 
 #_ (* Determines if a file should be excluded from processing.
       @arg file A @(linki java.io.File) object representing the
-      file to be checked.
-      @arg exclusions A collection of strings representing prefixes of 
-      file names to be excluded. If @(arg file)'s path name starts with
-      any of these strings, it is excluded.
+      file to be checked. Note that as a mindless convenience, 
+      the file's path name separator characters are all translated into
+      slashes "/".
+      @(arg exclusions A collection of objects which are either 
+            @(ul 
+               @li A string representing the prefix of file names to be excluded.
+               @li A regex pattern.)
+            If @(arg file)'s path name starts with any of the strings, or matches any
+            of the patterns, it is excluded.)
       @returns Truth if the file should be excluded.
       )
 (defn excluded-file [^File file exclusions]
-  (let [fname (.getPath file)]
-    (some (fn [exclusion] (.startsWith fname exclusion)) exclusions)))
+  (let [fname 
+        (if (= (java.io.File/separator) "\\")
+          (.replaceAll (.getPath file) "\\\\" "/")
+          (.getPath file))]
+    (some (fn [exclusion] 
+       #_(prn "ex:" fname exclusion)
+       (if (= (type exclusion) java.util.regex.Pattern)
+              (re-matches exclusion fname)
+              (.startsWith fname exclusion))) 
+          exclusions))) 
 
 
 #_ (* Starting from a collection of file objects, checks to see if each file 
@@ -150,10 +163,10 @@
       have been accumulated to date. @name adds to this set.
       @arg files A collection of @(link java.io.File File) objects to be examined 
       for inclusion.
-      @arg exclusions A set of exclusion criteria, contents TBD.
+      @arg exclusions A set of exclusion criteria; see @(l excluded-file) for details. 
       
       @returns @(arg file-set), augmented with any files discovered locally.
-     )
+      )
 (defn find-files [file-set files exclusions]
   (reduce 
     (fn [file-set+ ^File file] 
@@ -178,10 +191,16 @@
       documentation files are to be placed.
       
       @(arg options A map describing options for @(name).
-            
-        @opt :exclude  A collection of file or directory name strings that 
-        specify files or directories to be excluded from those implied by 
-        @(arg sources).
+        @(opt :exclude A specification, or collection of specifications,
+              for files to be excluded from those implied by 
+              @(arg sources). This is a collection of objects which are either 
+              @(ul 
+                 @li A string representing a prefix of file names to be excluded.
+                 @li A regex pattern.)
+              @p If a path name starts with any of the strings, or matches any
+              of the patterns, it is excluded.
+              As a convenience, path separator characters are all translated to
+              "/" before making the comparison. @(i Sic semper fenestrae!))
       
         @opt :requires The name (symbol or string) of a namespace, 
         or a collection of namespace names,
@@ -222,26 +241,36 @@
                  set of CSS files. Standard options include\:
                  @key :light Generates light-field (white background) pages (the default) .
                  @(key :dark Generates dark-field (black background) pages.)
-                 @p Note that @(option :theme) is not meaningful if the @(arg :css) option is specified.) 
+                 @p Note that @(option :theme) is not meaningful if the @(arg :css) 
+                 option is specified.) 
+        @(opt :footer A function that generates a footer used on each generated web page. 
+              The function has the form @(fun [context]), where
+              @arg context The current context object.
+              @returns A string containing HTML to be inserted as the footer.)
+        @(opt :header A function that generates a header used on each generated web page. 
+              The function has the form @(fun [context]), where
+              @arg context The current context object.
+              @returns A string containing HTML to be inserted as the header.)
         ) 
       
       @(returns nil, unless the @(option :nogen) option is set, in which case it returns
         results of the early phases of operation.
         @p In the latter case, the result has the form 
         @(form [ns-artifacts base-context]), where
-        @arg ns-artifacts The collection of all @(linki cjd.core_artifacts.Namespace) artifacts gleaned from
-        the source files.
+        @arg ns-artifacts The collection of all @(linki cjd.core_artifacts.Namespace) 
+        artifacts gleaned from the source files.
         @arg base-context The context object as it stands at the start of the 
         generation process.)
       )
 (defn cjd-generator [sources out-dir options] 
   (let [{ :keys [exclude requires css title overview throw-on-warn 
-                 nogen v theme] 
+                 nogen v theme header footer] 
            :or { :css "cjd.css"}} options
         outdir (File. out-dir)
+        exclusions (if (coll? exclude) exclude [exclude])
         file-set (find-files (sorted-set) 
                              (map #(File. %) (if (coll? sources) sources [sources]))
-                             nil)
+                             exclusions)
         overview-file (if overview (File. overview))
         pre-context (-> (make-Context)
                       (context-verbiage! v)
@@ -306,6 +335,8 @@
                 @css-docs*))
             (context-namespaces! nss)
             (context-title! title)
+            (context-header! header)
+            (context-footer! footer)
             (context-overview! overview-doc)
             (context-throw-on-warn! throw-on-warn))]
       
@@ -342,11 +373,11 @@
 (defnk cjd-gen [sources out-dir :exclude nil :requires nil 
                 :css nil :title nil 
                 :overview nil :throw-on-warn false :nogen false
-                :v #{ :f :n } :theme :light] 
+                :v #{ :f :n } :theme :light :header nil :footer nil] 
   (cjd-generator sources out-dir 
                  { :exclude exclude :requires requires
                   :css css :title title
                   :overview overview :throw-on-warn throw-on-warn 
-                  :nogen nogen :v v :theme theme}))
+                  :nogen nogen :v v :theme theme :header header :footer footer}))
 
 

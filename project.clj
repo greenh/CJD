@@ -11,6 +11,8 @@
 #_ (* CJD is a technology for specifying documentation within Clojure program files, 
       and subsequently extracting that documentation and processing it into such
       forms as an HTML document tree. 
+      @p CJD is an open-source project. Source materials and documentation are
+      located at its @(linkto "https://github.com/greenh/CJD" home).
       )
 (defproject cjd "0.0.1-SNAPSHOT"
   :description "CJD documentation processor"

@@ -1,4 +1,4 @@
-#_ ( Copyright (c) Howard Green. All rights reserved.
+#_ ( Copyright (c) 2011 Howard Green. All rights reserved.
                 
      The use and distribution terms for this software are covered by the
      Eclipse Public License 1.0 (http://opensource.org/licenses/eclipse-1.0.php)
@@ -662,10 +662,22 @@
 
 (def date-format (java.text.SimpleDateFormat. "dd MMMM yyyy HH:mm zzz"))
 
+(defn gen-leader [context]
+  (html 
+    [:div.leader
+     [:table
+      [:tbody
+       [:tr 
+        [:td { :width "100%"}]
+        [:td {:align "right"}
+         [:a { :href "index.html"} [:span.headlink "Index"]]]]]]]))
+
 (defn gen-trailer [context] 
   (html
     [:div.trailer
-     [:span.ending "Generated from CJD by cdj-gen " 
+     [:span.ending "Generated from " 
+      [:a {:href "https://github.com/greenh/CJD"}  "CJD"] 
+      " by cdj-gen " 
       (context-version context) " on " (.format date-format (context-gen-time context))]]))
 
 #_ (* Generates a summary for namespace.)
@@ -718,6 +730,9 @@
            (html [:link {:type "text/css" :rel "stylesheet" :href css}]))
          (context-css context))]
       [:body 
+       (if-let [header (context-header context)] 
+         (header context)
+         (gen-leader context))
        [:div.ns { :id "top"} (artifact-name-of ns-artifact)]
        (if (has-doc? ns-artifact)
          (gen-desc ns-artifact (init-context context ns-artifact)))
@@ -728,7 +743,9 @@
          "" (sort-by artifact-name-of 
                      uncased-comparator
                      (filter has-doc? (artifacts-of ns-artifact))))
-       (gen-trailer context)])))
+       (if-let [footer (context-footer context)] 
+         (footer context)
+         (gen-trailer context))])))
 
 
 #_ (* A demented "artifact" to represent an overview comment, for compatibility
@@ -811,7 +828,9 @@
          ]]
 
        ]
-      (gen-trailer context)])
+      (if-let [footer (context-footer context)] 
+         (footer context)
+         (gen-trailer context))])
     ))
 
 
