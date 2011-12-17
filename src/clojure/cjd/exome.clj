@@ -243,11 +243,13 @@
                  @(key :dark Generates dark-field (black background) pages.)
                  @p Note that @(option :theme) is not meaningful if the @(arg :css) 
                  option is specified.) 
-        @(opt :footer A function that generates a footer used on each generated web page. 
+        @(opt :footer Either a function, or a symbol that resolves to a function, that 
+              generates a footer used on each generated web page. 
               The function has the form @(fun (fn [context])), where
               @arg context The current context object.
               @returns A string containing HTML to be inserted as the footer.)
-        @(opt :header A function that generates a header used on each generated web page. 
+        @(opt :header Either a function, or a symbol that resolves to a function, 
+              that generates a header used on each generated web page. 
               The function has the form @(fun (fn [context])), where
               @arg context The current context object.
               @returns A string containing HTML to be inserted as the header.)
@@ -335,8 +337,14 @@
                 @css-docs*))
             (context-namespaces! nss)
             (context-title! title)
-            (context-header! header)
-            (context-footer! footer)
+            (context-header! 
+              (if (symbol? header)
+                (var-get (resolve header))
+                header))
+            (context-footer! 
+              (if (symbol? footer)
+                (var-get (resolve footer))
+                footer))
             (context-overview! overview-doc)
             (context-throw-on-warn! throw-on-warn))]
       
@@ -362,7 +370,7 @@
                     (spit (.getPath destfile) content))
                   (catch Throwable e 
                       (warn base-context 
-                          (str "Exception copying resoucre " resource-name " to " doc-name
+                          (str "Exception copying resource " resource-name " to " doc-name
                                ":\n   " (.getMessage e))))))))
           nil)))))
 
