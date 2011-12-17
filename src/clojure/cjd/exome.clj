@@ -58,7 +58,7 @@
                    :else -1)]
     (.substring filename (inc last))))
 
-#_ (* Repetitively reads a Clojure file using @(link cjd-read), and returns a 
+#_ (* Repetitively reads a Clojure file using @(l cjd-read), and returns a 
       sequence of the forms contained therein.
       @arg file-or-name Identifies the file to extract forms from. Must be
       either a string containing the file name, or @(link java.io.File File)
@@ -81,7 +81,7 @@
               forms)))))))
 
 
-#_ (* Repetitively reads from a string @(link cjd-read), and returns a 
+#_ (* Repetitively reads from a string using @(l cjd-read), and returns a 
       sequence of the forms contained therein. This is intended primarily 
       as a debugging tool.
       @arg string The string to read forms from.
@@ -244,11 +244,11 @@
                  @p Note that @(option :theme) is not meaningful if the @(arg :css) 
                  option is specified.) 
         @(opt :footer A function that generates a footer used on each generated web page. 
-              The function has the form @(fun [context]), where
+              The function has the form @(fun (fn [context])), where
               @arg context The current context object.
               @returns A string containing HTML to be inserted as the footer.)
         @(opt :header A function that generates a header used on each generated web page. 
-              The function has the form @(fun [context]), where
+              The function has the form @(fun (fn [context])), where
               @arg context The current context object.
               @returns A string containing HTML to be inserted as the header.)
         ) 

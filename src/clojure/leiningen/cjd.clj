@@ -53,7 +53,7 @@
            @li "doc" in the current directory.) 
 
       @p @name extracts all other options from a map associated the :cjd-doc key 
-      in the @(arg project) map. Options are as defined by @(l cjd-generate).
+      in the @(arg project) map. Options are as defined by @(l cjd-generator).
 
       @arg project The leiningen project map, as derived from the project.clj file.
       @returns 0 , if document generation appears to have succeeded, and 1 otherwise.
