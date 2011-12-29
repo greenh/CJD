@@ -232,6 +232,7 @@
 (mk-phx ['linki 'il] "Link/Import" 1 (fn [context target] (make-Link target nil true) ))
 (mk-phx ['linkto 'il] "Link to" 1 (fn [context target] (make-LinkTo target nil) ))
 (mk-phx ['linkto 'lt] "Extended link to" 2 (fn [context target text] (make-LinkTo target text) ))
+(mk-phx ['target] "Target" 1 (fn [context target] (make-Target target) ))
 
 (defn phrase-form-element? [sym arity] (get @phrase-form-map* [sym arity]))
 (defn phrase-form-element [sym arity] (get @phrase-form-map* [sym arity]))

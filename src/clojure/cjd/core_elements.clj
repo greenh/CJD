@@ -115,6 +115,7 @@
 (defconstructo NameUse [PhraseForm] [name])
 (defconstructo Link [PhraseForm] [target text condense])
 (defconstructo LinkTo [PhraseForm] [target text])
+(defconstructo Target [PhraseForm] [target])
 (defconstructo Form [PhraseForm] [form])
 (defconstructo Fun [PhraseForm] [form])
 

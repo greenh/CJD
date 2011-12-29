@@ -15,7 +15,7 @@
       artifacts such as functions, vars, protocols, records, and the like, and 
       then their components where applicable, such as methods. Each artifact
       or component contains its CJD documentation, if it existed in the source.
-      @(p The large bulk of the functions here are of the form 
+      @(p @(target gen-fun) The large bulk of the functions here are of the form 
           @(fun (gen-something [node context])), where
           @(arg node 
             Depending on the generation routine, this is usually either 
@@ -48,7 +48,7 @@
     [cjd CJDException]
     [cjd.core_elements 
      Bold Italic Code SmallCaps Superscript Subscript Underline Deleted
-     Name NameSpace NameUse Link LinkTo Form Fun 
+     Name NameSpace NameUse Link LinkTo Form Fun Target
      Text Paragraph FlowContainer Preformatted
      SeeAlso Since Deprecation Author
      Argument Field Option Return 
@@ -207,6 +207,11 @@
 
 (defn gen-linkto [node context]
   (html [:a { :href (.target node) } (if-let [text (.text node)] text (.target node))]))
+
+#_ (* A @(linkto "#gen-fun" generator-function) for user-specified targets.
+      )
+(defn gen-target [node context]
+  (html [:span { :id (.target node)}]))
 
 #_ (* Generates an HTML class name from a single-letter "code" and a numeric
       level.)
@@ -387,6 +392,7 @@
    NameUse gen-use
    Link gen-link
    LinkTo gen-linkto
+   Target gen-target
    Form gen-form
    Fun gen-form
    
