@@ -339,11 +339,23 @@
             (context-title! title)
             (context-header! 
               (if (symbol? header)
-                (var-get (resolve header))
+                (try
+                  (let [xns (namespace header)] 
+                    (if-not (empty? xns)
+                      (require (symbol xns))))
+                  (var-get (resolve header))
+                  (catch Exception e 
+                    (throw (CJDException. "Unable to find header function" e))))
                 header))
             (context-footer! 
               (if (symbol? footer)
-                (var-get (resolve footer))
+                (try
+                  (let [fns (namespace footer)] 
+                    (if-not (empty? fns)
+                      (require (symbol fns))))
+                  (var-get (resolve footer))
+                  (catch Exception e 
+                    (throw (CJDException. "Unable to find footer function" e))))
                 footer))
             (context-overview! overview-doc)
             (context-throw-on-warn! throw-on-warn))]
