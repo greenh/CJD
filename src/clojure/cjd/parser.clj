@@ -155,8 +155,15 @@
       structure, but are segregated into different maps corresponding
       to different syntactic entities. Not pretty, but it does allow
       tags like "arg" to be used for both phrasing and flow forms.
+      @field tags A collection of tag strings used to identify the element.
+      @field desc A Very Short description string (why, we're not sure yet).
+      @field arity The number of argument forms to acquire.
+      @field phrase? True if the element accepts a phrase as a final argument.
+      This is only meaningful for phrase-form elements (see @(l mk-phx)).
+      @field new-fn A function that creates an object to represent the
+      parsed element.
       )
-(defconstructo Element [] [tags desc arity new-fn]
+(defconstructo Element [] [tags desc arity phrase? new-fn]
   (arity-of [this] arity)
   (new-of [this] new-fn))
 
@@ -178,7 +185,7 @@
       @returns nil.
       )
 (defn mk-ph [tags desc new-fn]
-  (let [el (Element. tags desc 0 new-fn)]
+  (let [el (Element. tags desc 0 false new-fn)]
     (dosync 
       (doseq [tag tags] (alter phrase-map* assoc tag el)))))
 
@@ -196,6 +203,7 @@
 
 
 (def phrase-form-map* (ref { }))
+(def phrase-form-with-phrase-map* (ref { }))
 
 #_ (* Makes a phrase-form and adds it to the phrase-form map used by the CJD
       comment parser.
@@ -205,6 +213,9 @@
       @arg arity The number of arguments that should follow the tag. If a tag 
       supports multiple arities, use a separate invocation of @name for each
       arity.
+      @arg phrase? True if the phrase-form accepts a phrase as a final argument,
+      in effect specifying that that the input form has @(i at least) the number of 
+      arguments given by @(arg arity). 
       @(arg new-fn A function that creates an object representing the phrase-form
             and serving as its node in the comment's AST. This function has the form
             @(fun (fn [context other-params...])), where
@@ -215,10 +226,15 @@
             )
       @returns nil.
       )
-(defn mk-phx [tags desc arity new-fn]
-  (let [el (Element. tags desc arity new-fn)]
-    (dosync 
-      (doseq [tag tags] (alter phrase-form-map* assoc [tag arity] el)))))
+(defn mk-phx 
+  ([tags desc arity new-fn]
+    (mk-phx tags desc arity false new-fn))
+  ([tags desc arity phrase? new-fn]
+    (let [el (Element. tags desc arity phrase? new-fn)]
+      (dosync 
+        (doseq [tag tags] (alter phrase-form-map* assoc [tag arity] el))
+        (if phrase?
+          (doseq [tag tags] (alter phrase-form-with-phrase-map* assoc tag el)))))))
 
 (mk-phx ['ns] "Namespace" 0 (fn [context] (make-NameSpace (context-ns context)) ))
 (mk-phx ['name] "Name" 0 (fn [context] (make-Name (context-name context)) ))
@@ -228,14 +244,20 @@
 (mk-phx ['form] "Form" 1 (fn [context content] (make-Form content) ))
 (mk-phx ['fun] "Function" 1 (fn [context content] (make-Fun content) ))
 (mk-phx ['link 'l] "Link" 1 (fn [context target] (make-Link target nil false) ))
-(mk-phx ['link 'l] "Extended link" 2 (fn [context target text] (make-Link target text false) ))
+(mk-phx ['link 'l] "Extended link" 2 true (fn [context target text] (make-Link target text false) ))
 (mk-phx ['linki 'il] "Link/Import" 1 (fn [context target] (make-Link target nil true) ))
-(mk-phx ['linkto 'il] "Link to" 1 (fn [context target] (make-LinkTo target nil) ))
-(mk-phx ['linkto 'lt] "Extended link to" 2 (fn [context target text] (make-LinkTo target text) ))
+(mk-phx ['linkto 'lt] "Link to" 1 (fn [context target] (make-LinkTo target nil) ))
+(mk-phx ['linkto 'lt] "Extended link to" 2 true (fn [context target text] (make-LinkTo target text) ))
 (mk-phx ['target] "Target" 1 (fn [context target] (make-Target target) ))
 
 (defn phrase-form-element? [sym arity] (get @phrase-form-map* [sym arity]))
 (defn phrase-form-element [sym arity] (get @phrase-form-map* [sym arity]))
+(defn phrase-form-element-with-phrase [sym arity]
+  (if-let [el (get @phrase-form-with-phrase-map* sym)]
+    (if (>= arity (arity-of el)) 
+      el)))
+(defn phrase-form-element-with-phrase? [sym arity] 
+  (phrase-form-element-with-phrase sym arity))
 
 (defn niladic-phrase-form? [sym] (if-let [el (phrase-form-element sym)] (= (arity-of el) 0)))
 (defn monadic-phrase-form? [sym] (if-let [el (phrase-form-element sym)] (= (arity-of el) 1)))
@@ -313,6 +335,18 @@
            (let [el (phrase-form-element tag (count post-tag))]
              (recur (conj phrases+ (apply (new-of el) context post-tag)) remains false))
            
+           ;; closed-form form element with a phrase parameter, e.g. @(link url text...).
+           ;; Here the arity match is actually >=.
+           (phrase-form-element-with-phrase? tag (count post-tag))
+           (let [el (phrase-form-element-with-phrase tag (count post-tag))
+                 arg-arity (dec (arity-of el))
+                 args (vec (take arg-arity post-tag))
+                 [subphrase remainder] (phrasing-run context (drop arg-arity post-tag))
+                 #_ (prn "pfewp:" arg-arity subphrase)
+                 ]
+             (recur (conj phrases+ (apply (new-of el) context (conj args subphrase)))
+                    remains false))
+           
            ;; if 'tag' or 'target' is a symbol and not otherwise accounted for, 
            ;; assume that it's a closed- or open-form flow element, and we're done here.
            #_ (or (symbol? target)(symbol? tag))
@@ -355,7 +389,7 @@
             represents the flow element.)
       )
 (defn mk-el [tags desc arity new-fn]
-  (let [el (Element. tags desc arity new-fn)]
+  (let [el (Element. tags desc arity false new-fn)]
     (dosync 
       (doseq [tag tags] (alter flow-map* assoc tag el)))))
 
@@ -381,7 +415,7 @@
 (mk-el ['since] "Since" 0 
        (fn [context content] (make-Since content) ))
 
-(mk-el ['p] "Flow Container" 0 (fn [context content] (make-FlowContainer content)))
+(mk-el ['p] "Paragraph" 0 (fn [context content] (make-FlowContainer content)))
 
 (mk-el ['ul] "Unordered list" 0 (fn [context content] (make-UnorderedList content)))
 (mk-el ['ol] "Ordered list" 0 (fn [context content] (make-OrderedList content)))

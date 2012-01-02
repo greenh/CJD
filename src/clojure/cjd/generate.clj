@@ -15,7 +15,8 @@
       artifacts such as functions, vars, protocols, records, and the like, and 
       then their components where applicable, such as methods. Each artifact
       or component contains its CJD documentation, if it existed in the source.
-      @(p @(target gen-fun) The large bulk of the functions here are of the form 
+      @(p @(target gen-fun) The large bulk of the functions here are 
+          @(i generator functions) of the form 
           @(fun (gen-something [node context])), where
           @(arg node 
             Depending on the generation routine, this is usually either 
@@ -191,24 +192,47 @@
 (defn gen-form [node context]
   (html [:code (declaration-form (.form node) context)]))
 
+#_ (* A @(linkto "#gen-fun" generator function) for @(c ~"@link") and
+      @(c ~"@linki").
+      )
 (defn gen-link [node context]   
   (let [uri (link-resolve context (.target node) )
-        pretext (if-let [text (.text node)] text (name (.target node)))
-        text (if (.condense node)
-               (let [[_ xtext] (re-matches #".*\.([^\.]+)" pretext)]
-                 (if (empty? xtext) pretext xtext))
-               pretext)]
+        text 
+        (if (.condense node)
+          ;; condense a name, from @il = @linki
+          (let [[_ xtext] (re-matches #".*\.([^\.]+)" (name (.target node)))]
+                 (if (empty? xtext) (.target node) xtext))
+          ;; else, see if the node has text, and if so use it
+          (if-let [node-text (.text node)]
+            (do
+              #_ (prn 'gen-link (type node-text) node-text)
+              ;; this test is a crude hack to distinguish parsed structures
+              ;; from simple forms.
+              (if (vector? node-text)
+                (gen-seq node-text context)
+                node-text))
+            ;; else, use the node's target
+            (name (.target node))) )]
     (if uri
       (html [:a { :href uri } text])
       (do
         (warn context (.target node) "unable to resolve link")
-        (html [:span.nolink text]))
-      )))
+        (html [:span.nolink text])))))
 
+#_ (* A @(linkto "#gen-fun" generator function) for @(c ~"@linkto") .
+      )
 (defn gen-linkto [node context]
-  (html [:a { :href (.target node) } (if-let [text (.text node)] text (.target node))]))
+  (let [text 
+        (if-let [ntext (.text node)]
+          (if (vector? ntext)
+                (gen-seq ntext context)
+                ntext)
+          (.target node))]
+    (html [:a { :href (.target node) } text 
+           #_(if-let [text (.text node)] text (.target node))])))
 
-#_ (* A @(linkto "#gen-fun" generator-function) for user-specified targets.
+#_ (* A @(linkto "#gen-fun" generator function) for user-specified targets,
+      e.g. @(c ~"@target").
       )
 (defn gen-target [node context]
   (html [:span { :id (.target node)}]))
