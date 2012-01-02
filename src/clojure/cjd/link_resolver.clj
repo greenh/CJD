@@ -27,6 +27,9 @@
       )
 (ns cjd.link-resolver)
 
+#_ (* Defines link resolver functions for a small collection of "well-known"
+      naming systems.
+      )
 (def default-resolver-fns 
   (list
     (fn [ns sym]
