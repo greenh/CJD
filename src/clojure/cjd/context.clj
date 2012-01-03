@@ -1,4 +1,4 @@
-#_ ( Copyright (c) 2011 Howard Green. All rights reserved.
+#_ ( Copyright (c) 2011 - 2012 Howard Green. All rights reserved.
                 
      The use and distribution terms for this software are covered by the
      Eclipse Public License 1.0 (http://opensource.org/licenses/eclipse-1.0.php)
@@ -26,6 +26,8 @@
 
 (def *cjd-version* "0.0.1")
 
+#_ (* Defines a small set of output functions, notionally for use wherever there's a
+      @(l Context) object within CJD.)
 (defprotocol Messaging
   (msg 
     [context opt who stuff]
@@ -39,6 +41,12 @@
 )
 
 #_ (* The context object. 
+      @p A @name object serves to aggregate all of the contextual information
+      in effect at any time within a running instance of CJD. The specific
+      content varies wildly\; some fields are fixed throughout an execution,
+      while others are set based on whatever happens to be going on at a
+      specific point in program execution.
+      
       @p By convention all fields are initialized to null values, then 
       initialized by @(link cjd.exome/cjd-gen cjd-gen) (or elsewhere) 
       using the supplied methods, as needed.
@@ -93,7 +101,9 @@
   (context-throw-on-warn [context] throw-on-warn)
   (context-throw-on-warn! [context t-o-w] (assoc context :throw-on-warn t-o-w))
   
+  #_ (* Returns a string indicating what version of CJD is running.)
   (context-version [this] version)
+  #_ (* Returns a @(il java.util.Date) containing the time CJD was run.)
   (context-gen-time [this] gen-time)
   
   (context-verbiage [context] verbiage)
@@ -102,9 +112,13 @@
   (context-theme [context] theme)
   (context-theme! [context t] (assoc context :theme t))
   
+  #_ (* Returns the header generation function, or nil if none was specified. 
+        @p See @(il cjd.exome/cjd-generator) for details.)
   (context-header [context] header)
   (context-header! [context h] (assoc context :header h))
   
+  #_ (* Returns the footer generation function, or nil if none was specified. 
+        @p See @(il cjd.exome/cjd-generator) for details.)
   (context-footer [context] footer)
   (context-footer! [context f] (assoc context :footer f))
   

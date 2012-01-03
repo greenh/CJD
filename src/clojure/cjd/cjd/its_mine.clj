@@ -1,4 +1,4 @@
-#_ ( Copyright (c) Howard Green. All rights reserved.
+#_ ( Copyright (c) 2011 - 2012 Howard Green. All rights reserved.
                 
      The use and distribution terms for this software are covered by the
      Eclipse Public License 1.0 (http://opensource.org/licenses/eclipse-1.0.php)
@@ -17,13 +17,19 @@
     )
   )
 
+(def year-format (java.text.SimpleDateFormat. "yyyy"))
+
 #_ (* Simple-minded footer function for adding a simple-minded copyright statement.
       @arg context Current context object.
       @returns Footer HTML string.
       )
 (defn gen-footer [context]
-  (html
+  (let [gdate (context-gen-time context)
+        gyear ()] 
+    (html
     (gen-trailer context)
     [:div { :style "margin-top: 1mm; margin-bottom: 4mm; text-align: center; width: 100%;"}
      [:span { :style "font-size: 8pt;"}
-      "Copyright &copy; 2011 Howard Green. All rights reserved."]]))
+      "Copyright &copy; "
+      (.format year-format (context-gen-time context))
+      " Howard Green. All rights reserved."]])))
