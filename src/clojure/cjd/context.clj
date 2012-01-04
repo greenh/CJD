@@ -16,6 +16,7 @@
       )
 (ns cjd.context
   (:use 
+    [cjd.version]
     [cjd.util.string-utils]
     [cjd.util.extensomatic]
     )
@@ -24,7 +25,6 @@
     )
   )
 
-(def *cjd-version* "0.0.1")
 
 #_ (* Defines a small set of output functions, notionally for use wherever there's a
       @(l Context) object within CJD.)

@@ -2,15 +2,13 @@
 <project name="CJD" basedir="." default="install">
 	
 	<property name="maven" value="C:\Documents and Settings\Howard Green\Desktop\Libraries\apache-maven-2.2.1\bin\mvn.bat" />
+	<property name="pom" value="pom.xml"/>
 	
-	<property name="version" value="0.0.1-SNAPSHOT" />
+	<property name="version" value="0.0.2-SNAPSHOT" />
 
 	<property name="src.dir" value="src" />
 	<property name="classes.dir" value="classes" />
 	<property name="dest.dir" value="bin" />
-
-	<property name="version" value="0.0.1" />
-
 
 	<property name="cjd-doc.jar" value="cjd-doc-${version}.jar" />
     <property name="cjd.jar" value="cjd-${version}.jar" />
@@ -21,10 +19,18 @@
 			         includes="cjd/**" />
 			<fileset dir="${module.dir}" includes="*.gwt.rpc" />
 		</jar>
-
+	</target>
+	
+	<target name="version-file">
+		<concat destfile="${src.dir}/clojure/cjd/version.clj">;; Auto-generated from build.xml -- do not update!
+#_(* Auto-generated CJD version string. See build.xml to update.)
+(ns cjd.version)
+#_(* CJD version string. )
+(def *cjd-version* "${version}")
+		</concat>
 	</target>
 
-	<target name="cjd-jar">
+	<target name="cjd-jar" depends="version-file">
 		<jar destfile="${dest.dir}/${cjd.jar}" index="true">
 			<manifest>
 				<attribute name="Main-Class" value="cjd.main"/>

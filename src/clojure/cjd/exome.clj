@@ -148,7 +148,7 @@
             (.replaceAll (.getPath file) "\\\\" "/")
             (.getPath file))]
       (some (fn [exclusion] 
-              (prn "ex:" fname exclusion)
+              #_(prn "ex:" fname exclusion)
               (if (= (type exclusion) java.util.regex.Pattern)
                 (re-matches exclusion fname)
                 (.startsWith fname exclusion))) 
