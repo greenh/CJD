@@ -144,15 +144,15 @@
       )
 (defn excluded-file [^File file exclusions]
   (let [fname 
-        (if (= (java.io.File/separator) "\\")
-          (.replaceAll (.getPath file) "\\\\" "/")
-          (.getPath file))]
-    (some (fn [exclusion] 
-       #_(prn "ex:" fname exclusion)
-       (if (= (type exclusion) java.util.regex.Pattern)
-              (re-matches exclusion fname)
-              (.startsWith fname exclusion))) 
-          exclusions))) 
+          (if (= (java.io.File/separator) "\\")
+            (.replaceAll (.getPath file) "\\\\" "/")
+            (.getPath file))]
+      (some (fn [exclusion] 
+              (prn "ex:" fname exclusion)
+              (if (= (type exclusion) java.util.regex.Pattern)
+                (re-matches exclusion fname)
+                (.startsWith fname exclusion))) 
+            exclusions))) 
 
 
 #_ (* Starting from a collection of file objects, checks to see if each file 
@@ -269,7 +269,7 @@
                  nogen v theme header footer] 
            :or { :css "cjd.css"}} options
         outdir (File. out-dir)
-        exclusions (if (coll? exclude) exclude [exclude])
+        exclusions (if exclude (if (coll? exclude) exclude [exclude]))
         file-set (find-files (sorted-set) 
                              (map #(File. %) (if (coll? sources) sources [sources]))
                              exclusions)
