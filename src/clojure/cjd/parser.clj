@@ -96,8 +96,9 @@
          (= item nobreak-keyword) 
          (recur (cut-last-space text) remains)
          
-         (= item break-keyword) 
-         [(html-encode text) remaining] ;;;;;;;;;;;;;;;;;;;;;;;; return
+         (= item break-keyword)
+         (recur (str text " ") remains)
+         #_[(html-encode text) remaining] ;;;;;;;;;;;;;;;;;;;;;;;; return
          
          :else 
          (recur (str text item " ") remains))
