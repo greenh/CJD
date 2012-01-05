@@ -250,14 +250,14 @@
 (mk-phx ['linkto 'lt] "Extended link to" 2 true (fn [context target text] (make-LinkTo target text) ))
 (mk-phx ['target] "Target" 1 (fn [context target] (make-Target target) ))
 
-(defn phrase-form-element? [sym arity] (get @phrase-form-map* [sym arity]))
+(defn phrase-form-element? [sym arity] (if (symbol? sym) (get @phrase-form-map* [sym arity])))
 (defn phrase-form-element [sym arity] (get @phrase-form-map* [sym arity]))
 (defn phrase-form-element-with-phrase [sym arity]
   (if-let [el (get @phrase-form-with-phrase-map* sym)]
     (if (>= arity (arity-of el)) 
       el)))
 (defn phrase-form-element-with-phrase? [sym arity] 
-  (phrase-form-element-with-phrase sym arity))
+  (if (symbol? sym) (phrase-form-element-with-phrase sym arity)))
 
 (defn niladic-phrase-form? [sym] (if-let [el (phrase-form-element sym)] (= (arity-of el) 0)))
 (defn monadic-phrase-form? [sym] (if-let [el (phrase-form-element sym)] (= (arity-of el) 1)))

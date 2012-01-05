@@ -299,7 +299,7 @@
           ; Otherwise, no blurb. 
           [nil (gen-seq desc-nodes ncontext)])
         
-        sects 
+        sects ; a sequence of (sequence of sections of a single type)
         (let [[sects- cur-sect- cur-type-]
               (reduce 
                 (fn [[sects+ cur-sect+ cur-type] sub]
@@ -320,14 +320,22 @@
         sect 
         (reduce 
           (fn [s+ sect-seq]
-            (let [header (header-text (class (first sect-seq)))
+            (if (satisfies? ScopedName (first sect-seq)) 
+              #_(instance? Return (first sect-seq))
+              
+              ; For ScopedName objects (args, opts, keys, etc.) we generate a 
+              ; header here, then process individual items for their content.
+              (let [header (header-text (class (first sect-seq)))
                   v (gen-seq sect-seq ncontext)]
-              (str s+ 
+                (str s+ 
                    (html [:div {:class (lstr "s" level )}
                           (if (= 1 level)   ; <<---------- remove to restore inner headers!
                             [:p {:class (lstr "v" level)} 
                              [:span {:class (lstr "k" level)} header]])
-                          v]))))
+                          v])))
+              ; if it's something else (e.g., a Return node), it's responsible 
+              ; for all its own formatting, including header generation. 
+              (str s+ (gen-seq sect-seq ncontext))))
           "" sects)
         
         info (gen-seq (filter #(satisfies? Info %) flow) ncontext)]
@@ -360,11 +368,17 @@
     (html [:p { :class (lstr "a" level) } 
            remainder])))
 
+#_ (* @lt "#generator-function" for ~ "@return" elements. )
 (defn gen-return [node context]
   (let [level (dec (context-level context))]
     (if (= level 1)
+      
       (let [[_ _ remainder] (gen-flow (content-of node) context false)]
-        (html [:p { :class (lstr "a" level) } 
+        (html [:div
+               [:p {:class (lstr "i" level)} 
+                [:span {:class (lstr "k" level)} "Returns"]]
+               remainder])
+        #_(html [:p { :class (lstr "a" level) } 
                remainder]))
       (let [[_ blurb remainder] (gen-flow (content-of node) context true)]
         (html [:p { :class (lstr "a" level) }
@@ -760,12 +774,15 @@
            (html [:link {:type "text/css" :rel "stylesheet" :href css}]))
          (context-css context))]
       [:body 
+       [:div { :id "top"}]
        (if-let [header (context-header context)] 
          (header context)
          (gen-leader context))
-       [:div.ns { :id "top"} (artifact-name-of ns-artifact)]
+       [:div.ns  (artifact-name-of ns-artifact)]
        (if (has-doc? ns-artifact)
-         (gen-desc ns-artifact (init-context context ns-artifact)))
+         ; note that we generate the ns description with level = 2, so embedded
+         ; form/fun documentation works right
+         (gen-desc ns-artifact (context-level! (init-context context ns-artifact) 2)))
        [:div.desc (gen-summary ns-artifact context)]
        (reduce 
          (fn [goop+ artifact]
