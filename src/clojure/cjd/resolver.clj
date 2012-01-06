@@ -118,12 +118,13 @@
          @p Or, if @(arg item) can't be resolved, returns nil.)
       )
 (defn link-resolvex [context item]
-  #_(println "resolvex:" item context )
+  #_(prn 'resolvex item #_context )
   (let [local-ns (context-ns context)
         local-namespaces (context-namespaces context)
         [sym-ns sym-name] (resolve-symbol item local-ns)]
-    #_(println "resolvex:" item local-ns sym-ns sym-name  local-namespaces)
+    #_(prn  'resolvex item local-ns sym-ns sym-name  local-namespaces)
     (letfn [(resfn [xns xname] 
+                   (prn 'resfn xns xname)
               (cond 
                 (= xns local-ns)
                 [(if xname (str "#" xname) "#top") xns xname]
@@ -150,7 +151,18 @@
                 art (get-artifact fqsym)]
             (println "resolver -- looking for" fqsym)
             (resfn local-ns item))
-          )))))
+          
+          ; Finally, assume that it might be a name or namespace name not
+          ; declared or used anywhere in scope. In this case, we try
+          ; and see if one of resolve-link's routines knows and loves it.
+          (let [nns (namespace item)
+                nname (if nns (name item) nil)
+                #_ (prn 'trying item nns nname)
+                link (if nns 
+                       (resolve-link nns nname)
+                       (resolve-link item nil))]
+            (if link
+              [link nns nname])))))))
 
 #_ (* Same as @(link link-resolvex), but only returns the URI. )
 (defn link-resolve [context item]

@@ -84,6 +84,7 @@
       specified entity, or nil if no resolution was possible. 
       )
 (defn resolve-link [ns-name sym] 
+  #_(prn 'resolve-link ns-name sym)
   (some (fn [linkfn] (linkfn ns-name sym)) @link-resolvers*))
 
 
