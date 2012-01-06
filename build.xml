@@ -7,6 +7,7 @@
 	<property name="version" value="0.0.2-SNAPSHOT" />
 
 	<property name="src.dir" value="src" />
+	<property name="gen.dir" value="gen" />
 	<property name="classes.dir" value="classes" />
 	<property name="dest.dir" value="bin" />
 
@@ -22,7 +23,7 @@
 	</target>
 	
 	<target name="version-file">
-		<concat destfile="${src.dir}/clojure/cjd/version.clj">;; Auto-generated from build.xml -- do not update!
+		<concat destfile="${gen.dir}/clojure/cjd/version.clj">;; Auto-generated from build.xml -- do not update!
 #_(* Auto-generated CJD version string. See build.xml to update.)
 (ns cjd.version)
 #_(* CJD version string. )
