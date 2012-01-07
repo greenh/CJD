@@ -59,7 +59,7 @@
    (nss #{}) (munged-ns-map nil) (level 0) (items {}) (css nil)
    (title nil) (overview nil) (throw-on-warn nil) 
    (gen-time (java.util.Date.)) (version *cjd-version*) 
-   (verbiage #{}) (theme :light) (header nil) (footer nil)]
+   (verbiage #{}) (theme :light) (header nil) (footer nil) (index-name nil)]
   
   (context-file [context] file)
   (context-file! [context file] (assoc context :file file))
@@ -111,6 +111,12 @@
   
   (context-theme [context] theme)
   (context-theme! [context t] (assoc context :theme t))
+  
+  #_ (* Returns a string containing the output directory-relative name
+        of the index file (nominally "index.html"), or nil if index
+        generation is suppressed.)
+  (context-index [context] index-name)
+  (context-index! [context index-name] (assoc context :index-name index-name))
   
   #_ (* Returns the header generation function, or nil if none was specified. 
         @p See @(il cjd.exome/cjd-generator) for details.)

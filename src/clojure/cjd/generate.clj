@@ -23,7 +23,7 @@
             a @(link Node) derivative object from the AST parsed from the CJD comment,
             or an @(link Artifact) derivative, parsed from a Clojure source file. 
             Other variants are generally documented.)
-          @arg context The current @(link cjd.context.Context) object. 
+          @arg context The current @(il cjd.context.Context) object. 
           @returns Unless stated otherwise, a string of HTML text.)
       @p Depending on the nature of the node, a generation function may
       make calls directly or indirectly (via a map) to other generation routines,
@@ -723,12 +723,13 @@
 (defn gen-leader [context]
   (html 
     [:div.leader
-     [:table
-      [:tbody
-       [:tr 
-        [:td { :width "100%"}]
-        [:td {:align "right"}
-         [:a { :href "index.html"} [:span.headlink "Index"]]]]]]]))
+     (if (context-index context) 
+       [:table
+        [:tbody
+         [:tr 
+          [:td { :width "100%"}]
+          [:td {:align "right"}
+           [:a { :href (context-index context)} [:span.headlink "Index"]]]]]])]))
 
 (defn gen-trailer [context] 
   (html

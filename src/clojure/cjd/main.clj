@@ -37,12 +37,17 @@ where:
       be used.
    -help
       Prints this very message.
+   -index
+      Specifies the name of an overview/index document relative to
+      the directory specified by dest-dir. Defaults to \"index.html\".
    -nogen 
       Inhibits HTML generation; only parses input.
+   -noindex
+      Inhibits index generation.
    -overview <overview> 
       The name of a .clj file, the first CJD comment of which will 
       be used as the summary statement for the generated 
-      documentation. 
+      documentation in the overview/index document. 
    -require <ns>[;<ns>...] 
       A semicolon-separated list of namespaces containing extensions
       to the base CJD functionality.
@@ -83,6 +88,11 @@ where:
                   (recur remains* (assoc opts+ :overview param))
                   (throw (CJDException. "Missing parameter for --overview")))
                 
+                 "index"
+                (if param
+                  (recur remains* (assoc opts+ :index param))
+                  (throw (CJDException. "Missing parameter for --index")))
+                
                 "css"
                 (if param
                   (let [csss (vec (.split param ";"))]
@@ -100,6 +110,8 @@ where:
                 "throw" (recur remains+ (assoc opts+ :throw-on-warn true))
                 
                 "nogen" (recur remains+ (assoc opts+ :nogen true))
+                
+                "noindex" (recur remains+ (assoc opts+ :no-index true))
                 
                 "help" []
                 

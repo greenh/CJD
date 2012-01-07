@@ -221,6 +221,11 @@
         @p As a suggestion, note that a leiningen "project.clj" file works excellently for this
         purpose!)
         
+        @option :index "index.html" The name of the index file to generate, relative
+        to the directory specified by @(arg out-dir).
+        
+        @option :no-index false Suppresses index generation.
+        
         @option :throw-on-warn false If true, warnings throw exceptions instead of just
         printing a warning message.
         
@@ -266,7 +271,7 @@
       )
 (defn cjd-generator [sources out-dir options] 
   (let [{ :keys [exclude requires css title overview throw-on-warn 
-                 nogen v theme header footer] 
+                 nogen v theme header footer index no-index] 
            :or { :css "cjd.css"}} options
         outdir (File. out-dir)
         exclusions (if exclude (if (coll? exclude) exclude [exclude]))
@@ -274,6 +279,7 @@
                              (map #(File. %) (if (coll? sources) sources [sources]))
                              exclusions)
         overview-file (if overview (File. overview))
+        index-name (if-not no-index (if index index "index.html"))
         pre-context (-> (make-Context)
                       (context-verbiage! v)
                       (context-theme! theme))]
@@ -337,6 +343,7 @@
                 @css-docs*))
             (context-namespaces! nss)
             (context-title! title)
+            (context-index! index-name)
             (context-header! 
               (if (symbol? header)
                 (try
@@ -363,9 +370,10 @@
       (if nogen
         [ns-artifacts base-context]
         (do 
-          (let [overview (gen-overview ns-artifacts base-context)
-                destfile (File. outdir "index.html")]
-            (spit (.getPath destfile) overview))
+          (if index-name
+            (let [overview (gen-overview ns-artifacts base-context)
+                  destfile (File. outdir index-name)]
+              (spit (.getPath destfile) overview)))
           (doseq [ns-artifact ns-artifacts]
             (let [ns-name (artifact-name-of ns-artifact)
                   destfile (File. outdir (str ns-name ".html"))
@@ -393,10 +401,11 @@
 (defnk cjd-gen [sources out-dir :exclude nil :requires nil 
                 :css nil :title nil 
                 :overview nil :throw-on-warn false :nogen false
-                :v #{ :f :n } :theme :light :header nil :footer nil] 
+                :v #{ :f :n } :theme :light :header nil :footer nil
+                :no-index false :index nil] 
   (cjd-generator sources out-dir 
                  { :exclude exclude :requires requires
-                  :css css :title title
+                  :css css :title title :index index
                   :overview overview :throw-on-warn throw-on-warn 
                   :nogen nogen :v v :theme theme :header header :footer footer}))
 
