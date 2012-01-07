@@ -144,6 +144,12 @@
        (vector? item)
        (recur (str text "[") (concat item [\]] remains))
        
+       (map? item)
+       (recur (str text "{") (concat item [\}] remains))
+       
+       (set? item)
+       (recur (str text "#{") (concat item [\}] remains))
+       
        :else
        (do
          (warn context item "Unrecognized element " )
@@ -164,7 +170,7 @@
       @field new-fn A function that creates an object to represent the
       parsed element.
       )
-(defconstructo Element [] [tags desc arity phrase? new-fn]
+(defconstructo Element [] [tags desc arity new-fn]
   (arity-of [this] arity)
   (new-of [this] new-fn))
 
@@ -186,7 +192,7 @@
       @returns nil.
       )
 (defn mk-ph [tags desc new-fn]
-  (let [el (Element. tags desc 0 false new-fn)]
+  (let [el (Element. tags desc 0 new-fn)]
     (dosync 
       (doseq [tag tags] (alter phrase-map* assoc tag el)))))
 
@@ -204,7 +210,8 @@
 
 
 (def phrase-form-map* (ref { }))
-(def phrase-form-with-phrase-map* (ref { }))
+(defn phrase-form-element? [sym arity] (if (symbol? sym) (get @phrase-form-map* [sym arity])))
+(defn phrase-form-element [sym arity] (get @phrase-form-map* [sym arity]))
 
 #_ (* Makes a phrase-form and adds it to the phrase-form map used by the CJD
       comment parser.
@@ -214,7 +221,6 @@
       @arg arity The number of arguments that should follow the tag. If a tag 
       supports multiple arities, use a separate invocation of @name for each
       arity.
-      @arg phrase? True if the phrase-form accepts a phrase as a final argument,
       in effect specifying that that the input form has @(i at least) the number of 
       arguments given by @(arg arity). 
       @(arg new-fn A function that creates an object representing the phrase-form
@@ -229,40 +235,79 @@
       )
 (defn mk-phx 
   ([tags desc arity new-fn]
-    (mk-phx tags desc arity false new-fn))
-  ([tags desc arity phrase? new-fn]
-    (let [el (Element. tags desc arity phrase? new-fn)]
+    (let [el (Element. tags desc arity new-fn)]
       (dosync 
-        (doseq [tag tags] (alter phrase-form-map* assoc [tag arity] el))
-        (if phrase?
-          (doseq [tag tags] (alter phrase-form-with-phrase-map* assoc tag el)))))))
+        (doseq [tag tags] (alter phrase-form-map* assoc [tag arity] el))))))
 
 (mk-phx ['ns] "Namespace" 0 (fn [context] (make-NameSpace (context-ns context)) ))
 (mk-phx ['name] "Name" 0 (fn [context] (make-Name (context-name context)) ))
 (mk-phx ['arg 'field 'option 'opt 'key] "Name use" 1 
         (fn [context name] (make-NameUse name ) ))
 
+(mk-phx ['pre] "Preformatted" 1 
+        (fn [context content] 
+          (make-Preformatted (html-encode (str content)))))
 (mk-phx ['form] "Form" 1 (fn [context content] (make-Form content) ))
 (mk-phx ['fun] "Function" 1 (fn [context content] (make-Fun content) ))
-(mk-phx ['link 'l] "Link" 1 (fn [context target] (make-Link target nil false) ))
-(mk-phx ['link 'l] "Extended link" 2 true (fn [context target text] (make-Link target text false) ))
 (mk-phx ['linki 'il] "Link/Import" 1 (fn [context target] (make-Link target nil true) ))
-(mk-phx ['linkto 'lt] "Link to" 1 (fn [context target] (make-LinkTo target nil) ))
-(mk-phx ['linkto 'lt] "Extended link to" 2 true (fn [context target text] (make-LinkTo target text) ))
-(mk-phx ['target] "Target" 1 (fn [context target] (make-Target target) ))
+(mk-phx ['target] "Target" 1 (fn [context target] (make-Target target)))
+(mk-phx ['image 'im] "Image" 1 (fn [context target] (make-Image target)))
 
-(defn phrase-form-element? [sym arity] (if (symbol? sym) (get @phrase-form-map* [sym arity])))
-(defn phrase-form-element [sym arity] (get @phrase-form-map* [sym arity]))
-(defn phrase-form-element-with-phrase [sym arity]
-  (if-let [el (get @phrase-form-with-phrase-map* sym)]
-    (if (>= arity (arity-of el)) 
-      el)))
-(defn phrase-form-element-with-phrase? [sym arity] 
-  (if (symbol? sym) (phrase-form-element-with-phrase sym arity)))
+;(mk-phx ['link 'l] "Link" 1 (fn [context target] (make-Link target nil false) ))
+;(mk-phx ['link 'l] "Extended link" 2 true (fn [context target text] (make-Link target text false) ))
+;(mk-phx ['linkto 'lt] "Link to" 1 (fn [context target] (make-LinkTo target nil) ))
+;(mk-phx ['linkto 'lt] "Extended link to" 2 true (fn [context target text] (make-LinkTo target text) ))
 
-(defn niladic-phrase-form? [sym] (if-let [el (phrase-form-element sym)] (= (arity-of el) 0)))
-(defn monadic-phrase-form? [sym] (if-let [el (phrase-form-element sym)] (= (arity-of el) 1)))
-(defn dyadic-phrase-form? [sym] (if-let [el (phrase-form-element sym)] (= (arity-of el) 2)))
+(def phrase-form-parsed-map* (ref { }))
+(defn phrase-form-parsed-element? [sym] (if (symbol? sym) (get @phrase-form-parsed-map* sym)))
+(defn phrase-form-parsed-element [sym] (get @phrase-form-parsed-map* sym))
+
+#_ (* Makes a phrase-form with a custom parse function and adds it to the 
+      phrase-form-parsed map used by the CJD comment parser.
+      @arg tags A list of tag symbols. These are the symbols that are used with
+      "@" to specify the phrase form.
+      @arg desc A string containing a very short description of the phrase form.
+
+      @(arg parse-fn A function that parses the supplied content, and if it's 
+            acceptable, and creates and returns an object representing the phrase-form
+            and serving as its node in the comment's AST. This function has the form
+            @(fun (fn [context post-tag])), where
+            @arg context The @(linki cjd.context.Context) object then in force.
+            @arg post-tag A list containing the content of the element that follows 
+            the tag.
+            @returns An object representing the phrasing form and its content.
+            )
+      @returns nil.
+      )
+(defn mk-phf
+  ([tags desc parse-fn]
+    (let [el (Element. tags desc 0 parse-fn)]
+      (dosync 
+        (doseq [tag tags] (alter phrase-form-parsed-map* assoc tag el))))))
+
+(declare phrasing-run)
+
+(mk-phf ['example 'ex] "Example" 
+        (fn [context post-tag] 
+          (make-Example (map (fn [item] (html-encode (str item))) post-tag))))
+(mk-phf ['link 'l] "Link" 
+        (fn [context post-tag] 
+          (let [[target & post-target] post-tag
+                [subphrase post-phrase]  (if post-target (phrasing-run context post-target))]
+            (if (not-empty post-phrase)
+              (warn context post-phrase "Ignoring unrecognized content"))
+            (if target
+              (make-Link target subphrase false)
+              (warn context post-tag "Missing link target")))))
+(mk-phf ['linkto 'lt] "Link to" 
+        (fn [context post-tag] 
+          (let [[target & post-target] post-tag
+                [subphrase post-phrase]  (if post-target (phrasing-run context post-target))]
+            (if (not-empty post-phrase)
+              (warn context post-phrase "Ignoring unrecognized content"))
+            (if target
+              (make-LinkTo target subphrase)
+              (warn context post-tag "Missing linkto target")))))
 
 
 #_ (* Parses the phrasing content within a flow into a tree of phrasing elements 
@@ -329,24 +374,18 @@
            (let [el (phrase-form-element target 0)]
              (recur (conj phrases+ ((new-of el) context)) remains false)) 
 
-
            ;; closed-form form element, e.g. @(name) or @(arg var). Note that we do
            ;; a match on arity as well as the tag name.
            (phrase-form-element? tag (count post-tag))
            (let [el (phrase-form-element tag (count post-tag))]
              (recur (conj phrases+ (apply (new-of el) context post-tag)) remains false))
            
-           ;; closed-form form element with a phrase parameter, e.g. @(link url text...).
-           ;; Here the arity match is actually >=.
-           (phrase-form-element-with-phrase? tag (count post-tag))
-           (let [el (phrase-form-element-with-phrase tag (count post-tag))
-                 arg-arity (dec (arity-of el))
-                 args (vec (take arg-arity post-tag))
-                 [subphrase remainder] (phrasing-run context (drop arg-arity post-tag))
-                 #_ (prn "pfewp:" arg-arity subphrase)
-                 ]
-             (recur (conj phrases+ (apply (new-of el) context (conj args subphrase)))
-                    remains false))
+           (phrase-form-parsed-element? tag)
+           (let [el (phrase-form-parsed-element tag)
+                 obj ((new-of el) context post-tag)]
+             (if obj
+               (recur (conj phrases+ obj) remains false)
+               (recur phrases+ remains false)))
            
            ;; if 'tag' or 'target' is a symbol and not otherwise accounted for, 
            ;; assume that it's a closed- or open-form flow element, and we're done here.
@@ -390,7 +429,7 @@
             represents the flow element.)
       )
 (defn mk-el [tags desc arity new-fn]
-  (let [el (Element. tags desc arity false new-fn)]
+  (let [el (Element. tags desc arity new-fn)]
     (dosync 
       (doseq [tag tags] (alter flow-map* assoc tag el)))))
 
@@ -421,7 +460,6 @@
 (mk-el ['ul] "Unordered list" 0 (fn [context content] (make-UnorderedList content)))
 (mk-el ['ol] "Ordered list" 0 (fn [context content] (make-OrderedList content)))
 (mk-el ['li] "List item" 0 (fn [context content] (make-ListItem content)))
-(mk-el ['pre] "Preformatted" 0 (fn [context content] (make-Preformatted (str content))))
 
 
 (defn flow-element [tag] (get @flow-map* tag))

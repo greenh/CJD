@@ -50,7 +50,7 @@
     [cjd.core_elements 
      Bold Italic Code SmallCaps Superscript Subscript Underline Deleted
      Name NameSpace NameUse Link LinkTo Form Fun Target
-     Text Paragraph FlowContainer Preformatted
+     Text Paragraph FlowContainer Preformatted Example Image
      SeeAlso Since Deprecation Author
      Argument Field Option Return 
      UnorderedList OrderedList ListItem
@@ -368,7 +368,7 @@
     (html [:p { :class (lstr "a" level) } 
            remainder])))
 
-#_ (* @lt "#generator-function" for ~ "@return" elements. )
+#_ (* The @(lt "#generator-function" generator function) for ~ "@return" elements. )
 (defn gen-return [node context]
   (let [level (dec (context-level context))]
     (if (= level 1)
@@ -413,7 +413,19 @@
   (let [[_ _ stuff] (gen-flow (content-of node) context false)]
     (html [:li stuff])))
 (defn gen-pre [node context]
-  (html [:pre (content-of node)]))
+  (html [:pre (.preform node)]))
+(defn gen-image [node context]
+  (html [:img { :src (.source node)}]))
+(defn gen-example [node context]
+  (let [[goop _] 
+        (reduce 
+          (fn [[stuff u?] item]
+            (if u? 
+              [(str stuff (html [:pre.u [:span.prompt "user=&gt; "] item])) false]
+              [(str stuff (html [:pre.r item])) true]))
+          ["" true]
+          (.actions node))]
+    (html goop #_ [:pre.u [:span.prompt "user=&gt; "] ])))
 
 (def gen-map {
    Text gen-text
@@ -433,6 +445,9 @@
    Target gen-target
    Form gen-form
    Fun gen-form
+   Preformatted gen-pre
+   Image gen-image
+   Example gen-example
    
    FlowContainer gen-flow-container
    Paragraph gen-paragraph
@@ -447,7 +462,6 @@
    UnorderedList gen-ul 
    OrderedList gen-ol
    ListItem gen-li
-   Preformatted gen-pre
   })
 
 (defn- init-context [context artifact]

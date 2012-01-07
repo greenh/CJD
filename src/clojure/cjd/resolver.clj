@@ -124,7 +124,6 @@
         [sym-ns sym-name] (resolve-symbol item local-ns)]
     #_(prn  'resolvex item local-ns sym-ns sym-name  local-namespaces)
     (letfn [(resfn [xns xname] 
-                   (prn 'resfn xns xname)
               (cond 
                 (= xns local-ns)
                 [(if xname (str "#" xname) "#top") xns xname]

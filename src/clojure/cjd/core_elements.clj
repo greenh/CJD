@@ -48,8 +48,6 @@
 (defconstructo UnorderedList [Flow] [])
 (defconstructo OrderedList [Flow] [])
 (defconstructo ListItem [Flow] [])
-(defconstructo Preformatted [Flow] [])
-
 
 (defextenso Info [Flow] [])
 (defconstructo SeeAlso [Info] [])
@@ -118,6 +116,9 @@
 (defconstructo Target [PhraseForm] [target])
 (defconstructo Form [PhraseForm] [form])
 (defconstructo Fun [PhraseForm] [form])
+(defconstructo Preformatted [PhraseForm] [preform])
+(defconstructo Example [PhraseForm] [actions])
+(defconstructo Image [PhraseForm] [source])
 
 (defconstructo Text [(Node content )] [])
 

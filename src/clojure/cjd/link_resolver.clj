@@ -38,7 +38,8 @@
              (if sym (str "/" (name sym))))))
     (fn [ns sym]
       (if (re-matches #"java\..*" (name ns))
-        (let [cls (.replaceAll (name ns) "\\." "/")]
+        (let [[cls- (.replaceAll (name ns) "\\." "/")
+              cls (.replaceAll cls- "\\$" ".")]]
           (str "http://download.oracle.com/javase/7/docs/api/" cls ".html" 
                (if sym (str "/" (name sym))))))) ))
 
