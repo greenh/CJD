@@ -34,7 +34,7 @@
 (ns cjd.generate
   (:use
     [cjd.util.string-utils]
-    [cjd.util.extensomatic]
+    [extensomatic.extensomatic]
     [cjd.core-elements]
     [cjd.context]
     [cjd.parser]

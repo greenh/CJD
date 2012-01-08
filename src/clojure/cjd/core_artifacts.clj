@@ -28,7 +28,7 @@
       )
 (ns cjd.core-artifacts
   (:use
-    [cjd.util.extensomatic]
+    [extensomatic.extensomatic]
     [cjd.artifact-base]
     [cjd.util.string-utils]
     [clojure.pprint]

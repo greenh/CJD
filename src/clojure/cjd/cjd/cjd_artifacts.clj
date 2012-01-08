@@ -16,7 +16,7 @@
   (:use 
     [cjd.artifact-base]
     [cjd.core-artifacts]
-    [cjd.util.extensomatic]
+    [extensomatic.extensomatic]
     )
   )
 

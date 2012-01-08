@@ -18,9 +18,10 @@
     [cjd.artifact-base]
     [cjd.core-artifacts]
     [cjd.generate]
+    [cjd.link-resolver]
     [cjd.parser]
     [cjd.context]
-    [cjd.util.extensomatic]
+    [extensomatic.extensomatic]
     [cjd.resolver]
     [cjd.resource]
     [hiccup.core]
@@ -29,6 +30,11 @@
     [cjd.cjd.cjd_artifacts Extenso Constructo Artifactoid Subartifactoid])
   )
 
+(add-link-resolvers 
+  (fn [ns sym]
+    (if (re-matches #"extensomatic\..*" (name ns))
+        (str "http://greenh.github.com/Extensomatic/doc/dark/" (name ns) ".html"
+             (if sym (str "#" (name sym)))))))
 (add-css "extensomatic.css")
 (copy-resource
   (fn [context]

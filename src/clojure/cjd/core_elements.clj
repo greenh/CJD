@@ -17,7 +17,7 @@
       )
 (ns cjd.core-elements
   (:use
-    [cjd.util.extensomatic]
+    [extensomatic.extensomatic]
     )
   (:import 
     [cjd CJDException]

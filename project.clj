@@ -20,6 +20,7 @@
      [org.clojure/clojure "1.2.1"]
      [hiccup/hiccup "0.3.7"]
      [commons-lang "2.6"]
+     [extensomatic "0.1.0"]
      ]
   :source-path "src/clojure"
   :resources-path "src/resources"

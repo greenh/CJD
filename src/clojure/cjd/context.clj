@@ -18,7 +18,7 @@
   (:use 
     [cjd.version]
     [cjd.util.string-utils]
-    [cjd.util.extensomatic]
+    [extensomatic.extensomatic]
     )
   (:import 
     [cjd CJDException]

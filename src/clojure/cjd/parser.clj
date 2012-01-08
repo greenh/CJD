@@ -18,7 +18,7 @@
     [cjd.context]
     [cjd.core-elements]
     [cjd.util.string-utils]
-    [cjd.util.extensomatic]
+    [extensomatic.extensomatic]
     [hiccup.core]
     )
   (:import 
