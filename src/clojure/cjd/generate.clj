@@ -421,11 +421,12 @@
         (reduce 
           (fn [[stuff u?] item]
             (if u? 
-              [(str stuff (html [:pre.u [:span.prompt "user=&gt; "] item])) false]
+              [(str stuff (html [:pre.u [:span.prompt "user=&gt; "] 
+                                 (.replaceAll item "\n" "\n       ")])) false]
               [(str stuff (html [:pre.r item])) true]))
           ["" true]
           (.actions node))]
-    (html goop #_ [:pre.u [:span.prompt "user=&gt; "] ])))
+    (html [:div.spacer goop] )))
 
 (def gen-map {
    Text gen-text
