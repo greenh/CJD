@@ -224,7 +224,7 @@
         @option :index "index.html" The name of the index file to generate, relative
         to the directory specified by @(arg out-dir).
         
-        @option :no-index false Suppresses index generation.
+        @option :noindex false Suppresses index generation.
         
         @option :throw-on-warn false If true, warnings throw exceptions instead of just
         printing a warning message.
@@ -271,7 +271,7 @@
       )
 (defn cjd-generator [sources out-dir options] 
   (let [{ :keys [exclude requires css title overview throw-on-warn 
-                 nogen v theme header footer index no-index] 
+                 nogen v theme header footer index noindex] 
            :or { :css "cjd.css"}} options
         outdir (File. out-dir)
         exclusions (if exclude (if (coll? exclude) exclude [exclude]))
@@ -279,9 +279,10 @@
                              (map #(File. %) (if (coll? sources) sources [sources]))
                              exclusions)
         overview-file (if overview (File. overview))
-        index-name (if-not no-index (if index index "index.html"))
+        index-name (if noindex nil (if index index "index.html"))
         pre-context (-> (make-Context)
                       (context-verbiage! v)
+                      (context-index! index-name)
                       (context-theme! theme))]
     (if (empty? file-set)
       (throw (CJDException. "No files found")))
@@ -343,7 +344,6 @@
                 @css-docs*))
             (context-namespaces! nss)
             (context-title! title)
-            (context-index! index-name)
             (context-header! 
               (if (symbol? header)
                 (try
@@ -402,10 +402,10 @@
                 :css nil :title nil 
                 :overview nil :throw-on-warn false :nogen false
                 :v #{ :f :n } :theme :light :header nil :footer nil
-                :no-index false :index nil] 
+                :noindex false :index nil] 
   (cjd-generator sources out-dir 
                  { :exclude exclude :requires requires
-                  :css css :title title :index index
+                  :css css :title title :index index :noindex noindex
                   :overview overview :throw-on-warn throw-on-warn 
                   :nogen nogen :v v :theme theme :header header :footer footer}))
 
