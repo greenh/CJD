@@ -6,6 +6,7 @@
 	<classpathentry kind="src" path="src/clojure"/>
 	<classpathentry kind="src" path="src/resources"/>
 	<classpathentry kind="src" path="examples"/>
+	<classpathentry kind="src" path="gen/clojure"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="lib/commons-lang-2.6.jar"/>
 	<classpathentry kind="lib" path="lib/clojure-1.2.1.jar"/>
