@@ -297,7 +297,7 @@ static private Object interpretToken(String s) {
 		{
 		return null;
 		}
-	else if(s.equals("true"))
+/*	else if(s.equals("true"))
 		{
 		return RT.T;
 		}
@@ -305,7 +305,7 @@ static private Object interpretToken(String s) {
 		{
 		return RT.F;
 		}
-	else if(s.equals("/"))
+*/	else if(s.equals("/"))
 		{
 		return SLASH;
 		}
