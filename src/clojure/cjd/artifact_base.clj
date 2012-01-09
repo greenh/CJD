@@ -43,7 +43,7 @@
       @p This does nothing by default, but can be rebound to something
       more interesting if desired.
       )
-(defn artifact-msg [& things])
+(defn ^:dynamic artifact-msg [& things])
 
 ;(defmacro artifact-msg [& things]
 ;  `(if msgstate (println (str ~@things))))
@@ -80,17 +80,17 @@
       @returns A new artifact object of a type determined by the context 
       in which it is called.
      )
-(defn make-artifact [] 
+(defn ^:dynamic make-artifact [] 
   (throw (CJDException. "make-artifact called outside of defartifact")))
 
 #_ (* Instantiates a subartifact within a subartifact parsing function.
       
       )
-(defn make-subartifact [] 
+(defn ^:dynamic make-subartifact [] 
   (throw (CJDException. "make-subartifact called outside of defsubartifact")))
 
 
-(def parent nil)
+(def ^:dynamic parent nil)
 
 #_ (* Minimal parsing function for use with @(link defartifact).
       

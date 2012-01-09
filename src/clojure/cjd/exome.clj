@@ -13,7 +13,7 @@
       )
 (ns cjd.exome
   (:import 
-    [clojure.lang LineNumberingPushbackReader NotTheLispReader]
+    [clojure.lang LineNumberingPushbackReader NotTheLispReader130]
     [java.io File FileReader StringReader]
     [cjd CJDException]
     )
@@ -48,7 +48,11 @@
   ([reader eof-error? eof-value]
    (read reader eof-error? eof-value false))
   ([reader eof-error? eof-value recursive?]
-   (NotTheLispReader/read reader (boolean eof-error?) eof-value recursive?)))
+   #_(let [{ :keys [major minor]} *clojure-version*]
+     (cond
+       (and (= major 1) (= minor 2))
+       ))
+   (NotTheLispReader130/read reader (boolean eof-error?) eof-value recursive?)))
 
 (defn- basename [filename] 
   (let [lastf (.lastIndexOf filename "/")

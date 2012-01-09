@@ -17,10 +17,10 @@
 (defproject cjd "0.0.2-SNAPSHOT"
   :description "CJD documentation processor"
   :dependencies [
-     [org.clojure/clojure "1.2.1"]
+     [org.clojure/clojure "1.3.0"]
      [hiccup/hiccup "0.3.7"]
      [commons-lang "2.6"]
-     [extensomatic "0.1.0"]
+     [extensomatic "0.1.1-SNAPSHOT"]
      ]
   :source-path "src/clojure"
   :resources-path "src/resources"

@@ -27,7 +27,7 @@
 #_(* Auto-generated CJD version string. See build.xml to update.)
 (ns cjd.version)
 #_(* CJD version string. )
-(def *cjd-version* "${version}")
+(def ^:dynamic *cjd-version* "${version}")
 		</concat>
 	</target>
 
