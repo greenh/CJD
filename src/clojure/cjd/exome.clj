@@ -13,7 +13,7 @@
       )
 (ns cjd.exome
   (:import 
-    [clojure.lang LineNumberingPushbackReader NotTheLispReader130]
+    [clojure.lang LineNumberingPushbackReader ]
     [java.io File FileReader StringReader]
     [cjd CJDException]
     )
@@ -35,7 +35,7 @@
           except that it uses the CJD reader.)
       @arg reader A @(link java.io.Reader Reader) object, which must also implement
       the @(link java.io.PushbackReader PushbackReader) interface.
-      @arg eof-error? @(c True), if end of file is to be considered as an error. If true 
+      @arg eof-error? @(c true), if end of file is to be considered as an error. If true 
       and a read is attempted past EOF, an exception is thrown. Defaults value is false.
       @arg eof-value A value to be returned if end-of-file is encountered. Only meaningful
       if @(arg eof-error?) is @(c false).
@@ -48,11 +48,19 @@
   ([reader eof-error? eof-value]
    (read reader eof-error? eof-value false))
   ([reader eof-error? eof-value recursive?]
-   #_(let [{ :keys [major minor]} *clojure-version*]
-     (cond
-       (and (= major 1) (= minor 2))
-       ))
-   (NotTheLispReader130/read reader (boolean eof-error?) eof-value recursive?)))
+    (let [{ :keys [major minor incremental]} *clojure-version*]
+      (cond
+        (and (= major 1) (= minor 2))
+        (clojure.lang.NotTheLispReader/read reader (boolean eof-error?) eof-value recursive?)
+        
+        (and (= major 1) (= minor 3))
+        (clojure.lang.NotTheLispReader130/read reader (boolean eof-error?) eof-value recursive?)
+        
+        :else
+        (throw (CJDException. (str "Unsupported Clojure version: " 
+                                   major "." minor "." incremental)))
+        ))
+    ))
 
 (defn- basename [filename] 
   (let [lastf (.lastIndexOf filename "/")
