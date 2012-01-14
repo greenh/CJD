@@ -12,6 +12,21 @@ body {
 
 ul { padding-left: 0mm;}
 
+/* General-purpose pre block */
+pre { margin-left: 4mm; margin-top: 2mm; margin-bottom: 2mm; }
+
+/* pre entries for examples: .u  for user input, .r for REPL output, .prompt for prompt  */
+pre.u { margin-left: 4mm; margin-top: 0; margin-bottom: 0; color: rgb(128,0,0);}
+pre.r { margin-left: 4mm; margin-top: 0; margin-bottom: 0; color: rgb(0,0,255);}
+.prompt { color: black; }
+div.spacer { 
+	margin-top: 8pt; 
+	margin-bottom: 8pt; 
+	padding-top: 4pt; 
+	padding-bottom: 4pt; 
+	border: thin solid rgb(80,80,80); }
+
+
 a { color: rgb(112,35,215);  } /* rgb(186,17,255) */
 a:link { text-decoration: none }
 a:active { text-decoration: none }
