@@ -48,7 +48,7 @@ where:
       The name of a .clj file, the first CJD comment of which will 
       be used as the summary statement for the generated 
       documentation in the overview/index document. 
-   -require <ns>[;<ns>...] 
+   -requires <ns>[;<ns>...] 
       A semicolon-separated list of namespaces containing extensions
       to the base CJD functionality.
    -theme <theme>
@@ -69,6 +69,7 @@ where:
 #_ (* Main method for cjd.
       )
 (defn -main [& args]
+  (prn 'cjd.args args)
   (let [[opts remaining] 
         (loop [[arg & remains+ :as remaining+] args
                opts+ { }]  ; <-- default options go here
@@ -99,13 +100,17 @@ where:
                     (recur remains* (assoc opts+ :css csss)))
                   (throw (CJDException. "Missing parameter for --css")))
               
-                "require"
+                "requires"
                 (if param
                   (let [reqs (vec (.split param ";"))]
                     (recur remains* (assoc opts+ :require reqs)))
                   (throw (CJDException. "Missing parameter for --require")))
               
-                ; "exclude"
+                "exclude"
+                (if param
+                  (let [reqs (vec (.split param ";"))]
+                    (recur remains* (assoc opts+ :exclude reqs)))
+                  (throw (CJDException. "Missing parameter for --exclude")))
                 
                 "throw" (recur remains+ (assoc opts+ :throw-on-warn true))
                 
@@ -121,8 +126,8 @@ where:
                   (throw (CJDException. "Missing parameter for --theme")))
                 
                 "v"
-                (let [vopts (if attached attached param)
-                      remains** (if attached remaining+ remains*)]
+                (let [vopts param #_(if attached attached param)
+                      remains** remains* #_(if attached remaining+ remains*)]
                   (if (empty? vopts)
                     (throw (CJDException. "Missing parameter for -v"))
                     (recur remains** 

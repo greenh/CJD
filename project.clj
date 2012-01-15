@@ -17,7 +17,7 @@
 (defproject cjd "0.0.2-SNAPSHOT"
   :description "CJD documentation processor"
   :dependencies [
-     [org.clojure/clojure "1.3.0"]
+     [org.clojure/clojure "1.2.1"]
      [hiccup/hiccup "0.3.7"]
      [commons-lang "2.6"]
      [extensomatic "0.1.1-SNAPSHOT"]
@@ -31,4 +31,11 @@
   :target-dir "bin"
   :main cjd.main
   :javac-options {:destdir "classes/"}
+  
+  :cjd-source-path ["src/clojure/cjd" "src/clojure/leiningen"]
+  :cjd-dest-path "doc/dark"
+  :cjd-opts { :exclude [#"src/clojure/cjd/vox.*"] 
+             :title "CJD" :overview "project.clj" 
+             :requires 'cjd.cjd.artifact-gen  :v #{ :n :f} 
+             :footer 'cjd.cjd.its-mine/gen-footer }
   )

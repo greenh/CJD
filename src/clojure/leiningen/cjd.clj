@@ -12,12 +12,33 @@
       )
 (ns leiningen.cjd
   "Generates a HTML documentation tree."
-  (:use
-    [cjd exome]
+  #_(:use
+    [cjd.exome]
+    )
+  (:require 
+    [leiningen.classpath :as classpath]
     )
   (:import 
-    [java.io File])
+    [java.io File]
+    [java.lang ProcessBuilder$Redirect]
+   ; [cjd CJDException]
+    )
   )
+
+(defn- get-classpath-string [project]
+  (apply str (interpose File/pathSeparatorChar (map str (filter #(not (nil? %)) (classpath/get-classpath project))))))
+
+
+#_ (* Conditionally does a @(c conj).
+      @arg col A collection to conditionally be added to.
+      @arg tf Expression to be tested.
+      @arg vals zero or more values to be added to @col.
+      @returns If @(arg tf) is truth, @(arg col) with @(vals) @(l conj)'ed to
+      it\; if not, @(arg col).
+      )
+(defn cconj [col tf & vals] 
+  (if tf (apply conj col vals) col))
+
 
 #_ (* Converts any relative file names in a list to absolute file names
       relative to a specified target directory.
@@ -38,10 +59,28 @@
         (map absf file-name-or-names)
         (absf file-name-or-names)))))
 
+#_ (* Creates a thread that copies data emanating from an input stream 
+      (as from a process's output pipe) to an output stream.
+      @arg from-stream An input stream.
+      @arg to-stream The destination output stream.
+      @returns )
+(defn repeater [from-stream to-stream] 
+  (proxy [Thread] []
+    (run [] 
+      (let [buf (byte-array 1024)]
+        (try 
+          (loop [chrs (.read from-stream buf)]
+            (if (> chrs 0)
+              (do
+                (.write to-stream buf 0 chrs)
+                (.flush to-stream)
+                (recur (.read from-stream buf)))))
+          (catch Exception e (.printStackTrace e)))))))
+
 #_ (* Front end for leiningen.
       
       @name selects source locations, in order of preference, from\:
-      @(ul @li The :source-paths option in the :cjd-doc option map. Note that this 
+      @(ul @li The :cjd-source-path option in the :cjd-opts option map. Note that this 
            can be either a single string, or a set of strings. CJD will search 
            any directories for .clj files.
            @li The :source-path option in the project map.
@@ -52,7 +91,7 @@
            @li The :doc-path value in the @(arg project) map\;
            @li "doc" in the current directory.) 
 
-      @p @name extracts all other options from a map associated the :cjd-doc key 
+      @p @name extracts all other options from a map associated the :cjd-opts key 
       in the @(arg project) map. Options are as defined by @(l cjd-generator).
 
       @arg project The leiningen project map, as derived from the project.clj file.
@@ -65,30 +104,65 @@ Specify CJD options by placing them in a map associated with the :cjd-doc key in
 in the main project map. 
 
 CJD selects source locations, in order of preference, from:
--- The :source-paths option in the :cjd-doc option map. Note that this can be
+-- The :cjd-source-path option in the project map. Note that this can be
    either a single string, or a set of strings. CJD will search any directories
    for .clj files.
--- The :source-path option in the project map
+-- The :source-path option in the project map.
 -- \"src\" in the current directory. 
 
 CJD selects the destination directory, in order of preference, from:
--- The :doc-path value in the :cjd-doc option map;
--- The :doc-path value in the project map;
+-- The :cjd-dest-path value in the project map;
 -- \"doc\" in the current directory. 
 
-CJD takes all other options from a map associated the :cjd-doc key.
+CJD takes all other options from a map associated the :cjd-opts key. Options and
+values are as described by 
+http://greenh.github.com/CJD/doc/dark/cjd.exome.html#cjd-generator.
 "
   [project]
-  (let [ { opts :cjd-doc target-dir :target-dir } project
-        s1 (or (:source-paths opts) (:source-path project) "src")
-        s2 (if (coll? s1) s1 [s1])
-        sources (absfile target-dir s2)
-        dest (absfile target-dir (or (:cjd-path opts) (:cjd-path project) "doc"))
-        overview* (if-let [ov (:overview opts)] (absfile target-dir ov))
-        opts* (if (and opts overview*) (assoc opts :overview overview*)  opts)]
-    (prn 'project project)
-    (prn 'source sources)
-    (prn 'dest dest)
-    (prn 'opts opts*)
-    (cjd-generator sources dest opts*)
-    ))
+  (try
+    (let [ { opts :cjd-opts target-dir :target-dir } project
+          s1 (or (:cjd-source-path project) (:source-path project) "src")
+          sources (if (coll? s1) s1 [s1])
+          dest (or (:cjd-path project) "doc")
+          ]
+      (let [sep (File/separator)
+            jbin (File. (str (System/getProperty "java.home") sep "bin"))
+            _ (println "java -- " (.getPath jbin))
+            jexe (File. jbin "java.exe")
+            jj (File. jbin "java")
+            java (cond
+                   (.canExecute jexe) jexe
+                   (.canExecute jj) jj
+                   :else (throw (Exception. "Can't find java executable")))
+            { :keys [exclude requires css title overview throw-on-warn 
+                     nogen v theme header footer index noindex] } opts
+            args
+            (-> [(.getPath java) "-cp" (get-classpath-string project) "cjd.main"]
+              (cconj exclude "-exclude" 
+                     (if (coll? exclude) (apply str (interpose ";" exclude)) exclude))
+              (cconj requires "-requires" 
+                     (if (coll? requires) (apply str (interpose ";" requires)) requires))
+              (cconj css "-css" 
+                     (if (coll? css) (apply str (interpose ";" css)) css))
+              (cconj title "-title" (str title))
+              (cconj overview "-overview" overview)
+              (cconj throw-on-warn "-throw")
+              (cconj nogen "-nogen")
+              (cconj v "-v" (apply str (map name v)))
+              (cconj theme "-theme" (name theme))
+              (cconj header "-header" (str header))
+              (cconj footer "-footer" (str footer))
+              (cconj index "-index" (str index))
+              (cconj noindex "-noindex")
+              (conj dest)
+              (concat sources)
+              )
+            proc-builder (ProcessBuilder. (into-array String args))
+            proc (.start proc-builder)
+            ]
+        (.start (repeater (.getInputStream proc) System/out))
+        (.start (repeater (.getErrorStream proc) System/err))
+        (.waitFor proc)
+        (println "Done, status " (.exitValue proc))
+        ))
+    (catch Throwable t (.printStackTrace t))))

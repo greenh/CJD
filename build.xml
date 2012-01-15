@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="CJD" basedir="." default="install">
 	
+	<property name="lein" value="C:\Documents and Settings\Howard Green\Desktop\Libraries\lein\lein.bat"/>
 	<property name="maven" value="C:\Documents and Settings\Howard Green\Desktop\Libraries\apache-maven-2.2.1\bin\mvn.bat" />
 	<property name="pom" value="pom.xml"/>
 	
@@ -42,7 +43,19 @@
 		</jar>
 	</target>
 
-	<target name="install" depends="cjd-jar">
+	<target name="pom" >
+		<exec executable="${lein}">
+			<arg value="pom"/>
+		</exec>
+	</target>
+
+	<target name="deps" >
+		<exec executable="${lein}">
+			<arg value="deps"/>
+		</exec>
+	</target>
+
+	<target name="install" depends="cjd-jar,pom">
 		<exec executable="${maven}">
 			<arg value="install:install-file"/>
 			<arg value="-Dfile=${dest.dir}/${cjd.jar}"/>
