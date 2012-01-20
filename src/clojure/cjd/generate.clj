@@ -132,31 +132,34 @@
 (defn declaration-form [form context]
   (let [argmap (context-items context)]
     (cond
-    (symbol? form) 
-    (if-let [level (get argmap form)]
-      (html [:span { :class (str "n" level)} (nonbreak (html-encode (name form)))])
-      (nonbreak (html-encode (name form))))
-    
-    (keyword? form) 
-    (if-let [level (get argmap form)]
-      (html [:span { :class (str "n" level)} (nonbreak (html-encode (str form)))])
-      (nonbreak (html-encode (str form))))
-    
-    (vector? form)
-    (str "[" (apply str (interpose " " (map (fn [x] (declaration-form x context)) form))) "]")
-    
-    (list? form)
-    (str "(" (apply str (interpose " " (map (fn [x] (declaration-form x context)) form))) ")")
-    
-    (map? form)
-    (str "{" 
+      (symbol? form) 
+      (if-let [level (get argmap form)]
+        (html [:span { :class (str "n" level)} (nonbreak (html-encode (name form)))])
+        ;; engage in a crude bit of identifier-coloring, just for "fn" for now
+        (if (= form 'fn)
+          (html [:span { :class "fn" } (nonbreak (html-encode (name form)))])
+          (nonbreak (html-encode (name form)))))
+      
+      (keyword? form) 
+      (if-let [level (get argmap form)]
+        (html [:span { :class (str "n" level)} (nonbreak (html-encode (str form)))])
+        (nonbreak (html-encode (str form))))
+      
+      (vector? form)
+      (str "[" (apply str (interpose " " (map (fn [x] (declaration-form x context)) form))) "]")
+      
+      (list? form)
+      (str "(" (apply str (interpose " " (map (fn [x] (declaration-form x context)) form))) ")")
+      
+      (map? form)
+      (str "{" 
          (apply str 
-            (interpose " " 
-               (map (fn [[k v]] (str (declaration-form k context) " " (str v))) form))) 
+                (interpose " " 
+                           (map (fn [[k v]] (str (declaration-form k context) " " (str v))) form))) 
          "}")
-    :else
-    (str form)
-    )))
+      :else
+      (str form)
+      )))
 
 
 (def header-text {
@@ -191,6 +194,10 @@
     (html [:span {:class (str "n" (if level level "x"))} (str name)])))
 (defn gen-form [node context]
   (html [:code (declaration-form (.form node) context)]))
+(defn gen-fn [node context]
+  (let [f (.form node)
+        form (if (vector? f) (list 'fn f) f)]
+    (html [:code (declaration-form form context)])))
 
 #_ (* A @(linkto "#gen-fun" generator function) for @(c ~"@link") and
       @(c ~"@linki").
@@ -381,8 +388,9 @@
         #_(html [:p { :class (lstr "a" level) } 
                remainder]))
       (let [[_ blurb remainder] (gen-flow (content-of node) context true)]
-        (html [:p { :class (lstr "a" level) }
-               [:span { :class (lstr "k" level) } "Returns"] " &mdash; " blurb]
+        (html [:div { :class "s" }
+               [:p { :class (lstr "a" level) }
+                [:span { :class (lstr "k" level) } "Returns"] " &mdash; " blurb]]
               remainder)))))
 
 
@@ -445,7 +453,7 @@
    LinkTo gen-linkto
    Target gen-target
    Form gen-form
-   Fun gen-form
+   Fun gen-fn
    Preformatted gen-pre
    Image gen-image
    Example gen-example

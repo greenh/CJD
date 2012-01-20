@@ -27,7 +27,7 @@ div.spacer {
 	border: thin solid rgb(80,80,80); }
 
 
-a { color: rgb(112,35,215);  } /* rgb(186,17,255) */
+a { color: rgb(114,98,54); font-weight: bold;  } /* rgb(186,17,255) rgb(112,35,215); */
 a:link { text-decoration: none }
 a:active { text-decoration: none }
 a:visited { text-decoration: none }
@@ -81,7 +81,7 @@ p { margin-top: 3pt; margin-bottom: 3pt;
 	.s1 is used for the outermost, .s for all subsequent levels. 
 */
 .s1 { margin-left: 6mm; }
-.s { margin-left: 6mm; }
+.s { margin-left: 9mm; }
 
 /* 
 	Info  sections
@@ -99,7 +99,7 @@ p { margin-top: 3pt; margin-bottom: 3pt;
 	Argument-like things' first paragraph. 
 */
 .a1 { text-indent: -6mm;}
-.a { text-indent: 0mm;}
+.a { text-indent: -6mm;}
 
 .k1 { font-variant: small-caps; }
 .k { font-variant: small-caps; }
@@ -109,13 +109,16 @@ p { margin-top: 3pt; margin-bottom: 3pt;
 
 .id { font-family: courier, monospace; font-size: 13px; }
 
-.n0 { font-family: courier, monospace; font-size: 13px; color: blue; }
-.n1 { font-family: courier, monospace; font-size: 13px; color: red; }
-.n2 { font-family: courier, monospace; font-size: 13px; color: green; }
-.n3 { font-family: courier, monospace; font-size: 13px; color: purple; }
-.n4 { font-family: courier, monospace; font-size: 13px; color: orange; }
-.n5 { font-family: courier, monospace; font-size: 13px; color: olive; }
-.n6 { font-family: courier, monospace; font-size: 13px; color: maroon; }
+.n0 { font-weight: bold; font-family: courier, monospace; font-size: 13px; color: rgb(50,50,255); }
+.n1 { font-weight: bold; font-family: courier, monospace; font-size: 13px; color: red; }
+.n2 { font-weight: bold; font-family: courier, monospace; font-size: 13px; color: rgb(50,150,0); }
+.n3 { font-weight: bold; font-family: courier, monospace; font-size: 13px; color: rgb(180,1,199); }
+.n4 { font-weight: bold; font-family: courier, monospace; font-size: 13px; color: orange; }
+.n5 { font-weight: bold; font-family: courier, monospace; font-size: 13px; color: olive; }
+.n6 { font-weight: bold; font-family: courier, monospace; font-size: 13px; color: maroon; }
+
+.fn { font-weight: bold; font-family: courier, monospace; font-size: 13px;
+	color: rgb(178,0,208); }
 
 .trailer { margin-top: 6mm; margin-bottom: 3mm; text-align: center; width: 100%; }
 .ending { font-size: 9pt; font-style: italic; }

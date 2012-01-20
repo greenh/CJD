@@ -80,7 +80,7 @@ p { margin-top: 3pt; margin-bottom: 3pt;
 	.s1 is used for the outermost, .s for all subsequent levels. 
 */
 .s1 { margin-left: 6mm; }
-.s { margin-left: 6mm; }
+.s { margin-left: 9mm; }
 
 /* 
 	Info  sections
@@ -98,7 +98,7 @@ p { margin-top: 3pt; margin-bottom: 3pt;
 	Argument-like things' first paragraph. 
 */
 .a1 { text-indent: -6mm;}
-.a { text-indent: 0mm;}
+.a { text-indent: -6mm;}
 
 .k1 { font-variant: small-caps; }
 .k { font-variant: small-caps; }
@@ -115,6 +115,8 @@ p { margin-top: 3pt; margin-bottom: 3pt;
 .n4 { font-family: courier, monospace; font-size: 13px; color: orange; }
 .n5 { font-family: courier, monospace; font-size: 13px; color: olive; }
 .n6 { font-family: courier, monospace; font-size: 13px; color: maroon; }
+
+.fn { font-family: courier, monospace; font-size: 13px; color: cyan; }
 
 .trailer { margin-top: 6mm; margin-bottom: 3mm; text-align: center; width: 100%; }
 .ending { font-size: 9pt; font-style: italic; }
