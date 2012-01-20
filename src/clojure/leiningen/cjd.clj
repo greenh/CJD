@@ -20,7 +20,6 @@
     )
   (:import 
     [java.io File]
-    [java.lang ProcessBuilder$Redirect]
    ; [cjd CJDException]
     )
   )
@@ -33,7 +32,7 @@
       @arg col A collection to conditionally be added to.
       @arg tf Expression to be tested.
       @arg vals zero or more values to be added to @col.
-      @returns If @(arg tf) is truth, @(arg col) with @(vals) @(l conj)'ed to
+      @returns If @(arg tf) is truth, @(arg col) with @(arg vals) @(l conj)'ed to
       it\; if not, @(arg col).
       )
 (defn cconj [col tf & vals] 

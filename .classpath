@@ -7,10 +7,10 @@
 	<classpathentry kind="src" path="src/resources"/>
 	<classpathentry kind="src" path="examples"/>
 	<classpathentry kind="src" path="gen/clojure"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jdk1.6.0_30"/>
 	<classpathentry kind="lib" path="lib/commons-lang-2.6.jar"/>
 	<classpathentry kind="lib" path="lib/hiccup-0.3.7.jar"/>
-	<classpathentry kind="lib" path="lib/extensomatic-0.1.1-SNAPSHOT.jar"/>
 	<classpathentry kind="lib" path="lib/clojure-1.2.1.jar"/>
+	<classpathentry kind="lib" path="lib/extensomatic-0.1.2-SNAPSHOT.jar"/>
 	<classpathentry kind="output" path="classes"/>
 </classpath>
