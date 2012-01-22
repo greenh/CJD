@@ -13,6 +13,7 @@
 (ns cjd.main
   (:use
     [cjd.exome]
+    [cjd.version]
     )
   (:import
     [cjd CJDException])
@@ -32,37 +33,42 @@ where:
       searched for files with names ending in \".clj\".
  
    option... is a list of options, which can be a combination of:
-   -css <css-file>[;<css-file>...] 
+   --css <css-file>[;<css-file>...] 
       A semicolon-separated list of alternative CSS file names to 
       be used.
-   -help
+   --help
       Prints this very message.
-   -index
+   --index
       Specifies the name of an overview/index document relative to
       the directory specified by dest-dir. Defaults to \"index.html\".
-   -nogen 
+   --nogen 
       Inhibits HTML generation; only parses input.
-   -noindex
+   --noindex
       Inhibits index generation.
-   -overview <overview> 
+   --overview <overview> 
       The name of a .clj file, the first CJD comment of which will 
       be used as the summary statement for the generated 
       documentation in the overview/index document. 
-   -requires <ns>[;<ns>...] 
+   --requires <ns>[;<ns>...] 
       A semicolon-separated list of namespaces containing extensions
       to the base CJD functionality.
-   -theme <theme>
+   --showopts 
+     Debug tool that prints a list of the options as extracted from 
+     command-line arguments.
+   --theme <theme>
       Specifies <theme> as the styling theme for generated output.
       Current standard themes include: 
           light   Light backround, black text (the default) 
           dark    Black background, white text 
-   -throw
+   --throw
       Causes any warning to generate an exception
-   -title <title>  
+   --title <title>  
       Use <title> as the title for the documentation.
-   -v <vopts>
+   --v <vopts>
       Sets output verbosity. <vopts> is a string of single-letter 
       selectors. \"n\"
+   --version
+      Prints the version string for CJD and exits.
 "))
 
 
@@ -74,7 +80,7 @@ where:
         (loop [[arg & remains+ :as remaining+] args
                opts+ { }]  ; <-- default options go here
           (let [[param & remains*] remains+
-                [_ opt] (if arg (re-matches #"-(.*)" arg))
+                [_ opt] (if arg (re-matches #"--(.*)" arg))
                 [_ xopt attached] (if arg (re-matches #"-(\p{Alpha})(.*)" arg))]
             (cond 
               opt  ; multicharacter option, ala --title
@@ -112,18 +118,28 @@ where:
                     (recur remains* (assoc opts+ :exclude reqs)))
                   (throw (CJDException. "Missing parameter for --exclude")))
                 
-                "throw" (recur remains+ (assoc opts+ :throw-on-warn true))
-                
                 "nogen" (recur remains+ (assoc opts+ :nogen true))
                 
                 "noindex" (recur remains+ (assoc opts+ :no-index true))
                 
-                "help" []
+                "help" 
+                (do
+                  (cjd-help)
+                  (System/exit 0))
+                
+                "showopts" (recur remains+ (assoc opts+ :showopts true))
                 
                 "theme"
                 (if param
-                  (recur remains* (assoc opts+ :theme (symbol param)))
+                  (recur remains* (assoc opts+ :theme (keyword param)))
                   (throw (CJDException. "Missing parameter for --theme")))
+                
+                "throw" (recur remains+ (assoc opts+ :throw-on-warn true))
+                
+                "version"
+                (do 
+                  (println *cjd-version*)
+                  (System/exit 0))
                 
                 "v"
                 (let [vopts param #_(if attached attached param)

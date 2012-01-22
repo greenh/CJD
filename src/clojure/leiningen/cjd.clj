@@ -126,7 +126,7 @@ http://greenh.github.com/CJD/doc/dark/cjd.exome.html#cjd-generator.
           ]
       (let [sep (File/separator)
             jbin (File. (str (System/getProperty "java.home") sep "bin"))
-            _ (println "java -- " (.getPath jbin))
+            ;_ (println "java -- " (.getPath jbin))
             jexe (File. jbin "java.exe")
             jj (File. jbin "java")
             java (cond
@@ -134,28 +134,32 @@ http://greenh.github.com/CJD/doc/dark/cjd.exome.html#cjd-generator.
                    (.canExecute jj) jj
                    :else (throw (Exception. "Can't find java executable")))
             { :keys [exclude requires css title overview throw-on-warn 
-                     nogen v theme header footer index noindex] } opts
+                     nogen v theme header footer index noindex showopts] } opts
             args
             (-> [(.getPath java) "-cp" (get-classpath-string project) "cjd.main"]
-              (cconj exclude "-exclude" 
+              (cconj exclude "--exclude" 
                      (if (coll? exclude) (apply str (interpose ";" exclude)) exclude))
-              (cconj requires "-requires" 
+              (cconj requires "--requires" 
                      (if (coll? requires) (apply str (interpose ";" requires)) requires))
-              (cconj css "-css" 
+              (cconj css "--css" 
                      (if (coll? css) (apply str (interpose ";" css)) css))
-              (cconj title "-title" (str title))
-              (cconj overview "-overview" overview)
-              (cconj throw-on-warn "-throw")
-              (cconj nogen "-nogen")
-              (cconj v "-v" (apply str (map name v)))
-              (cconj theme "-theme" (name theme))
-              (cconj header "-header" (str header))
-              (cconj footer "-footer" (str footer))
-              (cconj index "-index" (str index))
-              (cconj noindex "-noindex")
+              (cconj title "--title" (str title))
+              (cconj overview "--overview" overview)
+              (cconj throw-on-warn "--throw")
+              (cconj nogen "--nogen")
+              (cconj v "--v" (apply str (map name v)))
+              (cconj theme "--theme" (name theme))
+              (cconj header "--header" (str header))
+              (cconj footer "--footer" (str footer))
+              (cconj index "--index" (str index))
+              (cconj noindex "--noindex")
+              (cconj showopts "--showopts")
               (conj dest)
               (concat sources)
               )
+            _ (if showopts
+                (println "Running:\n" 
+                         (apply str (interpose " " args))))
             proc-builder (ProcessBuilder. (into-array String args))
             proc (.start proc-builder)
             ]
