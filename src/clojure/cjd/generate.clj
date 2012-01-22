@@ -41,6 +41,7 @@
     [cjd.artifact-base]
     [cjd.core-artifacts]
     [cjd.precis]
+    [cjd.link-resolver]
     [cjd.resolver]
     [hiccup.core]
     [hiccup.page-helpers]
@@ -695,7 +696,10 @@
   (let [gen-fn (gen-fn-of artifact)]
     (if-not gen-fn 
       (throw (CJDException. (str "No generator for artifact type " (type artifact)))))
-    (let [neocon (init-context context artifact)]
+    (let [neocon (init-context context artifact)
+          type-uri (if (= 'def (defined-by artifact)) 
+                     def-uri
+                     (link-resolve neocon (defined-by artifact) ))]
       (html 
           [:div.artifact { :id (artifact-name-of artifact) }
            [:table.topline
@@ -703,7 +707,10 @@
              [:tr 
               [:td [:span.itemname (artifact-name-of artifact)]]
               [:td {:align "right"}
-               [:span.itemtype (descriptive-of artifact)]
+               #_ [:span.itemtype (descriptive-of artifact)]
+               (if type-uri
+                 [:a { :href type-uri } (defined-by artifact)]
+                 (defined-by artifact))
                " in "
                [:a { :href (str "#top" )} (context-ns neocon)]]]]]
            (gen-fn artifact neocon)]))))

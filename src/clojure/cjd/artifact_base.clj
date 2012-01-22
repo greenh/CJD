@@ -140,6 +140,8 @@
         represents.
         @p For example, an artifact representing a function might return "Function".)
   (descriptive-of [this])
+  #_ (* Returns the symbol used to define the artifact, e.g. @(c 'defn) for a function.)
+  (defined-by [this])
   )
 
 #_ (* Extenso used for all artifacts that can potentially contain CDJ documentation.)
@@ -210,6 +212,7 @@
            ~@local-additions
            Descriptive
            (descriptive-of [this] ~descriptive)
+           (defined-by [this] (quote ~keying-symbol))
            java.lang.Object
            (~'toString [~'this] (str ~(str "#<" artifact-name " ") ~'artifact-name ">"))
            )

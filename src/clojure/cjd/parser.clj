@@ -116,7 +116,7 @@
        (let [[functor target] item]
          (condp = functor
            'quote
-           (recur (str (cut-last text) \' target space-char) remains)
+           (recur (str (cut-last-space text) \' target space-char) remains)
            
            'clojure.core/deref  ; @<somthing... >
            [(html-encode text) remaining]  ;;;;;;;;;;;;;;;;;;;;;;;; return

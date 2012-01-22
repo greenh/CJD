@@ -43,6 +43,8 @@
           (str "http://download.oracle.com/javase/7/docs/api/" cls ".html" 
                (if sym (str "/" (name sym))))))) ))
 
+(def def-uri "http://clojure.org/special_forms#Special%20Forms--%28def%20symbol%20init?%29")
+
 
 #_ (* Reference to the list of link resolver functions. 
       @p Any resolver functions are added to the list before the  
