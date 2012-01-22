@@ -390,8 +390,8 @@
       (let [[_ blurb remainder] (gen-flow (content-of node) context true)]
         (html [:div { :class "s" }
                [:p { :class (lstr "a" level) }
-                [:span { :class (lstr "k" level) } "Returns"] " &mdash; " blurb]]
-              remainder)))))
+                [:span { :class (lstr "k" level) } "Returns"] " &mdash; " blurb]
+               remainder])))))
 
 
 (defn gen-info [node context infotype]
@@ -421,7 +421,7 @@
   (let [[_ _ stuff] (gen-flow (content-of node) context false)]
     (html [:li stuff])))
 (defn gen-pre [node context]
-  (html [:pre (.preform node)]))
+  (html [:div.spacer [:pre.pre (.preform node)]]))
 (defn gen-image [node context]
   (html [:img { :src (.source node)}]))
 (defn gen-example [node context]

@@ -10,7 +10,8 @@ body {
 	margin-right: 4mm;
 }
 
-ul { padding-left: 0mm;}
+ul { padding-left: 0mm; margin-left: 5mm;}
+ol { padding-left: 0mm; margin-left: 5mm;}
 
 /* General-purpose pre block */
 pre { margin-left: 4mm; margin-top: 2mm; margin-bottom: 2mm; }

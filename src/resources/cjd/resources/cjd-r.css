@@ -10,10 +10,11 @@ body {
 	margin-right: 4mm;
 }
 
-ul { padding-left: 0mm;}
+ul { padding-left: 0mm; margin-left: 5mm; }
+ol { padding-left: 0mm; margin-left: 5mm; }
 
 /* General-purpose pre block */
-pre { margin-left: 4mm; margin-top: 2mm; margin-bottom: 2mm; }
+pre.pre { margin-left: 4mm; margin-top: 2mm; margin-bottom: 2mm; color: rgb(255,255,221);}
 
 /* pre entries for examples: .u  for user input, .r for REPL output, .prompt for prompt  */
 pre.u { margin-left: 4mm; margin-top: 0; margin-bottom: 0; color: rgb(193,209,255);}
