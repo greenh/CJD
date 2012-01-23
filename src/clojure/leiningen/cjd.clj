@@ -97,25 +97,25 @@
       @returns 0 , if document generation appears to have succeeded, and 1 otherwise.
       )
 (defn cjd 
-"Extracts CJD comments from Clojure sources and generates a HTML documentation tree.
+"  Extracts CJD comments from Clojure sources and generates a HTML documentation tree.
    
-Specify CJD options by placing them in a map associated with the :cjd-doc key in the
-in the main project map. 
-
-CJD selects source locations, in order of preference, from:
--- The :cjd-source-path option in the project map. Note that this can be
-   either a single string, or a set of strings. CJD will search any directories
-   for .clj files.
--- The :source-path option in the project map.
--- \"src\" in the current directory. 
-
-CJD selects the destination directory, in order of preference, from:
--- The :cjd-dest-path value in the project map;
--- \"doc\" in the current directory. 
-
-CJD takes all other options from a map associated the :cjd-opts key. Options and
-values are as described by 
-http://greenh.github.com/CJD/doc/dark/cjd.exome.html#cjd-generator.
+	Specify CJD options by placing them in a map associated with the :cjd-doc key in the
+	in the main project map. 
+	
+	CJD selects source locations, in order of preference, from:
+	-- The :cjd-source-path option in the project map. Note that this can be
+	   either a single string, or a collection of strings. CJD will search any 
+     directories for .clj files.
+	-- The :source-path option in the project map.
+	-- \"src\" in the current directory. 
+	
+	CJD selects the destination directory, in order of preference, from:
+	-- The :cjd-dest-path value in the project map;
+	-- \"doc\" in the current directory. 
+	
+	CJD takes all other options from a map associated the :cjd-opts key. Options and
+	values are as described at: 
+	    http://greenh.github.com/CJD/doc/dark/cjd.exome.html#cjd-generator.
 "
   [project]
   (try
