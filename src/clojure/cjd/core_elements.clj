@@ -73,9 +73,11 @@
 
 (defconstructo Option 
   [Sectional (ScopedName name level) (Flow content )] 
-  [has-default default-value]
-  (has-default? [this] has-default)
+  [has-default default-value parameter]
+  (has-default? [this] (boolean has-default))
   (default-value-of [this] default-value)
+  (has-param? [this] (boolean parameter))
+  (parameter-of [this] parameter)
   )
 
 (defconstructo Return [Sectional (Flow content)] [])

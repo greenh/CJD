@@ -365,8 +365,10 @@
         [_ blurb remainder] (gen-flow (content-of node) context true)]
     (html [:p { :class (lstr "a" level)} 
             (declaration-form (name-of node) context) 
+            (if (has-param? node)
+              (html [:span.expr " " (html-encode (str (parameter-of node)))]))
             (if (has-default? node) 
-              (str " (default: " (default-value-of node) ")")) 
+              (str " (default: " (html [:span.expr (str (default-value-of node))]) ")"))
             " &mdash; " blurb] 
            remainder)))
 
