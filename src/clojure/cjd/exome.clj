@@ -192,6 +192,35 @@
         :else file-set+))
     file-set files ))
 
+#_ (* Tries to find an item (such as a function) that's identified in any of 
+      several ways.
+      @p @(arg designator) designates the the item, and can be any of\:
+      @(ul @li A symbol that names an item. In this case, @name 
+           resolves the name and retrieves and returns the resulting object.
+           @li A string containing the name of an item. @name processes this 
+           as above.
+           @li @name presumes that anything else is item of interest, in which 
+           case it returns @(arg designator) as-is.)
+      @arg designator The object that designates the item.
+      @arg what A string identifying the item's intended use, for use in 
+      generating an error message.
+      @returns The resolved item. 
+      )
+(defn find-item [designator what]
+  (let [sym (cond
+              (symbol? designator) designator
+              (string? designator) (symbol designator)
+              :else nil)]
+    (if sym
+      (try
+        (let [xns (namespace sym)] 
+          (if-not (empty? xns)
+            (require (symbol xns))))
+        (var-get (resolve sym))
+        (catch Exception e 
+          (throw (CJDException. (str "Unable to resolve " what ": " designator) e))))
+      designator)))
+
 
 #_ (* Main CJD document processing driver.
       
@@ -245,6 +274,13 @@
         HTML generation phase, and causes @name to
         return the the results of the pre-HTML-generation phase of the operation.
         
+        @option :all false If true, adds all recognized artifacts to the
+        generated output, not just those with CJD comments.
+        
+        @option :docstrings false If true, adds any artifact with a docstring to the
+        generated output, and uses the artifact's docstring as documentation if it 
+        has no CJD comment.
+        
         @(option :v #{ :n :g } A set of keys describing the desired level of 
                  output. Keys can be any of\:
                  @key :f produces a message when starting the processing of a file.
@@ -270,6 +306,13 @@
               The function has the form @(fun (fn [context])), where
               @arg context The current context object.
               @returns A string containing HTML to be inserted as the header.)
+        
+        @(opt :filter A function, or a symbol that resolves to a function,
+              that selects artifacts to include in the output. This
+              function has the form @(fun [artifact]), where\:
+              @arg artifact The artifact to evaluate.
+              @returns True, if the artifact designated by @(arg artifact) should 
+              be included in the output.)
         ) 
       
       @(returns nil, unless the @(option :nogen) option is set, in which case it returns
@@ -283,8 +326,10 @@
       )
 (defn cjd-generator [sources out-dir options] 
   (let [{ :keys [exclude requires css title overview throw-on-warn 
-                 nogen v theme header footer index noindex] 
-           :or { :css "cjd.css"}} options
+                 nogen v theme header footer index noindex 
+                 all docstrings ]
+           filter-item :filter 
+           :or { :css "cjd.css" }} options
         outdir (File. out-dir)
         exclusions (if exclude (if (coll? exclude) exclude [exclude]))
         file-set (find-files (sorted-set) 
@@ -292,10 +337,20 @@
                              exclusions)
         overview-file (if overview (File. overview))
         index-name (if noindex nil (if index index "index.html"))
+        filter-fn (cond 
+                    filter-item (find-item filter-item "artifact filter function")
+                    all-public (fn [artifact] true)
+                    use-docstrings (fn [artifact]
+                                     (or (has-doc? artifact) 
+                                         (has-docstring? artifact)))
+                    :else has-doc?)
         pre-context (-> (make-Context)
                       (context-verbiage! v)
                       (context-index! index-name)
-                      (context-theme! theme))]
+                      (context-theme! theme)
+                      (context-all-public! all-public)
+                      (context-docstrings! use-docstrings)
+                      (context-filter! filter-fn))]
     (if (empty? file-set)
       (throw (CJDException. "No files found")))
     (if-not (and (.exists outdir) (.isDirectory outdir))
@@ -337,7 +392,7 @@
                   (let [name-map* 
                         (reduce 
                           (fn [name-map++ artifact]
-                            (if (has-doc? artifact)
+                            (if ((context-filter pre-context) artifact)
                               (assoc name-map++ (artifact-name-of artifact) ns-name)
                               name-map++)) 
                           name-map+ (artifacts-of ns-artifact))]
@@ -356,26 +411,8 @@
                 @css-docs*))
             (context-namespaces! nss)
             (context-title! title)
-            (context-header! 
-              (if (symbol? header)
-                (try
-                  (let [xns (namespace header)] 
-                    (if-not (empty? xns)
-                      (require (symbol xns))))
-                  (var-get (resolve header))
-                  (catch Exception e 
-                    (throw (CJDException. "Unable to find header function" e))))
-                header))
-            (context-footer! 
-              (if (symbol? footer)
-                (try
-                  (let [fns (namespace footer)] 
-                    (if-not (empty? fns)
-                      (require (symbol fns))))
-                  (var-get (resolve footer))
-                  (catch Exception e 
-                    (throw (CJDException. "Unable to find footer function" e))))
-                footer))
+            (context-header! (find-item header "header function"))
+            (context-footer! (find-item footer "footer function"))
             (context-overview! overview-doc)
             (context-throw-on-warn! throw-on-warn))]
       
@@ -414,11 +451,13 @@
                 :css nil :title nil 
                 :overview nil :throw-on-warn false :nogen false
                 :v #{ :f :n } :theme :light :header nil :footer nil
-                :noindex false :index nil] 
+                :noindex false :index nil :filter nil 
+                :docstrings false :all false] 
   (cjd-generator sources out-dir 
                  { :exclude exclude :requires requires
                   :css css :title title :index index :noindex noindex
                   :overview overview :throw-on-warn throw-on-warn 
-                  :nogen nogen :v v :theme theme :header header :footer footer}))
+                  :nogen nogen :v v :theme theme :header header :footer footer
+                  :filter filter :docstrings use-docstrings :all all-public }))
 
 

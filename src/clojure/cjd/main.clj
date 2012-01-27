@@ -8,8 +8,53 @@
      
      You must not remove this notice, or any other, from this software.
      )
-#_ (* Main function for standalone operation.
-      )
+#_ (* Main function for command-line operation.
+      
+      @p To run CJD from the command line, use\:
+      @(pre "java -cp <classpath> cjd.main [option...] dest-dir source...")
+      where\:
+      @arg dest-dir 
+      The pathname of the output directory. If it doesn't exist, 
+      it will be created.
+      @arg source... One or more file or directory pathnames containing 
+      Clojure files to be included in the CJD documentation run. 
+      If a pathname designates a directory, that directory will be 
+      searched for files with names ending in @(c .clj).
+ 
+      @(arg option... A list of options, which can be a combination of\:
+            @opt --all Selects all recognized artifacts for inclusion, regardless
+            of whether or not they have documentation.
+            @popt --css "<css-file>[;<css-file>...]"  A semicolon-separated list of 
+            alternative CSS file names to be used.
+            @opt --docstrings Uses docstrings as a documentation source in addition
+            to CJD comments.
+            @(popt --filter <filter> Specifies the name of a function to select artifacts
+                   for inclusion in the output.) 
+            @opt --help Prints this documentation and exits.
+            @opt --index Specifies the name of an overview/index document relative to
+            the directory specified by dest-dir. Defaults to @(c index.html).
+            @opt --nogen Inhibits HTML generation; only parses input.
+            @opt --noindex Inhibits index generation.
+            @popt --overview <overview> The name of a .clj file, the first CJD comment 
+            of which will be used as the summary statement for the generated 
+            documentation in the overview/index document. 
+            @popt --requires "<ns>[;<ns>...]" A semicolon-separated list of 
+            namespaces containing extensions to the base CJD functionality.
+            @opt --showopts Debug tool that prints a list of the options as 
+            extracted from command-line arguments.
+            @(popt --theme <theme> 
+                  Specifies @(c <theme>) as the styling theme for generated output. 
+                  @p Current standard themes include\: 
+                  @opt light Light backround, black text (the default). 
+                  @opt dark Black background, white text) 
+            @opt --throw Causes any warning to generate an exception
+            @popt --title <title>  Use @(c <title>) as the title for the documentation.
+            @popt  --v "<vopts>" Sets output verbosity. @(c ~"<vopts>") is a string of 
+            single-letter output selectors. 
+            @opt --version Prints the version string for CJD and exits.
+            )
+      @see All options have direct counterparts in the options map parameter of
+      @(l cjd-generator)\; see that function for additional details. )
 (ns cjd.main
   (:use
     [cjd.exome]
@@ -19,7 +64,7 @@
     [cjd CJDException])
   (:gen-class))
 
-
+#_ (* Prints help documentation for the command-line version of CJD.)
 (defn cjd-help []
   (println "usage: java -cp <classpath> cjd.main [option...] dest-dir source...
 where:
@@ -33,11 +78,16 @@ where:
       searched for files with names ending in \".clj\".
  
    option... is a list of options, which can be a combination of:
+   --all 
+      Selects all recognized artifacts for inclusion, regardless
+      of whether or not they have documentation.
    --css <css-file>[;<css-file>...] 
       A semicolon-separated list of alternative CSS file names to 
       be used.
+   --docstrings 
+     Uses docstrings as a documentation source in addition to CJD comments.
    --help
-      Prints this very message.
+      Prints this very exact specific identical message.
    --index
       Specifies the name of an overview/index document relative to
       the directory specified by dest-dir. Defaults to \"index.html\".
@@ -72,44 +122,7 @@ where:
 "))
 
 
-#_ (* Main method for cjd.
-      @p To run CJD from the command line, use\:
-      @(pre "java -cp <classpath> cjd.main [option...] dest-dir source...")
-      where\:
-      @arg dest-dir 
-      The pathname of the output directory. If it doesn't exist, 
-      it will be created.
-      @arg source... One or more file or directory pathnames containing 
-      Clojure files to be included in the CJD documentation run. 
-      If a pathname designates a directory, that directory will be 
-      searched for files with names ending in @(c .clj).
- 
-      @(arg option... is a list of options, which can be a combination of\:
-            @popt --css "<css-file>[;<css-file>...]"  A semicolon-separated list of 
-            alternative CSS file names to be used.
-            @opt --help Prints this documentation and exits.
-            @opt --index Specifies the name of an overview/index document relative to
-            the directory specified by dest-dir. Defaults to @(c index.html).
-            @opt --nogen Inhibits HTML generation; only parses input.
-            @opt --noindex Inhibits index generation.
-            @popt --overview <overview> The name of a .clj file, the first CJD comment 
-            of which will be used as the summary statement for the generated 
-            documentation in the overview/index document. 
-            @popt --requires "<ns>[;<ns>...]" A semicolon-separated list of 
-            namespaces containing extensions to the base CJD functionality.
-            @opt --showopts Debug tool that prints a list of the options as 
-            extracted from command-line arguments.
-            @(popt --theme <theme> 
-                  Specifies @(c <theme>) as the styling theme for generated output. 
-                  @p Current standard themes include\: 
-                  @(ul @li @(c light) -- Light backround, black text (the default). 
-                       @li @(c dark) -- Black background, white text)) 
-            @opt --throw Causes any warning to generate an exception
-            @popt --title <title>  Use @(c <title>) as the title for the documentation.
-            @popt  --v "<vopts>" Sets output verbosity. @(c ~"<vopts>") is a string of 
-            single-letter output selectors. 
-            @opt --version Prints the version string for CJD and exits.)
-      )
+#_ (* Main method for cjd. )
 (defn -main [& args]
   (prn 'cjd.args args)
   (let [[opts remaining] 
@@ -121,20 +134,7 @@ where:
             (cond 
               opt  ; multicharacter option, ala --title
               (condp = opt
-                "title" 
-                (if param
-                  (recur remains* (assoc opts+ :title param))
-                  (throw (CJDException. "Missing parameter for --title")))
-                
-                "overview"
-                (if param
-                  (recur remains* (assoc opts+ :overview param))
-                  (throw (CJDException. "Missing parameter for --overview")))
-                
-                 "index"
-                (if param
-                  (recur remains* (assoc opts+ :index param))
-                  (throw (CJDException. "Missing parameter for --index")))
+               "all" (recur remains+ (assoc opts+ :all true))
                 
                 "css"
                 (if param
@@ -142,26 +142,38 @@ where:
                     (recur remains* (assoc opts+ :css csss)))
                   (throw (CJDException. "Missing parameter for --css")))
               
-                "requires"
-                (if param
-                  (let [reqs (vec (.split param ";"))]
-                    (recur remains* (assoc opts+ :require reqs)))
-                  (throw (CJDException. "Missing parameter for --require")))
-              
+               "docstrings" (recur remains+ (assoc opts+ :docstrings true))
+                
                 "exclude"
                 (if param
                   (let [reqs (vec (.split param ";"))]
                     (recur remains* (assoc opts+ :exclude reqs)))
                   (throw (CJDException. "Missing parameter for --exclude")))
                 
-                "nogen" (recur remains+ (assoc opts+ :nogen true))
-                
-                "noindex" (recur remains+ (assoc opts+ :no-index true))
-                
                 "help" 
                 (do
                   (cjd-help)
                   (System/exit 0))
+              
+                 "index"
+                (if param
+                  (recur remains* (assoc opts+ :index param))
+                  (throw (CJDException. "Missing parameter for --index")))
+                
+                "nogen" (recur remains+ (assoc opts+ :nogen true))
+                
+                "noindex" (recur remains+ (assoc opts+ :no-index true))
+                
+                "overview"
+                (if param
+                  (recur remains* (assoc opts+ :overview param))
+                  (throw (CJDException. "Missing parameter for --overview")))
+                
+                "requires"
+                (if param
+                  (let [reqs (vec (.split param ";"))]
+                    (recur remains* (assoc opts+ :require reqs)))
+                  (throw (CJDException. "Missing parameter for --require")))
                 
                 "showopts" (recur remains+ (assoc opts+ :showopts true))
                 
@@ -171,6 +183,11 @@ where:
                   (throw (CJDException. "Missing parameter for --theme")))
                 
                 "throw" (recur remains+ (assoc opts+ :throw-on-warn true))
+                
+                "title" 
+                (if param
+                  (recur remains* (assoc opts+ :title param))
+                  (throw (CJDException. "Missing parameter for --title")))
                 
                 "version"
                 (do 

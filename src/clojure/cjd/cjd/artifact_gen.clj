@@ -96,8 +96,7 @@
 
 #_ (* Generates HTML content for an extenso.) 
 (defn gen-extenso [artifact context]
-  (let [flow (parse-comment context (doc-form-of artifact))
-        pre-upcontext 
+  (let [pre-upcontext 
         (reduce 
           (fn [pre-up+ poioo]
             (reduce 
@@ -105,7 +104,9 @@
                 (context-item! pre-up++ (artifact-name-of method-impl) 1))
               pre-up+ (method-implementations-of poioo)))
           context (poioos-of artifact))
-        [upcontext _ content] (gen-flow flow pre-upcontext false)
+        [upcontext _ content] (gen-artifact-desc pre-upcontext artifact false)
+;        flow (parse-comment context (doc-form-of artifact))
+;        [upcontext _ content] (gen-flow flow pre-upcontext false)
         info (extenso-info (artifact-name-of artifact) 
                            (artifact-name-of (namespace-of artifact)))
         comp-extensos (composed-extensos-of info)]
@@ -148,8 +149,7 @@
 
 #_ (* Generates HTML content for an extenso.) 
 (defn gen-constructo [artifact context]
-  (let [flow (parse-comment context (doc-form-of artifact))
-        pre-upcontext 
+  (let [pre-upcontext 
         (reduce 
           (fn [pre-up+ poioo]
             (reduce 
@@ -157,7 +157,9 @@
                 (context-item! pre-up++ (artifact-name-of method-impl) 1))
               pre-up+ (method-implementations-of poioo)))
           context (poioos-of artifact))
-        [upcontext _ content] (gen-flow flow pre-upcontext false)
+        [upcontext _ content] (gen-artifact-desc pre-upcontext artifact false)
+;        flow (parse-comment context (doc-form-of artifact))
+;        [upcontext _ content] (gen-flow flow pre-upcontext false)
         info (constructo-info (artifact-name-of artifact) 
                            (artifact-name-of (namespace-of artifact)))
         comp-extensos (composed-extensos-of info)]

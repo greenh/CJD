@@ -119,4 +119,26 @@ nil"
 "")
 
       )
-(def preform-test [])
+(defn preform-test [])
+
+
+(defn docstring-fn 
+  "This is a certifiable docstring.
+
+Isn't it pretty?
+    Oops, I mean, hideous?
+        Especially since we're formatting it in an especially
+        unpleasant way.
+    But, that's the nature of things.
+Even if they're somewhat unnatural.
+
+But that's life...
+         ........... or lack thereof.
+"
+  [x y z])
+
+(defn arg-test [aaa [xxx yyy] 
+                { kkk :k lll :l :as eee :or { :k 3 }} 
+                { :keys [ppp qqq rrr] :as fff }
+                { :strs [ttt uuu vvv]}
+                { :syms [gg hh ii] }])

@@ -31,9 +31,10 @@
 #_ (* Conditionally does a @(c conj).
       @arg col A collection to conditionally be added to.
       @arg tf Expression to be tested.
-      @arg vals zero or more values to be added to @col.
-      @returns If @(arg tf) is truth, @(arg col) with @(arg vals) @(l conj)'ed to
-      it\; if not, @(arg col).
+      @arg vals zero or more values to be added to @(arg col).
+      @returns If @(arg tf) is truth, @(arg col) with @(arg vals) 
+      @(l clojure.core/conj) 'ed to
+      it\; if not, @(arg col) .
       )
 (defn cconj [col tf & vals] 
   (if tf (apply conj col vals) col))
@@ -91,7 +92,7 @@
            @li "doc" in the current directory.) 
 
       @p @name extracts all other options from a map associated the :cjd-opts key 
-      in the @(arg project) map. Options are as defined by @(l cjd-generator).
+      in the @(arg project) map. Options are as defined by @(l cjd.exome/cjd-generator).
 
       @arg project The leiningen project map, as derived from the project.clj file.
       @returns 0 , if document generation appears to have succeeded, and 1 otherwise.
@@ -134,7 +135,8 @@
                    (.canExecute jj) jj
                    :else (throw (Exception. "Can't find java executable")))
             { :keys [exclude requires css title overview throw-on-warn 
-                     nogen v theme header footer index noindex showopts] } opts
+                     nogen v theme header footer index noindex showopts
+                     all docstrings] } opts
             args
             (-> [(.getPath java) "-cp" (get-classpath-string project) "cjd.main"]
               (cconj exclude "--exclude" 
@@ -154,6 +156,8 @@
               (cconj index "--index" (str index))
               (cconj noindex "--noindex")
               (cconj showopts "--showopts")
+              (cconj all "--all")
+              (cconj docstrings "--docstrings")
               (conj dest)
               (concat sources)
               )

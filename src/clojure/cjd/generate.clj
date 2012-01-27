@@ -79,7 +79,7 @@
 
 #_ (* Handly little thing that translates all "-" characters in a string
       into nonbreaking hyphens @(c ~"&#8209;").
-      @arg Anything that renders a string (it gets run through @(link str).)
+      @arg sym Anything that renders a string (it gets run through @(link str).)
       @returns The re-hyphenated string.
       )
 (defn nonbreak [sym] (.replaceAll (str sym) "-" "&#8209;"))
@@ -247,7 +247,7 @@
 
 #_ (* Generates an HTML class name from a single-letter "code" and a numeric
       level.)
-(defn lstr [code level]
+(defn- lstr [code level]
   (if (> level 1)
     code
     (str code "1")))
@@ -439,6 +439,8 @@
           (.actions node))]
     (html [:div.spacer goop] )))
 
+#_ (* The main map of @(link Element) subclass to @(lt "#generator-function" generator function).
+      )
 (def gen-map {
    Text gen-text
    Bold  gen-bold
@@ -491,9 +493,37 @@
     (context-file! (defined-in artifact))
     ))
 
+#_ (* Generates the description of an artifact, from comment material or 
+      docstring or whatever's availble.
+      @arg context The current @(l Context) object.
+      @arg artifact The artifact to generate a description for.
+      @arg want-blurb? True if the blurb should be generated independently
+      from the remainder of the documentation.
+      @(returns A tuple of the form @(form [upcontext blurb content]), where\:
+          @arg upcontext The updated context object.
+          @arg blurb If @(arg want-blurb?) is true, and the artifact has
+          CJD documentation, then HTML string representing the blurb\; 
+          otherwise, nil.
+          @arg content The HTML string representing documentation content
+          either following or including the blurb, as selected by
+          @(arg want-blurb?). Can be nil if the artifact has no documentation.)
+      )
+(defn gen-artifact-desc [context artifact want-blurb?]
+  (cond
+    (has-doc? artifact)
+    (let [flow (parse-comment context (doc-form-of artifact))]
+      (gen-flow flow context want-blurb?))
+    
+    (and (satisfies? HasDocString artifact) (has-docstring? artifact))
+    [context nil (html [:pre.doc (docstring-of artifact)])]
+    
+    :else
+    [context nil nil]))
+
 #_ (* Generation function for function-like artifacts, such as functions and macros.)
 (defn gen-functional [artifact context]
-  (let [flow (parse-comment context (doc-form-of artifact))
+  (let [[upcontext _ content] (gen-artifact-desc context artifact false)]
+       #_[flow (parse-comment context (doc-form-of artifact))
         [upcontext _ content] (gen-flow flow context false)]
     (html 
       (map (fn [param-form] 
@@ -507,10 +537,16 @@
       substructure to contend with. This is also useful
       as a generator to get minimal support in place for non-core artifacts.)
 (defn gen-desc [artifact context]
-  (let [flow (parse-comment context (doc-form-of artifact))
+  (let [[upcontext blurb content] (gen-artifact-desc context artifact false)] 
+    (html [:div.desc content]))
+  #_(cond
+    (has-doc? artifact)
+    (let [flow (parse-comment context (doc-form-of artifact))
         [upcontext _ content] (gen-flow flow context false)]
-    (html [:div.desc content])))
-
+    (html [:div.desc content]))
+    
+    (and (satisfies? HasDocString artifact) (has-docstring? artifact))
+    (html [:pre.doc (docstring-of artifact)])))
 
 #_ (* Returns a link denoting an artifact or component, with the link text denoting
       the name with or without namespace prepended, based on context.)
@@ -532,8 +568,10 @@
 #_ (* Generation function for method prototypes within protocols.)
 (defn gen-protocol-method [artifact context]
   (let [neocontext (context-level! (init-context context artifact) 2)
-        flow (if (has-doc? artifact) (parse-comment neocontext (doc-form-of artifact)))
-        [upcontext blurb content] (if flow (gen-flow flow neocontext false) [neocontext])]
+        [upcontext blurb content] (gen-artifact-desc neocontext artifact false)
+;        flow (if (has-doc? artifact) (parse-comment neocontext (doc-form-of artifact)))
+;        [upcontext blurb content] (if flow (gen-flow flow neocontext false) [neocontext])
+        ]
     (html 
       [:div { :id (artifact-name-of artifact) }
        (map
@@ -552,7 +590,8 @@
 
 #_ (* Generation function for protocols.)
 (defn gen-protocol [artifact context]   
-  (let [flow (parse-comment context (doc-form-of artifact))
+  (let [[upcontext _ content] (gen-artifact-desc context artifact false)]
+    #_ [flow (parse-comment context (doc-form-of artifact))
         [upcontext _ content] (gen-flow flow context false)]
     (html 
       [:div.desc content
@@ -569,7 +608,9 @@
       with a record name "/" method name ID, so as to disambiguate it with respect to
       other implementations, and the protocol method.)
 (defn gen-method-impl [method-impl context]
-  (let [neocontext (init-context context method-impl)
+  (let [[upcontext blurb content] (gen-artifact-desc 
+                                 (init-context context method-impl) method-impl true)]
+       #_[neocontext (init-context context method-impl)
         flow (if (has-doc? method-impl) (parse-comment neocontext (doc-form-of method-impl)))
         [upcontext blurb content] (if flow (gen-flow flow neocontext true) [neocontext])]
     (html 
@@ -597,20 +638,23 @@
 
 #_ (* Generation function for records and types.)
 (defn gen-record-type [artifact context]   
-  (let [flow (parse-comment context (doc-form-of artifact))
-        pre-upcontext 
+  (let [pre-upcontext 
         (reduce 
           (fn [pre-up+ poioo]
             (reduce 
               (fn [pre-up++ method-impl]
                 (context-item! pre-up++ (artifact-name-of method-impl) 1))
               pre-up+ (method-implementations-of poioo)))
-          context (poioos-of artifact))
-        [upcontext _ content] (gen-flow flow pre-upcontext false)]
+          (init-context context artifact) 
+          (poioos-of artifact))
+        [upcontext _ content] (gen-artifact-desc context artifact false)
+;        flow (parse-comment pre-upcontext (doc-form-of artifact))
+;        [upcontext _ content] (gen-flow flow pre-upcontext false)
+        ]
     (html
       [:p.decl 
        [:span.expr (declaration-form (list (artifact-name-of artifact) 
-                                       (fields-of artifact)) upcontext)]]
+                                           (fields-of artifact)) upcontext)]]
       [:div.desc content
        (if-not (empty? (poioos-of artifact))
         (html
@@ -628,7 +672,8 @@
 
 #_ (* Generation function for multimethod declarations.)
 (defn gen-multi [artifact context]   ;;; XXX --- needs completion
-  (let [flow (parse-comment context (doc-form-of artifact))
+  (let [[upcontext blurb content] (gen-artifact-desc context artifact false)]
+    #_ [flow (parse-comment context (doc-form-of artifact))
         [upcontext _ content] (gen-flow flow context false)]
     (html [:div.desc content]))
   )
@@ -680,6 +725,16 @@
 
 (def category-headers* (ref { }))
 
+#_ (* Defines a category of artifacts.
+      @p Categories are principally used by @(l gen-namespace) for purposes of
+      generating the "summary" tables that follow a the description of a namespace.
+      Thus, it's possible to lump functions and macros in to one category of
+      function-esque things for summarization purposes.
+      @arg sym A symbol or keyword that internally identifies the category.
+      @arg title A short string that's used as the title of the category.
+      For example, a @(arg title) like "Function/Macro" results in a 
+      @(sc ~"Function/Macro Summary") heading.
+      )
 (defn mk-category [sym title]
   (dosync (alter category-headers* assoc sym title)))
 
@@ -738,6 +793,12 @@
 
 (def date-format (java.text.SimpleDateFormat. "dd MMMM yyyy HH:mm zzz"))
 
+#_ (* Generates a "leader", a simple-minded header.
+      @p @name is the default header generator, and can be called if desired 
+      by other, non-default header generators.
+      @arg context The current context object.
+      @returns A HTML string.
+      )
 (defn gen-leader [context]
   (html 
     [:div.leader
@@ -749,6 +810,12 @@
           [:td {:align "right"}
            [:a { :href (context-index context)} [:span.headlink "Index"]]]]]])]))
 
+#_ (* Generates a "trailer", a simple-minded footer.
+      @p @name is the default footer generator, and can be called if desired 
+      by other, non-default footer generators.
+      @arg context The current context object.
+      @returns A HTML string.
+      )
 (defn gen-trailer [context] 
   (html
     [:div.trailer
@@ -765,7 +832,7 @@
   ; (println "--- gen-summary")
   (let [categories
         (->> (artifacts-of ns-artifact) 
-          (filter has-doc?)
+          (filter (context-filter context))
           (map (fn [art] [(category-of art) art]))
           (sort-by first)
           (partition-by first))]
@@ -784,8 +851,7 @@
                 (map
                   (fn [artifact]
                     (if (has-doc? artifact) 
-                      (let [
-                            neocon (init-context context artifact)
+                      (let [neocon (init-context context artifact)
                             flow (parse-comment neocon (doc-form-of artifact))
                             blurb (get-blurb flow neocon)]
                         (html 
@@ -816,16 +882,16 @@
          (gen-leader context))
        [:div.ns  (artifact-name-of ns-artifact)]
        (if (has-doc? ns-artifact)
-         ; note that we generate the ns description with level = 2, so embedded
+         ; note that we generate the ns description with level = 1, so embedded
          ; form/fun documentation works right
-         (gen-desc ns-artifact (context-level! (init-context context ns-artifact) 2)))
+         (gen-desc ns-artifact (context-level! (init-context context ns-artifact) 1)))
        [:div.desc (gen-summary ns-artifact context)]
        (reduce 
          (fn [goop+ artifact]
            (str goop+ (gen-artifact artifact context)))
          "" (sort-by artifact-name-of 
                      uncased-comparator
-                     (filter has-doc? (artifacts-of ns-artifact))))
+                     (filter (context-filter context) (artifacts-of ns-artifact))))
        (if-let [footer (context-footer context)] 
          (footer context)
          (gen-trailer context))])))
@@ -853,7 +919,7 @@
                              (filter has-named-subartifacts? artifacts))
         artifact-horde
         (->> (concat artifacts subartifacts)
-          (filter has-doc?)
+          (filter (context-filter context))
           (sort-by artifact-name-of uncased-comparator))
         
         ]
@@ -870,7 +936,10 @@
          (html [:h1 (context-title context)]))
        [:div.desc
         (if overview-artifact
-          (let [neocontext (init-context context overview-artifact)
+          (let [[upcontext _ content] 
+                (gen-artifact-desc (init-context context overview-artifact) 
+                                   overview-artifact false)]
+             #_[neocontext (init-context context overview-artifact)
                 flow (if (has-doc? overview-artifact) 
                        (parse-comment neocontext (doc-form-of overview-artifact)))
                 [upcontext _ content] 

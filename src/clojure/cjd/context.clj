@@ -59,7 +59,8 @@
    (nss #{}) (munged-ns-map nil) (level 0) (items {}) (css nil)
    (title nil) (overview nil) (throw-on-warn nil) 
    (gen-time (java.util.Date.)) (version *cjd-version*) 
-   (verbiage #{}) (theme :light) (header nil) (footer nil) (index-name nil)]
+   (verbiage #{}) (theme :light) (header nil) (footer nil) (index-name nil)
+   (all-public nil) (use-docstrings nil) (artifact-filter nil)]
   
   (context-file [context] file)
   (context-file! [context file] (assoc context :file file))
@@ -127,6 +128,24 @@
         @p See @(il cjd.exome/cjd-generator) for details.)
   (context-footer [context] footer)
   (context-footer! [context f] (assoc context :footer f))
+  
+  (context-all-public [context] all-public)
+  (context-all-public! [context t] (assoc context :all-public t))
+  
+  (context-docstrings [context] use-docstrings)
+  (context-docstrings! [context t] (assoc context :use-docstrings t))
+  
+  #_ (* Returns an artifact filter function, used to select artifacts
+        for inclusion in the output.
+        @(returns A function that tests whether an artifact should be included
+                  in the output, of the form @(fun [context artifact]), where
+                  @arg context The current context object.
+                  @arg artifact The artifact to test.
+                  @returns true, if the artifact should be included.
+                  @p Or, returns nil if no function has been specified.)
+        ) 
+  (context-filter [context] artifact-filter)
+  (context-filter! [context t] (assoc context :artifact-filter t))
   
   Messaging
   (msg [context opt stuff]

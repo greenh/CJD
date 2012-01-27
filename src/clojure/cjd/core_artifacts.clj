@@ -69,6 +69,7 @@
       as am archaic, pitiful, sorry, decrepit fallback for artifacts that are not blessed
       with the clearly superior virtues of CJD documentation.)
 (defextenso HasDocString [] [docstring]
+  (has-docstring? [this] (boolean docstring))
   (docstring-of [this] docstring)
   )
 
