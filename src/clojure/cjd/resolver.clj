@@ -65,6 +65,7 @@
 (defn resolve-symbol [sym use-ns]
   (try 
     (when-not (get @required-nss* use-ns)
+      #_(prn 'resolve-symbol 'adding use-ns)
       (require use-ns)
       (let [nss (all-ns)
             munge-map (zipmap (map namespace-munge nss) (map ns-name nss))]
@@ -91,8 +92,11 @@
           
           :else nil
           )))
+    ; ClassNotFoundException naturally occurs whenever we resolve a namespace name
+    (catch ClassNotFoundException e)
+    ; Other exceptions, however...
     (catch Exception e
-      #_(println "rs!!" (.getMessage e)))))
+      (println "resolve-symbol exception:\n" (.getMessage e)))))
 
 #_ (* Given a symbol that names an entity, attempts to generate a URI that
       locates that entity's documentation. 
