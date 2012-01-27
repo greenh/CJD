@@ -3,7 +3,12 @@
 	
 	<property name="lein" value="C:\Documents and Settings\Howard Green\Desktop\Libraries\lein\lein.bat"/>
 	<property name="maven" value="C:\Documents and Settings\Howard Green\Desktop\Libraries\apache-maven-2.2.1\bin\mvn.bat" />
+	<property name="scp" value="C:\Program Files\Git\bin\scp.exe" />
+	
 	<property name="pom" value="pom.xml"/>
+	
+	
+	<property name="clojars" value="clojars@clojars.org:" />
 	
 	<property name="version" value="0.0.3-SNAPSHOT" />
 
@@ -61,8 +66,16 @@
 			<arg value="-Dfile=${dest.dir}/${cjd.jar}"/>
 			<arg value="-DpomFile=${pom}"/>
 		</exec>
-	
 	</target>
+	
+	<target name="push"  depends="cjd-jar,pom">
+		<exec executable="${scp}">
+			<arg value="${pom}"/>
+			<arg value="${dest.dir}/${cjd.jar}"/>
+			<arg value="${clojars}"/>
+		</exec>
+	</target>
+
 	
 </project>
 
