@@ -27,9 +27,13 @@
   )
 
 (def required-nss* (ref #{ }))
+(def unloadable-nss* (ref #{ }))
 (def munged-nss-map* (ref {}))
 
-(defn reset-resolver [] (dosync (ref-set required-nss* #{})))
+(defn reset-resolver [] 
+  (dosync 
+    (ref-set required-nss* #{})
+    (ref-set unloadable-nss* #{})))
 
 #_ (* Returns the class object, given a symbol naming a class. 
       @arg class-sym A symbol putatively containing a class name,
@@ -52,6 +56,7 @@
       a (munged) class name of "foo_bar.Fum"\; @name will effectively resolve this
       to "foo.bar/Fum" (though it actually returns the namespace and var-name 
       components separately).
+      @arg context The current @(l Context) object.
       @arg sym The symbol containing the name to resolve.
       @arg use-ns The namespace name (a symbol) to resolve against.
       @(returns 
@@ -62,16 +67,23 @@
          (i.e., with all prefixes scraped off). If @(arg sym) denotes
          a class or namespace, this is nil.)
       )
-(defn resolve-symbol [sym use-ns]
+(defn resolve-symbol [context sym use-ns]
   (try 
-    (when-not (get @required-nss* use-ns)
+    (when-not (or (get @required-nss* use-ns) (get @unloadable-nss* use-ns))
       #_(prn 'resolve-symbol 'adding use-ns)
-      (require use-ns)
-      (let [nss (all-ns)
-            munge-map (zipmap (map namespace-munge nss) (map ns-name nss))]
-        (dosync 
-          (alter required-nss* conj use-ns)
-          (ref-set munged-nss-map* munge-map))))
+      (try 
+        (require use-ns)
+        (let [nss (all-ns)
+              munge-map (zipmap (map namespace-munge nss) (map ns-name nss))]
+          (dosync 
+            (alter required-nss* conj use-ns)
+            (ref-set munged-nss-map* munge-map)))
+        (catch Exception e
+          (dosync 
+            (alter unloadable-nss* conj use-ns))
+          ((warn context nil (str "exception while loading " use-ns ":\n" 
+                                  "   " (.getMessage e) )))))
+      )
     (if-let [ns-obj (find-ns use-ns)]
       (let [sym-var (ns-resolve ns-obj sym)]
         (cond
@@ -96,7 +108,7 @@
     (catch ClassNotFoundException e)
     ; Other exceptions, however...
     (catch Exception e
-      (println "resolve-symbol exception:\n" (.getMessage e)))))
+     #_(println "resolve-symbol exception:\n" (.getMessage e)))))
 
 #_ (* Given a symbol that names an entity, attempts to generate a URI that
       locates that entity's documentation. 
@@ -125,7 +137,7 @@
   #_(prn 'resolvex item #_context )
   (let [local-ns (context-ns context)
         local-namespaces (context-namespaces context)
-        [sym-ns sym-name] (resolve-symbol item local-ns)]
+        [sym-ns sym-name] (resolve-symbol context item local-ns)]
     #_(prn  'resolvex item local-ns sym-ns sym-name  local-namespaces)
     (letfn [(resfn [xns xname] 
               (cond 

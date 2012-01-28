@@ -25,6 +25,20 @@
     )
   )
 
+#_ (* A minor print method to allow @(c ~"(clojure.core/deref whatever)") 
+      to be printed out as @(c ~"@(whatever)") or @(c ~"@whatever"), as 
+      appropriate. 
+      )
+(defmethod print-method clojure.lang.Cons [form ^java.io.Writer w]
+  (let [[funct & stuff] form]
+    (if (= funct 'clojure.core/deref)
+      (do
+        (.write w "@")
+        (if (= (count stuff) 1)
+          (let [[item] stuff]
+            (print-method item w))
+          (print-method stuff w)))
+      (print-method (apply list form) w))))
 
 #_ (* Defines a small set of output functions, notionally for use wherever there's a
       @(l Context) object within CJD.)
@@ -149,11 +163,11 @@
   
   Messaging
   (msg [context opt stuff]
-    (if (get verbiage opt)
+    (if (or (nil? opt) (get verbiage opt))
       (println (str "cjd: " (apply str stuff)))))
 
   (msg [context opt who stuff]
-    (if (get verbiage opt)
+    (if (or (nil? opt) (get verbiage opt))
       (println (str "cjd: " who " --- " (apply str stuff)))))
   
   (warn [context stuff] 
@@ -167,7 +181,7 @@
       (error context form stuff)
       (binding [*out* *err*]
         (println (str "cjd: " (apply str stuff) 
-                      ": " (if form (enquote (maxstr 40 form)))
+                      ": " (if form (enquote (maxstr 40 (if (seq? form) (apply str form) form))))
                       (if-let [name (context-name context)] (str " in " (context-name context)))
                       " near " (context-location context))))))
   
@@ -177,8 +191,9 @@
   (error [context form stuff] 
     (throw  (CJDException. 
               (str (apply str stuff) 
-                   ": " (if form (enquote (maxstr 30 form)))
-                   (if-let [name (context-name context)] (str " in " (context-name context)))
+                   ": " (if form (enquote (maxstr 40 (if (seq? form) (apply str form) form))))
+                   (if-let [name (context-name context)] 
+                     (str " in " (context-name context)))
                    " near " (context-location context)))))
 
   )

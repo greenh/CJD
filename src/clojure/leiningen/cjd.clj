@@ -32,7 +32,7 @@
       @arg col A collection to conditionally be added to.
       @arg tf Expression to be tested.
       @arg vals zero or more values to be added to @(arg col).
-      @returns If @(arg tf) is truth, @(arg col) with @(arg vals) 
+      @returns If @(arg tf) is truth, @(arg col) with @(arg vals) :br
       @(l clojure.core/conj) 'ed to
       it\; if not, @(arg col) .
       )
@@ -123,7 +123,7 @@
     (let [ { opts :cjd-opts target-dir :target-dir } project
           s1 (or (:cjd-source-path project) (:source-path project) "src")
           sources (if (coll? s1) s1 [s1])
-          dest (or (:cjd-path project) "doc")
+          dest (or (:cjd-dest-path project) "doc")
           ]
       (let [sep (File/separator)
             jbin (File. (str (System/getProperty "java.home") sep "bin"))

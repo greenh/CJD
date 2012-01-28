@@ -339,8 +339,8 @@
         index-name (if noindex nil (if index index "index.html"))
         filter-fn (cond 
                     filter-item (find-item filter-item "artifact filter function")
-                    all-public (fn [artifact] true)
-                    use-docstrings (fn [artifact]
+                    all (fn [artifact] true)
+                    docstrings (fn [artifact]
                                      (or (has-doc? artifact) 
                                          (has-docstring? artifact)))
                     :else has-doc?)
@@ -348,8 +348,8 @@
                       (context-verbiage! v)
                       (context-index! index-name)
                       (context-theme! theme)
-                      (context-all-public! all-public)
-                      (context-docstrings! use-docstrings)
+                      (context-all-public! all)
+                      (context-docstrings! docstrings)
                       (context-filter! filter-fn))]
     (if (empty? file-set)
       (throw (CJDException. "No files found")))
@@ -458,6 +458,6 @@
                   :css css :title title :index index :noindex noindex
                   :overview overview :throw-on-warn throw-on-warn 
                   :nogen nogen :v v :theme theme :header header :footer footer
-                  :filter filter :docstrings use-docstrings :all all-public }))
+                  :filter filter :docstrings docstrings :all all}))
 
 
