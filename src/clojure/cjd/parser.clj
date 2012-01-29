@@ -445,7 +445,7 @@
 (mk-el ['option] "Option with default" 2 
        (fn [context name default content] 
          (make-Option name (context-level context) content true default nil)))
-(mk-el ['key 'popt] "Option with parameter" 2 
+(mk-el ['popt] "Option with parameter" 2 
        (fn [context name param content] 
          (make-Option name (context-level context) content false nil param)))
 
