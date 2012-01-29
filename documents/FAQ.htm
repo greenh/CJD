@@ -14,17 +14,17 @@ xmlns="http://www.w3.org/TR/REC-html40">
  <o:DocumentProperties>
   <o:Author>Howard Green</o:Author>
   <o:LastAuthor>Howard Green</o:LastAuthor>
-  <o:Revision>5</o:Revision>
-  <o:TotalTime>15923</o:TotalTime>
+  <o:Revision>6</o:Revision>
+  <o:TotalTime>15926</o:TotalTime>
   <o:Created>2012-01-24T16:19:00Z</o:Created>
-  <o:LastSaved>2012-01-24T17:48:00Z</o:LastSaved>
+  <o:LastSaved>2012-01-29T19:26:00Z</o:LastSaved>
   <o:Pages>1</o:Pages>
   <o:Words>2738</o:Words>
-  <o:Characters>15612</o:Characters>
+  <o:Characters>15608</o:Characters>
   <o:Company>None</o:Company>
   <o:Lines>130</o:Lines>
   <o:Paragraphs>36</o:Paragraphs>
-  <o:CharactersWithSpaces>18314</o:CharactersWithSpaces>
+  <o:CharactersWithSpaces>18310</o:CharactersWithSpaces>
   <o:Version>11.9999</o:Version>
  </o:DocumentProperties>
  <o:OfficeDocumentSettings>
@@ -273,7 +273,7 @@ ul
 	mso-bidi-language:#0400;}
 </style>
 <![endif]--><!--[if gte mso 9]><xml>
- <o:shapedefaults v:ext="edit" spidmax="9218"/>
+ <o:shapedefaults v:ext="edit" spidmax="10242"/>
 </xml><![endif]--><!--[if gte mso 9]><xml>
  <o:shapelayout v:ext="edit">
   <o:idmap v:ext="edit" data="1"/>
@@ -289,7 +289,7 @@ frequently-asked questions<o:p></o:p></span></h1>
 
 <h2>… on what CJD is and does</h2>
 
-<h3>What is CJD? <span style='mso-spacerun:yes'> </span></h3>
+<h3>What is CJD?<span style='mso-spacerun:yes'>  </span></h3>
 
 <p class=MsoNormal>It's an embedded documentation technology for Clojure, an
 alternative to docstrings. If you're familiar with Javadoc, CJD will look
@@ -302,13 +302,14 @@ immediate proximity of the artifact being documented, the better to be created,
 read, and/or updated when artifact is being worked on.</p>
 
 <p class=MsoNormal>During the normal compilation process, the compiler discards
-these documentation comments just as it would with any other comment, and so
-they don't affect generated code at all. </p>
+these documentation comments just as it would with any other comment, and so they
+don't affect generated code at all. </p>
 
-<p class=MsoNormal>As a post-processing phase in a build process, a CJD function
-or program makes a pass through source code, extracts the documentation
-comments, and from them generates a tree of HTML documents. Interested parties
-can then view these documents using conventional web browsers.</p>
+<p class=MsoNormal>As a post-processing phase in a build process, a CJD
+function or program makes a pass through source code, extracts the
+documentation comments, and from them generates a tree of HTML documents.
+Interested parties can then view these documents using conventional web
+browsers.</p>
 
 <p class=MsoNormal>With respect to documentation comments themselves, the
 general idea is to provide a simple-minded syntax that makes salient elements
@@ -326,10 +327,10 @@ where what comes between the <span class=ProgTextChar><span style='mso-bidi-font
 "Times New Roman"'>/*</span></span> and <span class=ProgTextChar><span
 style='mso-bidi-font-family:"Times New Roman"'>*/</span></span> is of more or
 less of arbitrary content, can span multiple lines, and can run on for as long
-as the commenter has the strength. Javadoc leverages this by recognizing
-comments of the form <span class=ProgTextChar><span style='mso-bidi-font-family:
-"Times New Roman"'>/** ..javadoc comment text.. */</span></span> (note the
-leading <span class=ProgTextChar><span style='mso-bidi-font-family:"Times New Roman"'>**</span></span>—that's
+as the commenter has the strength. Javadoc leverages this by recognizing comments
+of the form <span class=ProgTextChar><span style='mso-bidi-font-family:"Times New Roman"'>/**
+..javadoc comment text.. */</span></span> (note the leading <span
+class=ProgTextChar><span style='mso-bidi-font-family:"Times New Roman"'>**</span></span>—that's
 the cue), and then processing their contents as Javadoc source material.</p>
 
 <p class=MsoNormal>Clojure doesn't have block comments as such, but it's got
@@ -526,12 +527,12 @@ class=ProgTextChar><span style='mso-bidi-font-family:"Times New Roman"'>defonce<
 <span class=ProgTextChar><span style='mso-bidi-font-family:"Times New Roman"'>deftype</span></span>
 all work, and probably a few others that don't come to mind at the moment. </p>
 
-<p class=MsoNormal>Some kinds of artifacts have substantial internal structures—subartifacts—that
-are sufficiently notable to be worthy of CJD documentation comments above and
-beyond their containing structures. Protocols, for example, have methods, and
-records and types have method implementations. In cases such as these, CJD
-supports comments not only for the artifact as a whole but for its subartifacts
-as well.</p>
+<p class=MsoNormal>Some kinds of artifacts have substantial internal
+structures—subartifacts—that are sufficiently notable to be worthy of CJD
+documentation comments above and beyond their containing structures. Protocols,
+for example, have methods, and records and types have method implementations.
+In cases such as these, CJD supports comments not only for the artifact as a
+whole but for its subartifacts as well.</p>
 
 <p class=MsoNormal>Namespaces are a kind of artifact, too, and can have their
 own CJD comments. Finally, a project—or even a collection of projects—doesn't
@@ -572,9 +573,9 @@ files. If you've got bigger aspirations…</p>
 
 <p class=MsoNormal>CJD operates in about a two-and-a-half pass fashion, where
 the first pass involves reading and parsing input and creation of a rough
-abstract syntax tree for the Clojure program per se—or forest, actually, as there's
-a tree (shrub, more like) per namespace. This serves as the input to the
-HTML-generating back end. CJD comments per se are currently parsed as an
+abstract syntax tree for the Clojure program per se—or forest, actually, as
+there's a tree (shrub, more like) per namespace. This serves as the input to
+the HTML-generating back end. CJD comments per se are currently parsed as an
 immediate precursor to HTML generation.</p>
 
 <p class=MsoNormal>Which means you could either hack the existing back end
@@ -601,8 +602,8 @@ definitely not a four-letter word. At least, not yet.</p>
 stands for?</h3>
 
 <p class=MsoNormal><a
-href="http://en.wikipedia.org/wiki/Creutzfeldt-Jakob_disease">Of course</a>.
-That knowledge was essential in selecting the name. <a
+href="http://en.wikipedia.org/wiki/Creutzfeldt-Jakob_disease">Of course</a>. That
+knowledge was essential in selecting the name. <a
 href="http://en.wikipedia.org/wiki/Bovine_spongiform_encephalopathy">BSE</a>
 would arguably have been even more appropriate (not least as a approximation of
 the author's mental state), but it's not nearly as Clojure-ish as CJD, so we'll
@@ -615,8 +616,8 @@ save it for some future undertaking.</p>
 <h3>You really don't like docstrings, do you?</h3>
 
 <p class=MsoNormal>Docstrings are OK. Really. It's just that they're, um… a
-trifle limited. Moreover, if you're coming to Clojure with a Java background, you
-may not find them particularly loveable.</p>
+trifle limited. Moreover, if you're coming to Clojure with a Java background,
+you may not find them particularly loveable.</p>
 
 <p class=MsoNormal>Actually, docstrings have a perfectly reasonable use case.
 If you're plodding along in a REPL and you suddenly find yourself asking
@@ -688,12 +689,11 @@ you, dynamite. This is an engineering exercise, not a religious crusade.</p>
 satisfy its author's urge to write copious quantities of documentation so that
 (1) he has a forum to convince himself that he knows what he's doing, (2) so
 that when he dives back into a Clojure project after months (or minutes) away
-from it, he has something better than a snowball's chance of recovering a clue
-as to what the code was all about, and (3) so he can narcissistically admire
-the pretty output. He's magnanimously inflicting CJD on the world at large just
-in case there are other unfortunates out there with similar afflictions. If
-you're one of these, welcome to the club! If not, it won't be held it against
-you.</p>
+from it, he has something better than a snowball's chance of recovering a clue as
+to what the code was all about, and (3) so he can narcissistically admire the
+pretty output. He's magnanimously inflicting CJD on the world at large just in
+case there are other unfortunates out there with similar afflictions. If you're
+one of these, welcome to the club! If not, it won't be held it against you.</p>
 
 <h3>So, why didn't you just copy Javadoc?</h3>
 
@@ -736,10 +736,10 @@ destructure data</i>. Pretty simple, but utterly radical! One important aspect
 of this is that it becomes trivially easy to return <i style='mso-bidi-font-style:
 normal'>and use</i> multiple values from a function—which capability we use
 pervasively, and is arguably the biggest shift in programming style we've dealt
-with at least since the rise of object-oriented programming. But effects like multiple
-return values merely increase the demand for documentation (like, what order
-are a function's the return values in? Just like its parameters!), and documentation
-structures to support them.</p>
+with at least since the rise of object-oriented programming. But effects like
+multiple return values merely increase the demand for documentation (like, what
+order are a function's return values in? Just like its parameters!), and
+documentation structures to support them.</p>
 
 <p class=MsoNormal>Third, syntactically speaking, Java doesn't extend. It
 defines a fixed set of stuff—classes, interfaces, enums, and annotations—and
