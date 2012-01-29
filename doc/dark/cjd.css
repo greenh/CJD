@@ -72,7 +72,7 @@ p { margin-top: 3pt; margin-bottom: 3pt;
 .desc { margin-left: 12mm; }
 
 /* Expression */
-.expr { font-family: courier, monospace; }
+.expr { font-family: monospace; }
 
 /*
 	Sections, where a "section" typically contains a header (e.g., "Arguments")
@@ -107,17 +107,17 @@ p { margin-top: 3pt; margin-bottom: 3pt;
 /* Protocol */
 .proto { text-indent: -6mm; margin-top: 6pt; }
 
-.id { font-family: courier, monospace; font-size: 13px; }
+.id { font-family: monospace; font-size: 13px; }
 
-.n0 { font-family: courier, monospace; font-size: 13px; color: rgb(113, 201, 255); }
-.n1 { font-family: courier, monospace; font-size: 13px; color: rgb(255, 105, 105); }
-.n2 { font-family: courier, monospace; font-size: 13px; color: rgb(0, 255, 0); }
-.n3 { font-family: courier, monospace; font-size: 13px; color: rgb(174, 133, 255); }
-.n4 { font-family: courier, monospace; font-size: 13px; color: orange; }
-.n5 { font-family: courier, monospace; font-size: 13px; color: olive; }
-.n6 { font-family: courier, monospace; font-size: 13px; color: maroon; }
+.n0 { font-family: monospace; font-size: 13px; color: rgb(113, 201, 255); }
+.n1 { font-family: monospace; font-size: 13px; color: rgb(255, 105, 105); }
+.n2 { font-family: monospace; font-size: 13px; color: rgb(0, 255, 0); }
+.n3 { font-family: monospace; font-size: 13px; color: rgb(174, 133, 255); }
+.n4 { font-family: monospace; font-size: 13px; color: orange; }
+.n5 { font-family: monospace; font-size: 13px; color: olive; }
+.n6 { font-family: monospace; font-size: 13px; color: maroon; }
 
-.fn { font-family: courier, monospace; font-size: 13px; color: cyan; }
+.fn { font-family: monospace; font-size: 13px; color: cyan; }
 
 .trailer { margin-top: 6mm; margin-bottom: 3mm; text-align: center; width: 100%; }
 .ending { font-size: 9pt; font-style: italic; }
