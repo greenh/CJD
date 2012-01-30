@@ -10,7 +10,7 @@ xmlns="http://www.w3.org/TR/REC-html40">
 <meta name=Generator content="Microsoft Word 11">
 <meta name=Originator content="Microsoft Word 11">
 <link rel=File-List href="User_files/filelist.xml">
-<title>CJD documentation</title>
+<title>CJD User Guide</title>
 <o:SmartTagType namespaceuri="urn:schemas-microsoft-com:office:smarttags"
  name="place"/>
 <o:SmartTagType namespaceuri="urn:schemas-microsoft-com:office:smarttags"
@@ -19,17 +19,17 @@ xmlns="http://www.w3.org/TR/REC-html40">
  <o:DocumentProperties>
   <o:Author>Howard Green</o:Author>
   <o:LastAuthor>Howard Green</o:LastAuthor>
-  <o:Revision>2</o:Revision>
-  <o:TotalTime>34020</o:TotalTime>
+  <o:Revision>6</o:Revision>
+  <o:TotalTime>34033</o:TotalTime>
   <o:Created>2012-01-30T02:31:00Z</o:Created>
-  <o:LastSaved>2012-01-30T02:31:00Z</o:LastSaved>
+  <o:LastSaved>2012-01-30T03:11:00Z</o:LastSaved>
   <o:Pages>1</o:Pages>
-  <o:Words>6626</o:Words>
-  <o:Characters>37773</o:Characters>
+  <o:Words>6624</o:Words>
+  <o:Characters>37761</o:Characters>
   <o:Company>None</o:Company>
   <o:Lines>314</o:Lines>
   <o:Paragraphs>88</o:Paragraphs>
-  <o:CharactersWithSpaces>44311</o:CharactersWithSpaces>
+  <o:CharactersWithSpaces>44297</o:CharactersWithSpaces>
   <o:Version>11.9999</o:Version>
  </o:DocumentProperties>
  <o:OfficeDocumentSettings>
@@ -583,7 +583,7 @@ table.MsoTableGrid
 	mso-bidi-language:#0400;}
 </style>
 <![endif]--><!--[if gte mso 9]><xml>
- <o:shapedefaults v:ext="edit" spidmax="9218">
+ <o:shapedefaults v:ext="edit" spidmax="10242">
   <o:colormenu v:ext="edit" fillcolor="#ff9"/>
  </o:shapedefaults></xml><![endif]--><!--[if gte mso 9]><xml>
  <o:shapelayout v:ext="edit">
@@ -696,9 +696,10 @@ class=MsoHyperlink><span style='mso-no-proof:yes'><a href="#_Toc315255981">From
 the command line<span style='color:windowtext;display:none;mso-hide:screen;
 text-decoration:none;text-underline:none'><span style='mso-tab-count:1 dotted'>. </span></span><!--[if supportFields]><span
 style='color:windowtext;display:none;mso-hide:screen;text-decoration:none;
-text-underline:none'><span style='mso-element:field-begin'></span> PAGEREF _Toc315255981
-\h </span><span style='color:windowtext;text-decoration:none;text-underline:
-none'><span style='display:none;mso-hide:screen'><span style='mso-element:field-separator'></span></span></span><![endif]--><span
+text-underline:none'><span style='mso-element:field-begin'></span> PAGEREF
+_Toc315255981 \h </span><span style='color:windowtext;text-decoration:none;
+text-underline:none'><span style='display:none;mso-hide:screen'><span
+style='mso-element:field-separator'></span></span></span><![endif]--><span
 style='color:windowtext;display:none;mso-hide:screen;text-decoration:none;
 text-underline:none'>4<!--[if gte mso 9]><xml>
  <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003300310035003200350035003900380031000000</w:data>
@@ -1039,8 +1040,8 @@ specially-formatted comment form to represent documentation comments.</p>
 tab-stops:list .8in'><![if !supportLists]><span style='font-family:Symbol;
 mso-fareast-font-family:Symbol;mso-bidi-font-family:Symbol'><span
 style='mso-list:Ignore'>·<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-</span></span></span><![endif]>CJD associates a documentation comment with whatever
-it is that immediately follows the comment. </p>
+</span></span></span><![endif]>CJD associates a documentation comment with
+whatever it is that immediately follows the comment. </p>
 
 <p class=MsoNormal style='margin-left:.8in;text-indent:-.25in;mso-list:l2 level1 lfo2;
 tab-stops:list .8in'><![if !supportLists]><span style='font-family:Symbol;
@@ -1066,8 +1067,8 @@ style='mso-list:Ignore'>·<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;
 recursively defined… and so are CJD's descriptions of Clojure's structures.</p>
 
 <p class=MsoNormal>CJD uses the term &quot;artifact&quot; to denote &quot;a
-thing that can be documented with a CJD comment&quot;. A first-approximation
-list of out-of-the-box artifacts includes pretty much everything in <span
+thing that can be documented with a CJD comment&quot;. A first-approximation list
+of out-of-the-box artifacts includes pretty much everything in <span
 class=ProgTextChar><span style='mso-bidi-font-family:"Times New Roman"'>clojure.core</span></span>
 that can be created with a <span class=ProgTextChar><span style='mso-bidi-font-family:
 "Times New Roman"'>def</span></span>-something special form, function, or
@@ -1090,29 +1091,30 @@ for CJD to be useful as a means of documenting Clojure programs, it must be
 extensible as well. To this end, CJD does provide facilities allowing
 programmers to add their own program-specific artifacts. You'll find
 instructions for writing such extensions in the <a
-href="../CJD/documents/Extension.htm">extensions guide</a>.</p>
+href="http://greenh.github.com/CJD/doc/Extension.html">extensions guide</a>.</p>
 
 <p class=MsoNormal>As an article of faith, CJD allows you (in fact, <i
 style='mso-bidi-font-style:normal'>requires</i> you) to exercise your judgment
 when doing documentation. If some artifacts are documented and others aren’t,
 that's OK. If you choose, say, to not document a particular function's
 arguments or return value, that's cool, too.<span style='mso-spacerun:yes'> 
-</span>Regardless, CJD will be grateful for whatever scraps of documentation you
-throw its way.</p>
+</span>Regardless, CJD will be grateful for whatever scraps of documentation
+you throw its way.</p>
 
 <p class=MsoNormal>For additional commentary on what CJD is and why it is what
-it is, check out <a href="../../CJD-Doc/CJD/doc/FAQ.htm">the FAQ</a>.</p>
+it is, check out <a href="http://greenh.github.com/CJD/doc/FAQ.html">the FAQ</a>.</p>
 
 <h1><a name="_Toc315255978">Getting CJD</a></h1>
 
 <p class=MsoNormal>CJD is available from <a href="http://clojars.org/">Clo<i
 style='mso-bidi-font-style:normal'>j</i>ars</a>. </p>
 
-<p class=MsoNormal>By far the simplest method for acquiring CJD and all of its dependent
-parts and pieces is to use <a href="https://github.com/technomancy/leiningen">leiningen</a>—even
-if you use other methods to actually run CJD. Add the <a
-href="http://clojars.org/cjd">current CJD descriptor</a> to your project's <span
-class=ProgTextChar><span style='mso-bidi-font-family:"Times New Roman"'>project.clj</span></span>
+<p class=MsoNormal>By far the simplest method for acquiring CJD and all of its
+dependent parts and pieces is to use <a
+href="https://github.com/technomancy/leiningen">leiningen</a>—even if you use
+other methods to actually run CJD. Add the <a href="http://clojars.org/cjd">current
+CJD descriptor</a> to your project's <span class=ProgTextChar><span
+style='mso-bidi-font-family:"Times New Roman"'>project.clj</span></span>
 file<span style='mso-spacerun:yes'>  </span>in the <span class=ProgTextChar><span
 style='mso-bidi-font-family:"Times New Roman"'>:dev-dependencies</span></span>
 list of development dependencies, like:</p>
@@ -1123,8 +1125,8 @@ list of development dependencies, like:</p>
 <p class=MsoNormal>Save the <span class=ProgTextChar><span style='mso-bidi-font-family:
 "Times New Roman"'>project.clj</span></span> file, then do a <span
 class=ProgTextChar><span style='mso-bidi-font-family:"Times New Roman"'>lein
-deps</span></span>, and leiningen will automagically download CJD and all of its
-required libraries and put them in your project's <span class=ProgTextChar><span
+deps</span></span>, and leiningen will automagically download CJD and all of
+its required libraries and put them in your project's <span class=ProgTextChar><span
 style='mso-bidi-font-family:"Times New Roman"'>lib/dev</span></span> directory.</p>
 
 <p class=MsoNormal>If you can't, won’t, or don't do leiningen, you'll need to
@@ -1188,9 +1190,9 @@ style='mso-list:Ignore'>·<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;
 <p class=MsoNormal>The front-end function <span class=ProgTextChar><span
 style='mso-bidi-font-family:"Times New Roman"'><a
 href="http://greenh.github.com/CJD/doc/dark/cjd.exome.html#cjd-generator">cjd-generator</a></span></span>
-is the main point of entry, and provides a comprehensive set of options for
-controlling the generation process. This function takes a map of options; if
-you prefer a <span class=ProgTextChar><span style='mso-bidi-font-family:"Times New Roman"'>defnk</span></span>-style
+is the main point of entry, and provides a comprehensive set of options for controlling
+the generation process. This function takes a map of options; if you prefer a <span
+class=ProgTextChar><span style='mso-bidi-font-family:"Times New Roman"'>defnk</span></span>-style
 interface, <span class=ProgTextChar><span style='mso-bidi-font-family:"Times New Roman"'><a
 href="../../CJD-Doc/CJD/doc/greenh.github.com/CJD/doc/dark/cjd.exome.html#cjd-gen">cjd-gen</a></span></span>
 is just what you need.</p>
@@ -1237,8 +1239,8 @@ style='mso-spacerun:yes'>                </span>:title &quot;CJD&quot;
 <p class=ProgText style='margin:0in;margin-bottom:.0001pt;background:white;
 mso-shading:transparent;border:none;mso-border-alt:solid windowtext .5pt;
 padding:0in;mso-padding-alt:1.0pt 4.0pt 1.0pt 4.0pt'><span style='color:blue'><span
-style='mso-spacerun:yes'>               </span><span
-style='mso-spacerun:yes'> </span>:exclude [#&quot;src/clojure/cjd/vox.*&quot;] <o:p></o:p></span></p>
+style='mso-spacerun:yes'>                </span>:exclude
+[#&quot;src/clojure/cjd/vox.*&quot;] <o:p></o:p></span></p>
 
 <p class=ProgText style='margin:0in;margin-bottom:.0001pt;background:white;
 mso-shading:transparent;border:none;mso-border-alt:solid windowtext .5pt;
@@ -1311,7 +1313,7 @@ using a command along the lines of</p>
 
 <p class=MsoNormal>The classpath must include the classes/sources for which
 CJD. A description of arguments and options can be found <a
-href="../CJD/doc/dark/cjd.main.html#-main">here</a>.<span
+href="http://greenh.github.com/CJD/doc/dark/cjd.main.html">here</a>.<span
 style='mso-spacerun:yes'>  </span></p>
 
 <h2><a name="_Toc315255982">From leiningen</a></h2>
@@ -1381,10 +1383,9 @@ is a map that specifies all other options for CJD. <b style='mso-bidi-font-weigh
 normal'><span style='font-family:"Courier New";mso-no-proof:yes'><o:p></o:p></span></b></p>
 
 <p class=MsoNormal>The plugin uses these three values as parameters to the <span
-class=ProgTextChar><span style='mso-bidi-font-family:"Times New Roman"'><a
-href="http://greenh.github.com/CJD/doc/dark/cjd.exome.html#cjd-generator">cjd&#8209;generator</a></span></span>
-function. For details on how they're processed, and on the available options, check
-out the <span class=ProgTextChar><span style='mso-bidi-font-family:"Times New Roman"'><a
+class=ProgTextChar><span style='mso-bidi-font-family:"Times New Roman"'>cjd&#8209;generator</span></span>
+function. For details on how they're processed, and on the available options,
+check out the <span class=ProgTextChar><span style='mso-bidi-font-family:"Times New Roman"'><a
 href="http://greenh.github.com/CJD/doc/dark/cjd.exome.html#cjd-generator">cjd&#8209;generator</a></span></span>
 documentation.</p>
 
@@ -1413,13 +1414,13 @@ style='mso-bidi-font-family:"Times New Roman"'>**</span></span>—that's the
 tip-off that it’s a Javadoc comment. Javadoc then processes the comments'
 contents as Javadoc source material.</p>
 
-<p class=MsoNormal>Clojure doesn't have block comments as such, but it's got
-something even better. In Clojure, an entire form can be commented out by
-inserting the two-character reader macro <span class=ProgTextChar><span
-style='mso-bidi-font-family:"Times New Roman"'>#_</span></span> immediately
-before the start<span style='mso-spacerun:yes'>  </span>of the form. CJD riffs
-off of Javadoc a bit, and defines a CJD comment as a commented-out list which has
-a <span class=ProgTextChar><span style='mso-bidi-font-family:"Times New Roman"'>*</span></span>
+<p class=MsoNormal>Clojure doesn't have block comments as such, but it's got something
+even better. In Clojure, an entire form can be commented out by inserting the
+two-character reader macro <span class=ProgTextChar><span style='mso-bidi-font-family:
+"Times New Roman"'>#_</span></span> immediately before the start<span
+style='mso-spacerun:yes'>  </span>of the form. CJD riffs off of Javadoc a bit,
+and defines a CJD comment as a commented-out list which has a <span
+class=ProgTextChar><span style='mso-bidi-font-family:"Times New Roman"'>*</span></span>
 as its first element. So, if a form of the form <span class=ProgTextChar><span
 style='mso-bidi-font-family:"Times New Roman"'>#_(*&nbsp;..contents..)</span></span>
 appears in a program, it's a candidate CJD comment.</p>
@@ -1458,11 +1459,10 @@ file is a dandy place to store such a thing.</p>
 
 <p class=MsoNormal>Of course, <span class=ProgTextChar><span style='mso-bidi-font-family:
 "Times New Roman"'>clojure.core</span></span> is merely the stepping-off point
-for all manner of other potentially documentation-worthy developments, so CJD
-provides well-defined ways for extending the set of supported artifacts. The
-effort required to produce such extensions can be trivial if your artifact
-doesn't have documentation-worthy substructure (or can wait to be documented
-later).</p>
+for all manner of other potentially documentation-worthy developments, so CJD provides
+well-defined ways for extending the set of supported artifacts. The effort
+required to produce such extensions can be trivial if your artifact doesn't
+have documentation-worthy substructure (or can wait to be documented later).</p>
 
 <p class=MsoNormal><o:p>&nbsp;</o:p></p>
 
@@ -1582,9 +1582,9 @@ style='mso-list:Ignore'>·<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;
 </span></span></span><![endif]>The example above is formatted in a way to make
 it fairly easy to read in source form. While this is surely good practice,
 there's no requirement to do this. CJD uses a lightly hacked version of Clojure
-reader to read comment content, and consequently has no visibility of any form of
-white-space content. One consequence, though, is that formatting of the comment
-source has no particular relevance to the formatting of the output.</p>
+reader to read comment content, and consequently has no visibility of any form
+of white-space content. One consequence, though, is that formatting of the
+comment source has no particular relevance to the formatting of the output.</p>
 
 <p class=MsoNormal>A final observation. CJD does not currently spend any
 appreciable effort verifying that a CJD-comment in fact matches what's being
@@ -1618,14 +1618,14 @@ style='mso-bidi-font-style:normal'>tag</i> <i style='mso-bidi-font-style:normal'
 <i style='mso-bidi-font-style:normal'>content</i>)</p>
 
 <p class=MsoNormal>Items in the list that follow the tag may be arguments of
-the element, or &quot;content&quot;, which is a sequence of forms of arbitrary
-length. What's required and/or acceptable for both arguments and content varies
+the element, or &quot;content&quot;, which is a sequence of forms of arbitrary length.
+What's required and/or acceptable for both arguments and content varies
 considerably depending on the specific tag. Some tags have no arguments, others
 no content, and a few have neither.</p>
 
-<p class=MsoNormal>In some cases, this syntax is necessary. In others, CJD is
-able to delimit an element's scope by other means, without the need for full
-list syntax. In these cases, it's sufficient to write the element without the
+<p class=MsoNormal>In some cases, this syntax is necessary. In others, CJD is able
+to delimit an element's scope by other means, without the need for full list
+syntax. In these cases, it's sufficient to write the element without the
 parentheses, i.e., as <span class=ProgTextChar><span style='mso-bidi-font-family:
 "Times New Roman"'>@</span></span> followed by the tag, followed by any
 content. </p>
@@ -1648,8 +1648,8 @@ paragraph.</p>
 paragraph.</p>
 
 <p class=MsoNormal>…where the second <span class=ProgTextChar><span
-style='mso-bidi-font-family:"Times New Roman"'>@p</span></span> serves to delimit
-the first one. </p>
+style='mso-bidi-font-family:"Times New Roman"'>@p</span></span> serves to
+delimit the first one. </p>
 
 <p class=MsoNormal>Or mix-and-match, as needed:</p>
 
@@ -1679,8 +1679,8 @@ content of a comment.<span style='mso-spacerun:yes'>  </span>CJD works on basis
 of a simple-minded model that vaguely resembles that of HTML. There are two
 content domains: on one hand, <i style='mso-bidi-font-style:normal'>phrasing</i>
 content consists of text—words and punctuation and the like, along with markup
-for that text, like styling (like bold or italic). When processed, phrasing
-content conceptually gives rise to a long, one-dimensional string, without any
+for that text, like styling (like bold or italic). When processed, phrasing content
+conceptually gives rise to a long, one-dimensional string, without any
 particular indication of how that string is placed on a page or organized into
 higher-level structures. Flow content, on the other hand, essentially consists
 of containers that occupy area on a page. Specific containers might contain
@@ -1695,8 +1695,8 @@ style='mso-bidi-font-family:"Times New Roman"'>@b</span></span> elements
 specify that some specified phrasing content is to be rendered as italic and
 bold, respectively, <span class=ProgTextChar><span style='mso-bidi-font-family:
 "Times New Roman"'>@link</span></span> and <span class=ProgTextChar><span
-style='mso-bidi-font-family:"Times New Roman"'>@linkto</span></span> elements
-insert links into the phrase stream, and the <span class=ProgTextChar><span
+style='mso-bidi-font-family:"Times New Roman"'>@linkto</span></span> elements insert
+links into the phrase stream, and the <span class=ProgTextChar><span
 style='mso-bidi-font-family:"Times New Roman"'>@name</span></span> element
 inserts the formatted name of the source code artifact to which a CJD comment
 applies. </p>
@@ -1796,8 +1796,8 @@ style='mso-element:field-end'></span><![endif]--> -- Phrasing elements</p>
   <p class=MsoNormal style='margin-top:3.0pt;margin-right:0in;margin-bottom:
   3.0pt;margin-left:0in'><span style='mso-bidi-font-size:11.0pt;mso-bidi-font-family:
   Arial'>Renders <span class=ProgTextChar><i style='mso-bidi-font-style:normal'><span
-  style='font-family:Arial'>phrase</span></i></span> as &quot;deleted&quot; text,
-  generally shown as strikethrough text. <o:p></o:p></span></p>
+  style='font-family:Arial'>phrase</span></i></span> as &quot;deleted&quot;
+  text, generally shown as strikethrough text. <o:p></o:p></span></p>
   </td>
  </tr>
  <tr style='mso-yfti-irow:6'>
@@ -1876,15 +1876,16 @@ style='mso-element:field-end'></span><![endif]--> -- Phrasing elements</p>
   </td>
   <td width=446 valign=top style='width:334.15pt;padding:0in 5.4pt 0in 5.4pt'>
   <p class=MsoNormal style='margin-left:0in'><span style='mso-bidi-font-size:
-  11.0pt;mso-bidi-font-family:Arial'>Inserts the name of a specified argument, key,
-  field, or option, formatted in a fashion appropriate to the name's context of
-  definition. <i style='mso-bidi-font-style:normal'>arg-name</i> must be a
-  name, and should be the name of an entity defined in the current scope.<o:p></o:p></span></p>
+  11.0pt;mso-bidi-font-family:Arial'>Inserts the name of a specified argument,
+  key, field, or option, formatted in a fashion appropriate to the name's
+  context of definition. <i style='mso-bidi-font-style:normal'>arg-name</i>
+  must be a name, and should be the name of an entity defined in the current
+  scope.<o:p></o:p></span></p>
   <p class=MsoNormal style='margin-left:0in'><span style='mso-bidi-font-size:
   11.0pt;mso-bidi-font-family:Arial'>Beware that </span><span
   class=ProgTextChar><span style='mso-bidi-font-size:11.0pt;mso-bidi-font-family:
-  "Times New Roman"'>arg</span></span><span style='mso-bidi-font-size:11.0pt'> and
-  its synonyms are also used as the tags of flow elements. Thus, </span><span
+  "Times New Roman"'>arg</span></span><span style='mso-bidi-font-size:11.0pt'>
+  and its synonyms are also used as the tags of flow elements. Thus, </span><span
   style='mso-bidi-font-size:11.0pt;mso-bidi-font-family:Arial'>if <i
   style='mso-bidi-font-style:normal'>arg-name</i> is not a single form, </span>CJD<span
   style='mso-bidi-font-size:11.0pt'> will interpreted the element as the
@@ -2050,8 +2051,8 @@ style='mso-element:field-end'></span><![endif]--> -- Phrasing elements</p>
 
 <p class=MsoNormal><o:p>&nbsp;</o:p></p>
 
-<p class=MsoNormal>Flow elements organize comment text, and provide the metadata
-that allows a comment to be meaningfully formatted. For example, the <span
+<p class=MsoNormal>Flow elements organize comment text, and provide the
+metadata that allows a comment to be meaningfully formatted. For example, the <span
 class=ProgTextChar><span style='mso-bidi-font-family:"Times New Roman"'>@p</span></span>
 denotes a paragraph (which pretty clearly defines a particular grammatical
 structure that's salient to the formatting process), and the <span
@@ -2114,10 +2115,10 @@ style='mso-element:field-end'></span><![endif]--> -- Flow elements</p>
   </td>
   <td width=405 valign=top style='width:303.4pt;padding:0in 5.4pt 0in 5.4pt'>
   <p class=MsoNormal style='margin-top:3.0pt;margin-right:0in;margin-bottom:
-  3.0pt;margin-left:0in'><span style='mso-bidi-font-size:11.0pt'>Unordered
-  (bulleted) list. <i style='mso-bidi-font-style:normal'>list-item</i>
-  arguments should all be </span><span class=ProgTextChar><span
-  style='mso-bidi-font-size:11.0pt;mso-bidi-font-family:"Times New Roman"'>@li</span></span><span
+  3.0pt;margin-left:0in'><span style='mso-bidi-font-size:11.0pt'>Unordered (bulleted)
+  list. <i style='mso-bidi-font-style:normal'>list-item</i> arguments should
+  all be </span><span class=ProgTextChar><span style='mso-bidi-font-size:11.0pt;
+  mso-bidi-font-family:"Times New Roman"'>@li</span></span><span
   style='mso-bidi-font-size:11.0pt'> elements..<o:p></o:p></span></p>
   </td>
  </tr>
@@ -2177,8 +2178,8 @@ style='mso-element:field-end'></span><![endif]--> -- Flow elements</p>
   </td>
   <td width=405 valign=top style='width:303.4pt;padding:0in 5.4pt 0in 5.4pt'>
   <p class=MsoNormal style='margin-left:0in'><span style='mso-bidi-font-size:
-  11.0pt'>Example display, used to illustrate REPL-based user interaction
-  sequences. Arguments are a sequence of strings, each of which contains preformatted
+  11.0pt'>Example display, used to illustrate REPL-based user interaction sequences.
+  Arguments are a sequence of strings, each of which contains preformatted
   content.<o:p></o:p></span></p>
   <p class=MsoNormal style='margin-top:3.0pt;margin-right:0in;margin-bottom:
   3.0pt;margin-left:0in'><span style='mso-bidi-font-size:11.0pt'>CJD interprets
@@ -2220,8 +2221,8 @@ style='mso-element:field-end'></span><![endif]--> -- Flow elements</p>
   </td>
   <td width=405 rowspan=4 valign=top style='width:303.4pt;padding:0in 5.4pt 0in 5.4pt'>
   <p class=MsoNormal style='margin-left:0in'><span style='mso-bidi-font-size:
-  11.0pt'>Documentation for an entity named within the local context, such as
-  an parameter, option, key, or field.<span style='mso-spacerun:yes'>  </span><o:p></o:p></span></p>
+  11.0pt'>Documentation for an entity named within the local context, such as an
+  parameter, option, key, or field.<span style='mso-spacerun:yes'>  </span><o:p></o:p></span></p>
   <p class=MsoNormal style='margin-top:3.0pt;margin-right:0in;margin-bottom:
   3.0pt;margin-left:0in'><o:p>&nbsp;</o:p></p>
   </td>
@@ -2280,8 +2281,8 @@ style='mso-element:field-end'></span><![endif]--> -- Flow elements</p>
   </td>
   <td width=405 valign=top style='width:303.4pt;padding:0in 5.4pt 0in 5.4pt'>
   <p class=MsoNormal style='margin-left:0in'><span style='mso-bidi-font-size:
-  11.0pt'>Documentation for a &quot;parameterized option&quot;. This is mostly intended
-  for documenting command-line style arguments that have parameters. <o:p></o:p></span></p>
+  11.0pt'>Documentation for a &quot;parameterized option&quot;. This is mostly
+  intended for documenting command-line style arguments that have parameters. <o:p></o:p></span></p>
   </td>
  </tr>
  <tr style='mso-yfti-irow:14'>
@@ -2294,8 +2295,8 @@ style='mso-element:field-end'></span><![endif]--> -- Flow elements</p>
   <td width=405 valign=top style='width:303.4pt;padding:0in 5.4pt 0in 5.4pt'>
   <p class=MsoNormal style='margin-top:3.0pt;margin-right:0in;margin-bottom:
   3.0pt;margin-left:0in'><span style='mso-bidi-font-size:11.0pt'>Supplies
-  &quot;see-also&quot; information, e.g. references to other documentation,
-  that relate to the artifact.<o:p></o:p></span></p>
+  &quot;see-also&quot; information, e.g. references to other documentation, that
+  relate to the artifact.<o:p></o:p></span></p>
   </td>
  </tr>
  <tr style='mso-yfti-irow:15'>
@@ -2307,8 +2308,8 @@ style='mso-element:field-end'></span><![endif]--> -- Flow elements</p>
   </td>
   <td width=405 valign=top style='width:303.4pt;padding:0in 5.4pt 0in 5.4pt'>
   <p class=MsoNormal style='margin-top:3.0pt;margin-right:0in;margin-bottom:
-  3.0pt;margin-left:0in'><span style='mso-bidi-font-size:11.0pt'>Adds the name(s)
-  of the author(s) of the artifact. <o:p></o:p></span></p>
+  3.0pt;margin-left:0in'><span style='mso-bidi-font-size:11.0pt'>Adds the
+  name(s) of the author(s) of the artifact. <o:p></o:p></span></p>
   </td>
  </tr>
  <tr style='mso-yfti-irow:16'>
@@ -2346,8 +2347,8 @@ style='mso-element:field-end'></span><![endif]--> -- Flow elements</p>
 class=ProgTextChar><span style='mso-bidi-font-family:"Times New Roman"'>@p</span></span>
 isn't specified. In general, if the content of a flow element doesn't start
 with another flow element, CJD simply assumes <span class=ProgTextChar><span
-style='mso-bidi-font-family:"Times New Roman"'>@p</span></span> is implicitly
-there. For example, suppose we want to document an argument named <span
+style='mso-bidi-font-family:"Times New Roman"'>@p</span></span> is implicitly there.
+For example, suppose we want to document an argument named <span
 class=ProgTextChar><span style='mso-bidi-font-family:"Times New Roman"'>thud</span></span>.
 For this we'd use an <span class=ProgTextChar><span style='mso-bidi-font-family:
 "Times New Roman"'>@arg</span></span> element, which we might write as:</p>
@@ -2385,8 +2386,8 @@ paragraphs. In full closed form representation, we'd have:</p>
 <p class=ProgText><span style='mso-tab-count:2'>        </span>@(p This is the
 first paragraph.)</p>
 
-<p class=ProgText><span style='mso-tab-count:2'>        </span>@(p And here is
-the second paragraph!))</p>
+<p class=ProgText><span style='mso-tab-count:2'>        </span>@(p And here is the
+second paragraph!))</p>
 
 <p class=MsoNormal>Here we can legitimately reduce the <span
 class=ProgTextChar><span style='mso-bidi-font-family:"Times New Roman"'>@p</span></span>
@@ -2409,8 +2410,8 @@ open form, we'd get</p>
 <p class=ProgText><span style='mso-tab-count:2'>        </span>@p This is the
 first paragraph.</p>
 
-<p class=ProgText><span style='mso-tab-count:2'>        </span>@p And here is the
-second paragraph!</p>
+<p class=ProgText><span style='mso-tab-count:2'>        </span>@p And here is
+the second paragraph!</p>
 
 <p class=MsoNormal>Although this is perfectly acceptable, syntactically
 speaking, CJD will interpret it as </p>
@@ -2454,11 +2455,11 @@ tab-stops:list .8in'><![if !supportLists]><span style='font-family:Symbol;
 mso-fareast-font-family:Symbol;mso-bidi-font-family:Symbol'><span
 style='mso-list:Ignore'>·<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 </span></span></span><![endif]>The first paragraph is somewhat rudely
-designated as the <i style='mso-bidi-font-style:normal'>blurb</i>, and is notionally
-a short summarization of what the artifact is or does. CJD uses the blurb as an
-abstract of the documentation, using it, for example, in summaries of the
-content of namespaces (or summaries of namespaces in an overview document, for
-that matter). </p>
+designated as the <i style='mso-bidi-font-style:normal'>blurb</i>, and is
+notionally a short summarization of what the artifact is or does. CJD uses the
+blurb as an abstract of the documentation, using it, for example, in summaries
+of the content of namespaces (or summaries of namespaces in an overview
+document, for that matter). </p>
 
 <p class=MsoNormal style='margin-left:.8in;text-indent:-.25in;mso-list:l3 level1 lfo10;
 tab-stops:list .8in'><![if !supportLists]><span style='font-family:Symbol;
@@ -2475,12 +2476,12 @@ mso-fareast-font-family:Symbol;mso-bidi-font-family:Symbol'><span
 style='mso-list:Ignore'>·<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 </span></span></span><![endif]>Datum-descriptions provide information about
 data elements relevant to the artifact—arguments, options, keys, return values,
-and the like. These are items for which it's desirable to have some
-documentation, but they're strictly local in scope, and really don't warrant a
-CJD-comment of their own (unlike, say, methods in a protocol, which give rise
-to entities that are global in scope). For example, a CJD-comment for a typical
-function would include a description for each parameter named in its argument
-list, plus a description of the return value</p>
+and the like. These are items for which it's desirable to have some documentation,
+but they're strictly local in scope, and really don't warrant a CJD-comment of
+their own (unlike, say, methods in a protocol, which give rise to entities that
+are global in scope). For example, a CJD-comment for a typical function would
+include a description for each parameter named in its argument list, plus a
+description of the return value</p>
 
 <p class=MsoNormal style='margin-left:.8in;text-indent:-.25in;mso-list:l3 level1 lfo10;
 tab-stops:list .8in'><![if !supportLists]><span style='font-family:Symbol;
@@ -2553,10 +2554,10 @@ recursively-structured comments. Here’s an example:</p>
   filtering function of the form <b style='mso-bidi-font-weight:normal'><span
   style='color:blue'>@(fun [value])</span></b>, </p>
   <p class=Prog><span style='mso-spacerun:yes'>        </span>where</p>
-  <p class=Prog><span style='mso-spacerun:yes'>        </span>@arg value The
-  value to filter</p>
-  <p class=Prog><span style='mso-spacerun:yes'>        </span>@returns True if @(arg
-  value) is to be included in </p>
+  <p class=Prog><span style='mso-spacerun:yes'>       </span><span
+  style='mso-spacerun:yes'> </span>@arg value The value to filter</p>
+  <p class=Prog><span style='mso-spacerun:yes'>        </span>@returns True if
+  @(arg value) is to be included in </p>
   <p class=Prog><span style='mso-spacerun:yes'>                 </span>the
   min-max calculation. )</p>
   <p class=Prog><span style='mso-spacerun:yes'>    </span>@(returns <span
@@ -2596,7 +2597,7 @@ recursively-structured comments. Here’s an example:</p>
 <p class=MsoNormal><o:p>&nbsp;</o:p></p>
 
 <p class=MsoNormal>You can see a formatted version of this example <a
-href="http://greenh.github.com/CJD/doc/dark/examples.cjd-examples.html#filtered-minmax">here</a>.<span
+href="http://greenh.github.com/CJD/doc/examples/dark/examples.cjd-examples.html#filtered-minmax">here</a>.<span
 class=ProgTextChar><span style='mso-bidi-font-family:"Times New Roman"'><o:p></o:p></span></span></p>
 
 <p class=MsoNormal>Our example takes a function as one of its arguments, and
@@ -2652,8 +2653,8 @@ document, with &quot;the <i style='mso-bidi-font-style:normal'>good</i>
 stuff&quot; as the displayed text.</p>
 
 <p class=MsoNormal>While <span class=ProgTextChar><span style='mso-bidi-font-family:
-"Times New Roman"'>linkto</span></span> is most general, it's also the most work,
-and so is best used for linking to other documents. Experience suggests,
+"Times New Roman"'>linkto</span></span> is most general, it's also the most
+work, and so is best used for linking to other documents. Experience suggests,
 however, that within a CJD comment, most useful links are likely to be to the
 documentation of other artifacts within the scope of the artifact being
 documented. For example, if you're writing a CJD comment for a function, your
@@ -2709,7 +2710,7 @@ style='mso-spacerun:yes'> </span>)</p>
 <p class=ProgText><o:p>&nbsp;</o:p></p>
 
 <p class=MsoNormal>Well, don't try running it… but CJD <a
-href="http://greenh.github.com/CJD/doc/dark/cjd-examples.html#xyz-abc">will
+href="http://greenh.github.com/CJD/doc/examples/dark/examples.cjd-examples.html#xyz-abc">will
 resolve the links</a> between the comments correctly.</p>
 
 <p class=MsoNormal>The <span class=ProgTextChar><span style='mso-bidi-font-family:
@@ -2774,11 +2775,11 @@ will happily resolve just as expected. Likewise, if <span class=ProgTextChar><sp
 style='mso-bidi-font-family:"Times New Roman"'>our-ns</span></span> is loaded
 by <span class=ProgTextChar><span style='mso-bidi-font-family:"Times New Roman"'>requires</span></span>,
 with or without a prefix, <span class=ProgTextChar><span style='mso-bidi-font-family:
-"Times New Roman"'>my-fn</span></span> can be referenced as a fully qualified or
-prefixed name, as appropriate. All this is perfectly normal business-as-usual,
-and the <span class=ProgTextChar><span style='mso-bidi-font-family:"Times New Roman"'>link</span></span><span
-style='mso-spacerun:yes'>  </span>element will resolve any such legitimate name
-without problem.</p>
+"Times New Roman"'>my-fn</span></span> can be referenced as a fully qualified
+or prefixed name, as appropriate. All this is perfectly normal
+business-as-usual, and the <span class=ProgTextChar><span style='mso-bidi-font-family:
+"Times New Roman"'>link</span></span><span style='mso-spacerun:yes'> 
+</span>element will resolve any such legitimate name without problem.</p>
 
 <p class=MsoNormal>On the other hand, if you use <span class=ProgTextChar><span
 style='mso-bidi-font-family:"Times New Roman"'>defrecord</span></span> to
@@ -2807,8 +2808,8 @@ attempts to generate output that matches the comment text, so that, modulo
 influences of the various markup elements, what you see in the source is pretty
 much what you're going to get on the output. Consequently, CJD renders symbols,
 names, lists, vectors, strings, and keywords in the source text mostly verbatim
-on output. So, for example, a parenthesized remark in comment text is read in as
-a Clojure list—but CJD knows to make it appear as a parenthesized remark on
+on output. So, for example, a parenthesized remark in comment text is read in
+as a Clojure list—but CJD knows to make it appear as a parenthesized remark on
 output. </p>
 
 <p class=MsoNormal>Ultimately, this WISIWYG-ish behavior is constrained from
@@ -2852,8 +2853,8 @@ tab-stops:list .5in'><![if !supportLists]><span style='font-size:10.0pt;
 font-family:Symbol;mso-fareast-font-family:Symbol;mso-bidi-font-family:Symbol'><span
 style='mso-list:Ignore'>·<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 </span></span></span><![endif]>Slashes are special. A standalone slash (as for
-the divide operator) works OK (it's a divide-by operator, right?), but it has to
-be cleanly delimited from other text. If you want to write something like
+the divide operator) works OK (it's a divide-by operator, right?), but it has
+to be cleanly delimited from other text. If you want to write something like
 &quot;and/or&quot;, either use the literal insertion syntax (see below), or, if
 your sense of typographic fitness can tolerate it, use spaces, as in &quot;and
 / or&quot;. <span style='font-size:10.0pt'><o:p></o:p></span></p>
@@ -2953,8 +2954,8 @@ interpreted by CJD</p>
   mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
   mso-border-alt:solid windowtext .5pt;padding:0in 5.4pt 0in 5.4pt'>
   <p class=MsoNormal style='margin-top:3.0pt;margin-right:0in;margin-bottom:
-  3.0pt;margin-left:0in'>Causes CJD to suppress inserting space between two words,
-  symbols, or elements that it would ordinarily separate.</p>
+  3.0pt;margin-left:0in'>Causes CJD to suppress inserting space between two
+  words, symbols, or elements that it would ordinarily separate.</p>
   </td>
  </tr>
  <tr style='mso-yfti-irow:2;mso-yfti-lastrow:yes'>
@@ -2995,8 +2996,9 @@ style='mso-bidi-font-style:normal'><span style='background:#FFFF99'>dous!</span>
 style='background:#FFFF99'> </span>You can get this by using </p>
 
 <p class=MsoNormal style='margin-left:.8in;text-indent:.2in'><span
-class=ProgTextChar><span style='mso-bidi-font-family:"Times New Roman"'>@(i Stu)
-:nb @(u pen) :nb @(i dous!)</span></span><i style='mso-bidi-font-style:normal'><o:p></o:p></i></p>
+class=ProgTextChar><span style='mso-bidi-font-family:"Times New Roman"'>@(i
+Stu) :nb @(u pen) :nb @(i dous!)</span></span><i style='mso-bidi-font-style:
+normal'><o:p></o:p></i></p>
 
 <p class=MsoNormal>using the <span class=ProgTextChar><span style='mso-bidi-font-family:
 "Times New Roman"'>:nb</span></span> keywords to suppress the normal spacing
