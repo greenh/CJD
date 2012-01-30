@@ -1,5 +1,5 @@
 <xml xmlns:o="urn:schemas-microsoft-com:office:office">
- <o:MainFile HRef="../Extension.htm"/>
- <o:File HRef="header.htm"/>
+ <o:MainFile HRef="../Extension.html"/>
+ <o:File HRef="header.html"/>
  <o:File HRef="filelist.xml"/>
 </xml>

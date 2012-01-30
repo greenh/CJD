@@ -14,10 +14,10 @@ xmlns="http://www.w3.org/TR/REC-html40">
  <o:DocumentProperties>
   <o:Author>Howard Green</o:Author>
   <o:LastAuthor>Howard Green</o:LastAuthor>
-  <o:Revision>6</o:Revision>
+  <o:Revision>2</o:Revision>
   <o:TotalTime>15926</o:TotalTime>
-  <o:Created>2012-01-24T16:19:00Z</o:Created>
-  <o:LastSaved>2012-01-29T19:26:00Z</o:LastSaved>
+  <o:Created>2012-01-30T02:30:00Z</o:Created>
+  <o:LastSaved>2012-01-30T02:30:00Z</o:LastSaved>
   <o:Pages>1</o:Pages>
   <o:Words>2738</o:Words>
   <o:Characters>15608</o:Characters>
@@ -189,10 +189,10 @@ p.ProgText, li.ProgText, div.ProgText
 	mso-no-proof:yes;}
  /* Page Definitions */
  @page
-	{mso-footnote-separator:url("FAQ_files/header.htm") fs;
-	mso-footnote-continuation-separator:url("FAQ_files/header.htm") fcs;
-	mso-endnote-separator:url("FAQ_files/header.htm") es;
-	mso-endnote-continuation-separator:url("FAQ_files/header.htm") ecs;}
+	{mso-footnote-separator:url("FAQ_files/header.html") fs;
+	mso-footnote-continuation-separator:url("FAQ_files/header.html") fcs;
+	mso-endnote-separator:url("FAQ_files/header.html") es;
+	mso-endnote-continuation-separator:url("FAQ_files/header.html") ecs;}
 @page Section1
 	{size:8.5in 11.0in;
 	margin:1.0in 1.25in 1.0in 1.25in;
@@ -273,7 +273,7 @@ ul
 	mso-bidi-language:#0400;}
 </style>
 <![endif]--><!--[if gte mso 9]><xml>
- <o:shapedefaults v:ext="edit" spidmax="10242"/>
+ <o:shapedefaults v:ext="edit" spidmax="11266"/>
 </xml><![endif]--><!--[if gte mso 9]><xml>
  <o:shapelayout v:ext="edit">
   <o:idmap v:ext="edit" data="1"/>
@@ -302,14 +302,13 @@ immediate proximity of the artifact being documented, the better to be created,
 read, and/or updated when artifact is being worked on.</p>
 
 <p class=MsoNormal>During the normal compilation process, the compiler discards
-these documentation comments just as it would with any other comment, and so they
-don't affect generated code at all. </p>
+these documentation comments just as it would with any other comment, and so
+they don't affect generated code at all. </p>
 
-<p class=MsoNormal>As a post-processing phase in a build process, a CJD
-function or program makes a pass through source code, extracts the
-documentation comments, and from them generates a tree of HTML documents.
-Interested parties can then view these documents using conventional web
-browsers.</p>
+<p class=MsoNormal>As a post-processing phase in a build process, a CJD function
+or program makes a pass through source code, extracts the documentation
+comments, and from them generates a tree of HTML documents. Interested parties
+can then view these documents using conventional web browsers.</p>
 
 <p class=MsoNormal>With respect to documentation comments themselves, the
 general idea is to provide a simple-minded syntax that makes salient elements
@@ -327,10 +326,10 @@ where what comes between the <span class=ProgTextChar><span style='mso-bidi-font
 "Times New Roman"'>/*</span></span> and <span class=ProgTextChar><span
 style='mso-bidi-font-family:"Times New Roman"'>*/</span></span> is of more or
 less of arbitrary content, can span multiple lines, and can run on for as long
-as the commenter has the strength. Javadoc leverages this by recognizing comments
-of the form <span class=ProgTextChar><span style='mso-bidi-font-family:"Times New Roman"'>/**
-..javadoc comment text.. */</span></span> (note the leading <span
-class=ProgTextChar><span style='mso-bidi-font-family:"Times New Roman"'>**</span></span>—that's
+as the commenter has the strength. Javadoc leverages this by recognizing
+comments of the form <span class=ProgTextChar><span style='mso-bidi-font-family:
+"Times New Roman"'>/** ..javadoc comment text.. */</span></span> (note the
+leading <span class=ProgTextChar><span style='mso-bidi-font-family:"Times New Roman"'>**</span></span>—that's
 the cue), and then processing their contents as Javadoc source material.</p>
 
 <p class=MsoNormal>Clojure doesn't have block comments as such, but it's got
@@ -342,8 +341,7 @@ form. So, CJD riffs off of Javadoc a bit, and defines a CJD comment as a
 commented-out list which has a <span class=ProgTextChar><span style='mso-bidi-font-family:
 "Times New Roman"'>*</span></span> as its first element. So, if a form of the
 form <span class=ProgTextChar><span style='mso-bidi-font-family:"Times New Roman"'>#_(*
-...contents...)</span></span> appears on your radar, it's a candidate CJD
-comment.</p>
+...contents...)</span></span> appears on your radar, it's a candidate CJD comment.</p>
 
 <p class=MsoNormal>Here's a genuine certified example CJD-comment, captured
 live in the wild:</p>
@@ -457,9 +455,9 @@ laboriously prepared to belabor just that subject. </p>
 
 <h3>Can I put any just old thing in a CJD comment?</h3>
 
-<p class=MsoNormal>Close, but no cigars. There's been a pretty serious effort
-to make the source content of CJD comments read more or less like normal text,
-and generally speaking most of your literary efforts will fit in pretty much as
+<p class=MsoNormal>Close, but no cigars. There's been a pretty serious effort to
+make the source content of CJD comments read more or less like normal text, and
+generally speaking most of your literary efforts will fit in pretty much as
 you'd ordinarily type them. </p>
 
 <p class=MsoNormal>But, bear in mind the following: <i style='mso-bidi-font-style:
@@ -467,8 +465,8 @@ normal'>a CJD comment </i>is<i style='mso-bidi-font-style:normal'> a Clojure
 form.</i> It's a commented-out form, to be sure, but a form nonetheless. During
 normal program compilation, the Clojure reader will subject this form to all
 the scrutiny that it applies to any other form. So, if things that make the
-reader go <i style='mso-bidi-font-style:normal'>bang!</i> appear in a CJD
-comment, then go <i style='mso-bidi-font-style:normal'>bang!</i> it will.</p>
+reader go <i style='mso-bidi-font-style:normal'>bang!</i> appear in a CJD comment,
+then go <i style='mso-bidi-font-style:normal'>bang!</i> it will.</p>
 
 <p class=MsoNormal>Like, paired characters—parens, brackets, braces, quotes,
 etc.—all have to match up correctly, just like in fully compiled forms. Like,
@@ -489,10 +487,10 @@ that\; or maybe this\: </span></span>comes to feel perfectly… uh… normal. </p>
 
 <h3>Does CJD insist that I comment everything?</h3>
 
-<p class=MsoNormal>Nope. When it comes to what material you choose to document
-for an artifact, CJD is entirely undemanding. If you document a function, say,
-you can choose to document all or any or none of the parameters, or to document
-the return value—or not. </p>
+<p class=MsoNormal>Nope. When it comes to what material you choose to document for
+an artifact, CJD is entirely undemanding. If you document a function, say, you
+can choose to document all or any or none of the parameters, or to document the
+return value—or not. </p>
 
 <p class=MsoNormal>To make this a little more explicit, CJD currently does not
 do <i style='mso-bidi-font-style:normal'>any</i> enforcement at all. In some
@@ -602,11 +600,11 @@ definitely not a four-letter word. At least, not yet.</p>
 stands for?</h3>
 
 <p class=MsoNormal><a
-href="http://en.wikipedia.org/wiki/Creutzfeldt-Jakob_disease">Of course</a>. That
-knowledge was essential in selecting the name. <a
-href="http://en.wikipedia.org/wiki/Bovine_spongiform_encephalopathy">BSE</a>
-would arguably have been even more appropriate (not least as a approximation of
-the author's mental state), but it's not nearly as Clojure-ish as CJD, so we'll
+href="http://en.wikipedia.org/wiki/Creutzfeldt-Jakob_disease">Of course</a>.
+That knowledge was essential in selecting the name. <a
+href="http://en.wikipedia.org/wiki/Bovine_spongiform_encephalopathy">BSE</a> would
+arguably have been even more appropriate (not least as a approximation of the
+author's mental state), but it's not nearly as Clojure-ish as CJD, so we'll
 save it for some future undertaking.</p>
 
 <p class=MsoNormal><o:p>&nbsp;</o:p></p>
@@ -630,8 +628,8 @@ it another way, docstrings possibly adequate as a sort of aide-mémoire. </p>
 <p class=MsoNormal>By stretching things a bit, we might even concede that
 they're an adequate documentation form for small functions, such, for example,
 as make up the bulk of the <span class=ProgTextChar><span style='mso-bidi-font-family:
-"Times New Roman"'>clojure.core</span></span> namespace. But the suggestion
-about docstrings <a
+"Times New Roman"'>clojure.core</span></span> namespace. But the suggestion about
+docstrings <a
 href="http://clojure.org/special_forms#Special%20Forms--%28def%20symbol%20init?%29">here</a>—&quot;a
 string containing short (1-3 line) documentation for the var
 contents&quot;—suggests what feels like a really appropriate limitation.</p>
@@ -689,11 +687,12 @@ you, dynamite. This is an engineering exercise, not a religious crusade.</p>
 satisfy its author's urge to write copious quantities of documentation so that
 (1) he has a forum to convince himself that he knows what he's doing, (2) so
 that when he dives back into a Clojure project after months (or minutes) away
-from it, he has something better than a snowball's chance of recovering a clue as
-to what the code was all about, and (3) so he can narcissistically admire the
-pretty output. He's magnanimously inflicting CJD on the world at large just in
-case there are other unfortunates out there with similar afflictions. If you're
-one of these, welcome to the club! If not, it won't be held it against you.</p>
+from it, he has something better than a snowball's chance of recovering a clue
+as to what the code was all about, and (3) so he can narcissistically admire
+the pretty output. He's magnanimously inflicting CJD on the world at large just
+in case there are other unfortunates out there with similar afflictions. If
+you're one of these, welcome to the club! If not, it won't be held it against
+you.</p>
 
 <h3>So, why didn't you just copy Javadoc?</h3>
 
