@@ -13,7 +13,7 @@ to extract the documentation content from collections of Clojure namespaces and 
 it into trees of consistently-formatted HTML documents. 
 
 For a not-terribly-reverent introduction to CJD, 
-[try the FAQ](http://greenh.github.com/CJD/doc/faq.htm).
+[try the FAQ](http://greenh.github.com/CJD/doc/FAQ.html).
 
 If you'd like to see what it looks like in the real world, the CJD source is 
 itself extensively commented using CJD. For a representative sample, try
@@ -31,6 +31,9 @@ Several documents are in the making:
 * A [user guide](http://greenh.github.com/CJD/doc/User.html), which attempts to explain 
 CJD in depth.
 
+* A [quick reference](http://greenh.github.com/CJD/doc/QuickRef.html) to CJD markup
+elements. 
+
 * A [FAQ](http://greenh.github.com/CJD/doc/FAQ.html), which discusses a number of issues
 about what CJD is and does, and how it managed to get there.
 
@@ -38,7 +41,13 @@ about what CJD is and does, and how it managed to get there.
 extensible, so it follows that a documentation technology for Clojure needs to be 
 extensible, too, right?
 
+## Status
 
+As of now, the CJD document processor is essentially feature-complete and fully 
+operational. The documentation has a ways to go; however, the user guide sections on 
+acquiring and running CJD should be correct to a first approximation. 
+
+ 
 ## License
 
 Copyright (c) 2011-2012 Howard Green. All rights reserved.
