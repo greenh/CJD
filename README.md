@@ -28,7 +28,7 @@ of CJD itself---so if it looks obscure, well, it is!)
 ## Documentation
 Several documents are in the making:
 
-* A [user guide]((http://greenh.github.com/CJD/doc/User.html), which attempts to explain 
+* A [user guide](http://greenh.github.com/CJD/doc/User.html), which attempts to explain 
 CJD in depth.
 
 * A [FAQ](http://greenh.github.com/CJD/doc/FAQ.html), which discusses a number of issues
