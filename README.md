@@ -47,6 +47,12 @@ As of now, the CJD document processor is essentially feature-complete and fully
 operational. The documentation has a ways to go; however, the user guide sections on 
 acquiring and running CJD should be correct to a first approximation. 
 
+Limitations:
+
+* Currently works only with Clojure 1.2.1 and 1.3.0.
+
+* Requires Java 6 or above.
+
  
 ## License
 
