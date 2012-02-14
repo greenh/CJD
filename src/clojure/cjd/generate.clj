@@ -368,7 +368,7 @@
             (if (has-param? node)
               (html [:span.expr " " (html-encode (str (parameter-of node)))]))
             (if (has-default? node) 
-              (str " (default: " (html [:span.expr (str (default-value-of node))]) ")"))
+              (str " (default: " (html [:span.expr (pr-str (default-value-of node))]) ")"))
             " &mdash; " blurb] 
            remainder)))
 
