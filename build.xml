@@ -10,7 +10,7 @@
 	
 	<property name="clojars" value="clojars@clojars.org:" />
 	
-	<property name="version" value="0.0.3-SNAPSHOT" />
+	<property name="version" value="0.0.4-SNAPSHOT" />
 
 	<property name="src.dir" value="src" />
 	<property name="gen.dir" value="gen" />

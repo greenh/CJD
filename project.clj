@@ -14,13 +14,13 @@
       @p CJD is an open-source project. Source materials and documentation are
       located at its @(linkto "https://github.com/greenh/CJD" home).
       )
-(defproject cjd "0.0.3-SNAPSHOT"
+(defproject cjd "0.0.4-SNAPSHOT"
   :description "CJD documentation processor"
   :dependencies [
      [org.clojure/clojure "[1.2.1,1.4)"]
      [hiccup "0.3.7"]
      [commons-lang "2.6"]
-     [extensomatic "0.1.2"]
+     [extensomatic "0.1.3"]
      ]
   :source-path "src/clojure"
   :resources-path "src/resources"
