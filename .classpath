@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry excluding="java/|clojure/|resources/" kind="src" path="src"/>
-	<classpathentry kind="src" path="test"/>
-	<classpathentry kind="src" path="src/java"/>
 	<classpathentry kind="src" path="src/clojure"/>
-	<classpathentry kind="src" path="src/resources"/>
-	<classpathentry kind="src" path="examples"/>
 	<classpathentry kind="src" path="gen/clojure"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jdk1.6.0_30"/>
-	<classpathentry kind="lib" path="lib/commons-lang-2.6.jar"/>
-	<classpathentry kind="lib" path="lib/hiccup-0.3.7.jar"/>
-	<classpathentry kind="lib" path="lib/clojure-1.2.1.jar"/>
-	<classpathentry kind="lib" path="lib/extensomatic-0.1.3.jar"/>
-	<classpathentry kind="lib" path="lib/dev/leiningen-1.6.2-standalone.jar"/>
+	<classpathentry kind="src" path="src/java"/>
+	<classpathentry kind="lib" path="C:/Documents and Settings/Howard Green/My Documents/CJD2/CJD/classes"/>
+	<classpathentry kind="lib" path="C:/Documents and Settings/Howard Green/.m2/repository/extensomatic/extensomatic/0.2.0/extensomatic-0.2.0.jar"/>
+	<classpathentry kind="lib" path="C:/Documents and Settings/Howard Green/.m2/repository/commons-lang/commons-lang/2.6/commons-lang-2.6.jar"/>
+	<classpathentry kind="lib" path="C:/Documents and Settings/Howard Green/.m2/repository/hiccup/hiccup/1.0.1/hiccup-1.0.1.jar"/>
+	<classpathentry kind="lib" path="C:/Documents and Settings/Howard Green/.m2/repository/org/clojure/clojure/1.4.0/clojure-1.4.0.jar"/>
+	<classpathentry kind="src" path="test"/>
+	<classpathentry kind="src" path="src/resources"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="C:/Documents and Settings/Howard Green/.lein/self-installs/leiningen-2.0.0-preview10-standalone.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/NTLR121"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/NTLR130"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/NTLR140"/>
 	<classpathentry kind="output" path="classes"/>
 </classpath>

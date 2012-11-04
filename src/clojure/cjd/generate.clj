@@ -44,7 +44,7 @@
     [cjd.link-resolver]
     [cjd.resolver]
     [hiccup.core]
-    [hiccup.page-helpers]
+    [hiccup.page]
     )
   (:import 
     [cjd CJDException]

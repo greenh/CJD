@@ -10,12 +10,16 @@
 	
 	<property name="clojars" value="clojars@clojars.org:" />
 	
-	<property name="version" value="0.0.4-SNAPSHOT" />
+	<property name="version" value="0.1.0-SNAPSHOT" />
 
 	<property name="src.dir" value="src" />
 	<property name="gen.dir" value="gen" />
 	<property name="classes.dir" value="classes" />
 	<property name="dest.dir" value="bin" />
+	
+	<property name="ntlr121.dir" value="../NTLR121/bin"/>
+	<property name="ntlr130.dir" value="../NTLR130/bin"/>
+	<property name="ntlr140.dir" value="../NTLR140/bin"/>
 
 	<property name="cjd-doc.jar" value="cjd-doc-${version}.jar" />
     <property name="cjd.jar" value="cjd-${version}.jar" />
@@ -45,6 +49,9 @@
 			<fileset dir="${classes.dir}" includes="cjd/**" />
 			<fileset dir="${classes.dir}" includes="leiningen/**" />
 			<fileset dir="${classes.dir}" includes="clojure/**" />
+			<fileset dir="${ntlr121.dir}" includes="clojure/**" />
+			<fileset dir="${ntlr130.dir}" includes="clojure/**" />
+			<fileset dir="${ntlr140.dir}" includes="clojure/**" />
 		</jar>
 	</target>
 

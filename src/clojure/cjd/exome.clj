@@ -56,6 +56,9 @@
         (and (= major 1) (= minor 3))
         (clojure.lang.NotTheLispReader130/read reader (boolean eof-error?) eof-value recursive?)
         
+        (and (= major 1) (= minor 4))
+        (clojure.lang.NotTheLispReader140/read reader (boolean eof-error?) eof-value recursive?)
+        
         :else
         (throw (CJDException. (str "Unsupported Clojure version: " 
                                    major "." minor "." incremental)))
@@ -281,8 +284,8 @@
         generated output, and uses the artifact's docstring as documentation if it 
         has no CJD comment.
         
-        @(option :v #{ :n :g } A set of keys describing the desired level of 
-                 output. Keys can be any of\:
+        @(option :v #{ :n :f } A collection (coerced to a set) of keys describing the 
+                 desired level of output. Keys can be any of\:
                  @key :f produces a message when starting the processing of a file.
                  @key :e produces a message when an artifact has been parsed.
                  @key :n produces a message when HTML generation starts for a 
@@ -299,12 +302,12 @@
         @(opt :footer Either a function, or a symbol that resolves to a function, that 
               generates a footer used on each generated web page. 
               The function has the form @(fun (fn [context])), where
-              @arg context The current context object.
+              @arg context The current @(il cjd.context.Context) object.
               @returns A string containing HTML to be inserted as the footer.)
         @(opt :header Either a function, or a symbol that resolves to a function, 
               that generates a header used on each generated web page. 
               The function has the form @(fun (fn [context])), where
-              @arg context The current context object.
+              @arg context The current @(il cjd.context.Context) object.
               @returns A string containing HTML to be inserted as the header.)
         
         @(opt :filter A function, or a symbol that resolves to a function,
@@ -345,7 +348,7 @@
                                          (has-docstring? artifact)))
                     :else has-doc?)
         pre-context (-> (make-Context)
-                      (context-verbiage! v)
+                      (context-verbiage! (set v))
                       (context-index! index-name)
                       (context-theme! theme)
                       (context-all-public! all)

@@ -14,28 +14,35 @@
       @p CJD is an open-source project. Source materials and documentation are
       located at its @(linkto "https://github.com/greenh/CJD" home).
       )
-(defproject cjd "0.0.4-SNAPSHOT"
+(defproject cjd "0.1.0-SNAPSHOT"
   :description "CJD documentation processor"
   :dependencies [
-     [org.clojure/clojure "[1.2.1,1.4)"]
-     [hiccup "0.3.7"]
+     [org.clojure/clojure "1.4.0"]
+     [hiccup "1.0.1"]
      [commons-lang "2.6"]
-     [extensomatic "0.1.3"]
+     [extensomatic "0.2.0"]
+     [leiningen "2.0.0-preview10"]
      ]
-  :source-path "src/clojure"
-  :resources-path "src/resources"
-  :java-source-path "src/java"
-  
-  :library-path "lib"
+  :target-path "bin/"
   :compile-path "classes"
-  :target-dir "bin"
-  :main cjd.main
-  :javac-options {:destdir "classes/"}
+  :source-paths ["src/clojure"]
+  :resource-paths ["src/resources"]
+  :java-source-paths ["src/java"]
   
-  :cjd-source-path ["src/clojure/cjd" "src/clojure/leiningen"]
-  :cjd-dest-path "doc/dark"
-  :cjd-opts { :exclude [#"src/clojure/cjd/vox.*"] 
-             :title "CJD" :overview "project.clj" 
-             :requires 'cjd.cjd.artifact-gen  :v #{ :n :f} 
-             :footer 'cjd.cjd.its-mine/gen-footer }
+  :main cjd.main
+
+  :plugins [
+    [no-man-is-an-island/lein-eclipse "2.0.0"]
+    [cjd "0.1.0-SNAPSHOT"]
+    [lein-clojars "0.9.1"]
+    ]
+  
+;  :javac-options ["-destdir" "classes/"]
+  
+;  :cjd-source-path ["src/clojure/cjd" "src/clojure/leiningen"]
+;  :cjd-dest-path "doc/dark"
+;  :cjd-opts { :exclude [#"src/clojure/cjd/vox.*"] 
+;             :title "CJD" :overview "project.clj" 
+;             :requires 'cjd.cjd.artifact-gen  :v #{ :n :f} 
+;             :footer 'cjd.cjd.its-mine/gen-footer }
   )
