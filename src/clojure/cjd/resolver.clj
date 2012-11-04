@@ -135,49 +135,49 @@
       )
 (defn link-resolvex [context item]
   #_(prn 'resolvex item #_context )
-  (let [local-ns (context-ns context)
-        local-namespaces (context-namespaces context)
-        [sym-ns sym-name] (resolve-symbol context item local-ns)]
-    #_(prn  'resolvex item local-ns sym-ns sym-name  local-namespaces)
-    (letfn [(resfn [xns xname] 
-              (cond 
-                (= xns local-ns)
-                [(if xname (str "#" xname) "#top") xns xname]
-                
-                (get local-namespaces xns)
-                [(str (name xns) ".html" (if xname (str "#" xname))) xns xname]
-                
-                :else
-                (if-let [link (resolve-link xns xname)]
-                  [link xns xname])))]
-      (if sym-ns
-        ; lookup succeeded in finding something
-        (resfn sym-ns sym-name)
-        
-        ; else, no cigars on the lookup; see if maybe it's a namespace ID
-        (if-let [alt-ns (find-ns item)]
-          (resfn (ns-name alt-ns) nil)
-          ; or, maybe it's a record/type name.
-          ; This is a big pain the behind, as record names are officially
-          ; names of java classes, but are only implicitly imported into the 
-          ; namespace of definition. Generate the namespace and name into
-          ; a class name, and see if we can resolve that...
-          #_(let [fqsym (symbol (str local-ns "/" item))
-                art (get-artifact fqsym)]
-            (println "resolver -- looking for" fqsym)
-            (resfn local-ns item))
+  (if-let [local-ns (context-ns context)] 
+    (let [local-namespaces (context-namespaces context)
+          [sym-ns sym-name] (resolve-symbol context item local-ns)]
+      #_(prn  'resolvex item local-ns sym-ns sym-name  local-namespaces)
+      (letfn [(resfn [xns xname] 
+                (cond 
+                  (= xns local-ns)
+                  [(if xname (str "#" xname) "#top") xns xname]
+                  
+                  (get local-namespaces xns)
+                  [(str (name xns) ".html" (if xname (str "#" xname))) xns xname]
+                  
+                  :else
+                  (if-let [link (resolve-link xns xname)]
+                    [link xns xname])))]
+        (if sym-ns
+          ; lookup succeeded in finding something
+          (resfn sym-ns sym-name)
           
-          ; Finally, assume that it might be a name or namespace name not
-          ; declared or used anywhere in scope. In this case, we try
-          ; and see if one of resolve-link's routines knows and loves it.
-          (let [nns (namespace item)
-                nname (if nns (name item) nil)
-                #_ (prn 'trying item nns nname)
-                link (if nns 
-                       (resolve-link nns nname)
-                       (resolve-link item nil))]
-            (if link
-              [link nns nname])))))))
+          ; else, no cigars on the lookup; see if maybe it's a namespace ID
+          (if-let [alt-ns (find-ns item)]
+            (resfn (ns-name alt-ns) nil)
+            ; or, maybe it's a record/type name.
+            ; This is a big pain the behind, as record names are officially
+            ; names of java classes, but are only implicitly imported into the 
+            ; namespace of definition. Generate the namespace and name into
+            ; a class name, and see if we can resolve that...
+            #_(let [fqsym (symbol (str local-ns "/" item))
+                    art (get-artifact fqsym)]
+                (println "resolver -- looking for" fqsym)
+                (resfn local-ns item))
+            
+            ; Finally, assume that it might be a name or namespace name not
+            ; declared or used anywhere in scope. In this case, we try
+            ; and see if one of resolve-link's routines knows and loves it.
+            (let [nns (namespace item)
+                  nname (if nns (name item) nil)
+                  #_ (prn 'trying item nns nname)
+                  link (if nns 
+                         (resolve-link nns nname)
+                         (resolve-link item nil))]
+              (if link
+                [link nns nname]))))))))
 
 #_ (* Same as @(link link-resolvex), but only returns the URI. )
 (defn link-resolve [context item]
