@@ -11,12 +11,12 @@
 #_ (* Leiningen plugin for CJD.
       )
 (ns leiningen.cjd
-  "Generates a HTML documentation tree."
-  #_(:use
+  "Generates a HTML documentation tree from CJD source comments."
+  (:use
     [cjd.exome]
     )
   (:require 
-    [leiningen.classpath :as classpath]
+    [leiningen.core.classpath :as classpath]
     )
   (:import 
     [java.io File]
@@ -24,8 +24,21 @@
     )
   )
 
-(defn- get-classpath-string [project]
+(defn- get-classpath-string-1 [project]
   (apply str (interpose File/pathSeparatorChar (map str (filter #(not (nil? %)) (classpath/get-classpath project))))))
+
+(defn- get-classpath-string [project]
+  (str (apply str (interpose File/pathSeparatorChar 
+                             (map str (filter #(not (nil? %)) 
+                                              (classpath/get-classpath project)))))
+       File/pathSeparatorChar 
+       (apply str (interpose File/pathSeparatorChar 
+                             (map str (filter #(not (nil? %)) 
+                                              (classpath/ext-classpath project)))))))
+
+(defn- printcp [legend cp]
+  (println legend)
+  (doseq [cpe (seq (.split cp ";"))] (println "\t" cpe))) 
 
 
 #_ (* Conditionally does a @(c conj).
@@ -77,7 +90,7 @@
                 (recur (.read from-stream buf)))))
           (catch Exception e (.printStackTrace e)))))))
 
-#_ (* Front end for leiningen.
+#_ (* Front end for leiningen ~"1.*".
       
       @name selects source locations, in order of preference, from\:
       @(ul @li The :cjd-source-path option in the :cjd-opts option map. Note that this 
@@ -97,7 +110,7 @@
       @arg project The leiningen project map, as derived from the project.clj file.
       @returns 0 , if document generation appears to have succeeded, and 1 otherwise.
       )
-(defn cjd 
+(defn cjd-1
 "  Extracts CJD comments from Clojure sources and generates a HTML documentation tree.
    
 	Specify CJD options by placing them in a map associated with the :cjd-doc key in the
@@ -121,7 +134,7 @@
   [project]
   (try
     (let [ { opts :cjd-opts target-dir :target-dir } project
-          s1 (or (:cjd-source-path project) (:source-path project) "src")
+          s1 (or (:cjd-source-path project) (:source-paths project) "src")
           sources (if (coll? s1) s1 [s1])
           dest (or (:cjd-dest-path project) "doc")
           ]
@@ -138,7 +151,7 @@
                      nogen v theme header footer index noindex showopts
                      all docstrings] } opts
             args
-            (-> [(.getPath java) "-cp" (get-classpath-string project) "cjd.main"]
+            (-> [(.getPath java) "-cp" (get-classpath-string-1 project) "cjd.main"]
               (cconj exclude "--exclude" 
                      (if (coll? exclude) (apply str (interpose ";" exclude)) exclude))
               (cconj requires "--requires" 
@@ -172,4 +185,55 @@
         (.waitFor proc)
         (println "Done, status " (.exitValue proc))
         ))
+    (catch Throwable t (.printStackTrace t))))
+
+#_ (* Front end for leiningen ~"2.*".
+      
+      @name selects source locations, in order of preference, from\:
+      @(ul @li The :cjd-source-path option in the :cjd-opts option map. Note that this 
+           can be either a single string, or a set of strings. CJD will search 
+           any directories for .clj files.
+           @li The :source-paths option in the project map.
+           @li "src" in the current directory.) 
+
+      @p @name selects the destination directory, in order of preference, from\:
+      @(ul @li The :doc-path value in the :cjd-doc option map\;
+           @li The :doc-path value in the @(arg project) map\;
+           @li "doc" in the current directory.) 
+
+      @p @name extracts all other options from a map associated the :cjd-opts key 
+      in the @(arg project) map. Options are as defined by @(l cjd.exome/cjd-generator).
+
+      @arg project The leiningen project map, as derived from the project.clj file.
+      @returns 0 , if document generation appears to have succeeded, and 1 otherwise.
+      )
+(defn cjd
+"  Extracts CJD comments from Clojure sources and generates a HTML documentation tree.
+   
+	Specify CJD options by placing them in a map associated with the :cjd-doc key in the
+	in the main project map. 
+	
+	CJD selects source locations, in order of preference, from:
+	-- The :cjd-source-path option in the project map. Note that this can be
+	   either a single string, or a collection of strings. CJD will search any 
+     directories for .clj files.
+	-- The :source-paths option in the project map.
+	-- \"src\" in the current directory. 
+	
+	CJD selects the destination directory, in order of preference, from:
+	-- The :cjd-dest-path value in the project map;
+	-- \"doc\" in the current directory. 
+	
+	CJD takes all other options from a map associated the :cjd-opts key. Options and
+	values are as described at: 
+	    http://greenh.github.com/CJD/doc/dark/cjd.exome.html#cjd-generator.
+"
+  [project]
+  (try
+    (let [ { opts :cjd-opts } project
+          s1 (or (:cjd-source-path project) (:source-paths project) "src")
+          sources (if (coll? s1) s1 [s1])
+          dest (or (:cjd-dest-path project) "doc")
+          ]
+      (cjd-generator sources dest opts))
     (catch Throwable t (.printStackTrace t))))
