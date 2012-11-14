@@ -54,7 +54,7 @@ p { margin-top: 3pt; margin-bottom: 3pt;
 	border-top: thin solid black;
 }
 
-.itemname { text-align: left; font-size: medium; font-weight: bold; }
+.itemname { text-align: left; font-size: medium; font-weight: bold; color: black; }
 
 .itemtype { text-align: right; font-size: medium; }
 
@@ -117,6 +117,9 @@ p { margin-top: 3pt; margin-bottom: 3pt;
 .n4 { font-weight: bold; font-family: monospace; font-size: 13px; color: orange; }
 .n5 { font-weight: bold; font-family: monospace; font-size: 13px; color: olive; }
 .n6 { font-weight: bold; font-family: monospace; font-size: 13px; color: maroon; }
+.n7 { font-weight: bold; font-family: monospace; font-size: 13px; color: teal; }
+.n8 { font-weight: bold; font-family: monospace; font-size: 13px; color: black; }
+
 
 .fn { font-weight: bold; font-family: monospace; font-size: 13px;
 	color: rgb(178,0,208); }
