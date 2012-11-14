@@ -68,9 +68,9 @@
       methods for parsing and AST construction. Note that specific methods
       for @(name) are normally constructed automatically by @(link defartifact).
       )
-(defmulti cjd-artifact (fn [[type-sym & _] ns-ent doc-form] type-sym) :default nil)
+(defmulti cjd-artifact (fn [[type-sym & _] ns-ent source-path doc-form] type-sym) :default nil)
 
-(defmethod cjd-artifact nil [_ _ _] nil)
+(defmethod cjd-artifact nil [_ _ _ _] nil)
 
 #_ (* Instantiates an artifact within an artifact parsing function. 
       @(p @name is rebound dynamically—usually with additional 
@@ -116,8 +116,8 @@
   (namespace-of [this] )
   #_ (* Returns the name of the artifact. This is a @(i symbol), not a string.)
   (artifact-name-of [this] )
-  #_ (* Returns a string containing the name of the file in which the 
-        artifact was defined.)
+  #_ (* Returns a string containing the source directory-relative path of the file 
+        in which the artifact was defined.)
   (defined-in [this] )
   #_ (* Returns the line number where the artifact was defined, as 
         an integer.)
@@ -223,7 +223,7 @@
         (extenso-field-munger 'defartifact extensos local-fields)
         
         method-form 
-        `(defmethod cjd-artifact (quote ~keying-symbol) [form# ns-artifact# doc-form#]
+        `(defmethod cjd-artifact (quote ~keying-symbol) [form# ns-artifact# path# doc-form#]
            (let [[~'_ name#] form#
                  {file# :file line# :line} (meta form#)] 
              (artifact-msg ~(str keying-symbol " ") name# 
@@ -236,7 +236,7 @@
 ;                              ~@uninit-fields)
                          (let [art# 
                                (~(symbol (str "make-" artifact-name)) 
-                                 name# ns-artifact# file# line#
+                                 name# ns-artifact# path# line# 
                                  doc-form# ~@uninit-fields)
                                fqid# (if ns-artifact# 
                                        (symbol (str (artifact-name-of ns-artifact#) 

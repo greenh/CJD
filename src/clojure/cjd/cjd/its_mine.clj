@@ -8,11 +8,12 @@
      
      You must not remove this notice, or any other, from this software.
      )
-#_ (* Ancillary functions specific to CJD's documentation.
+#_ (* Miscellaneous functions for customizing the output CJD produces of its own 
+      documentation.
       )
 (ns cjd.cjd.its-mine
   (:use 
-    [cjd generate context]
+    [cjd generate context custom link-resolver artifact-base]
     [hiccup core]
     )
   )
@@ -33,3 +34,13 @@
       "Copyright &copy; "
       (.format year-format (context-gen-time context))
       " Howard Green. All rights reserved."]])))
+
+(add-source-resolver 
+  (fn [artifact]
+    (let [path (defined-in artifact)
+          line (defined-at artifact)
+          #_ (pr 'path path 'line line)] 
+      (if (and path line 
+               (or (re-matches #"src/clojure/cjd.*" path) 
+                   (re-matches #"src/clojure/leiningen\.cjd.*" path))) 
+        (str "https://github.com/greenh/CJD/blob/master/" path "#L" line)))))

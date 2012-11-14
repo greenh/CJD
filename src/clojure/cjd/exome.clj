@@ -25,7 +25,7 @@
     [cjd.core-artifacts]
     [cjd.resolver]
     [cjd.link-resolver]
-    [cjd.resource]
+    [cjd.custom]
     )
   (:gen-class)
   )
@@ -118,6 +118,7 @@
       parsing exercise on them, to result in a rough abstract syntax tree
       that serves as the basis for further processing.
       @arg context The current context object.
+      @arg filename The source-directory-relative path name of the source file.
       @arg forms A sequence of forms as generated, e.g. by @(link forms-from-file).
       @(returns 
          A tuple of the form @(form [ns-obj artifacts]), where
@@ -125,24 +126,24 @@
          was one.
          @arg artifacts A sequence of artifact objects from the source.)
       )
-(defn endoculate [context forms]
+(defn endoculate [context filename forms]
   (binding [artifact-msg (fn [& things] (msg context :e (apply str things)))]
     (let [[ns-artifact _ artifacts] 
-        (reduce 
-          (fn [[ns-artifact+ last-doc artifacts+] form] 
-            (if (cjd-doc? form)
-              [ns-artifact+ form artifacts+]
-              (let [artifact (cjd-artifact form ns-artifact+ last-doc)]
-                (if artifact 
-                  (if (namespace-artifact? artifact)
-                    [artifact nil artifacts+]
-                    [ns-artifact+ nil (conj artifacts+ artifact)])
-                  [ns-artifact+ nil artifacts+]))))
-          [nil nil []]
-          forms)]
-    (if ns-artifact   
-      (set-artifacts ns-artifact artifacts))
-    [ns-artifact artifacts])))
+          (reduce 
+            (fn [[ns-artifact+ last-doc artifacts+] form] 
+              (if (cjd-doc? form)
+                [ns-artifact+ form artifacts+]
+                (let [artifact (cjd-artifact form ns-artifact+ filename last-doc)]
+                  (if artifact 
+                    (if (namespace-artifact? artifact)
+                      [artifact nil artifacts+]
+                      [ns-artifact+ nil (conj artifacts+ artifact)])
+                    [ns-artifact+ nil artifacts+]))))
+            [nil nil []]
+            forms)]
+      (if ns-artifact   
+        (set-artifacts ns-artifact artifacts))
+      [ns-artifact artifacts])))
 
 #_ (* Determines if a file should be excluded from processing.
       @arg file A @(linki java.io.File) object representing the
@@ -387,9 +388,12 @@
           [ns-artifacts name-map]
           (reduce 
             (fn [[ns-artifacts+ name-map+] file]
-              (let [filename (.getPath file)
+              (let [filename (.replaceAll (.getPath file) "\\\\" "/")
                     _ (msg pre-context :f (str "processing " filename))
-                    [ns-artifact artifacts] (endoculate pre-context (forms-from-file filename))
+                    ; Finally! It's time to parse the file.
+                    [ns-artifact artifacts] 
+                    (endoculate pre-context filename (forms-from-file filename))
+                    
                     ns-name (if ns-artifact (artifact-name-of ns-artifact) nil)]
                 (if ns-artifact 
                   (let [name-map* 

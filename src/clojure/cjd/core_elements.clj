@@ -42,42 +42,70 @@
 #_ (* Extenso incorporated by all flow elements.)
 (defextenso Flow [Node] [])
 
-
+#_ (* Node corresponding to a @(c ~"@p") element.)
 (defconstructo FlowContainer [(Flow content)] [])
 
+#_ (* Node corresponding to a @(c ~"@ul") element.)
 (defconstructo UnorderedList [Flow] [])
+#_ (* Node corresponding to a @(c ~"@ol") element.)
 (defconstructo OrderedList [Flow] [])
+#_ (* Node corresponding to a @(c ~"@li") element.)
 (defconstructo ListItem [Flow] [])
 
+#_ (* Extenso incorporated by all "info-description" node types.)
 (defextenso Info [Flow] [])
+#_ (* Node corresponding to a @(c ~"@see") element.)
 (defconstructo SeeAlso [Info] [])
+#_ (* Node corresponding to a @(c ~"@since") element.)
 (defconstructo Since [Info] [])
+#_ (* Node corresponding to a @(c ~"@deprecated") element.)
 (defconstructo Deprecation [Info] [])
+#_ (* Node corresponding to a @(c ~"@author") element.)
 (defconstructo Author [Info] [])
 
+#_ (* Marks an object as being part of some section.)
 (defextenso Sectional [] [])
 
+#_ (* Extenso incorporated by all nodes that "declare" identifiers to be documented.
+      @field name A string containing the identifier.)
 (defextenso HasName [] [name]
+  #_ (* Returns the identifier.)
   (name-of [this] name))
 
+#_ (* Extenso incorporated by nodes having a level.
+      @field level The level number, an integer. May be nil!)
 (defextenso HasLevel [] [level]
   (level-of [this] level))
 
+#_ (* Extenso representing an identifier declared at a particular level.)
 (defextenso ScopedName [(HasName name) (HasLevel level)] [])
 
+#_ (* Node corresponding to a @(c ~"@arg") element.)
 (defconstructo Argument 
   [Sectional (ScopedName name level) (Flow content)] [])
 
+#_ (* Node corresponding to a @(c ~"@field") element.)
 (defconstructo Field 
   [Sectional (ScopedName name level) (Flow content )] [])
 
+#_ (* Node corresponding to a @(c ~"@opt"), @(c ~"@option"), @(c ~"@popt"), or
+      @(c ~"@optn") element.
+      @field has-default True if @(field default-value) is specified.
+      @field default-value The default value, if there is one.
+      @field parameter A string representing an parameter description 
+      (as for a command-line argument.)
+      @field identifier A identifier corresponding to the option itself, such as 
+      the "destination" in ":dest destination".
+      )
 (defconstructo Option 
   [Sectional (ScopedName name level) (Flow content )] 
-  [has-default default-value parameter]
+  [has-default default-value parameter identifier]
   (has-default? [this] (boolean has-default))
   (default-value-of [this] default-value)
   (has-param? [this] (boolean parameter))
   (parameter-of [this] parameter)
+  (has-id? [this] (boolean identifier))
+  (identifier-of [this] identifier)
   )
 
 (defconstructo Return [Sectional (Flow content)] [])

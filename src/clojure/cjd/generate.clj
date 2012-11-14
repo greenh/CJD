@@ -70,6 +70,9 @@
 
 (defn level-tag [tag level] (str tag level))
 
+#_ (* Maximum number of levels of nexting before wrap)
+(def max-levels 8)
+
 #_ (* A general-purpose @(linki java.util.Comparator) that does its comparisons
       on an uncased basis.
       )
@@ -154,9 +157,11 @@
       
       (map? form)
       (str "{" 
-         (apply str 
-                (interpose " " 
-                           (map (fn [[k v]] (str (declaration-form k context) " " (str v))) form))) 
+         (apply str (interpose " " 
+                      (map (fn [[k v]] 
+                             (str (declaration-form k context) " " 
+                                  (declaration-form v context))) 
+                           form))) 
          "}")
       :else
       (str form)
@@ -191,7 +196,7 @@
   (let [nms (context-ns context)] (html [:span.n0 (if nms nms "!?NO NAMESPACE?!")])))
 (defn gen-use [node context]
   (let [name (.name node)
-        level (context-item-level context name)]
+        level (if-let [lev (context-item-level context name)] (min lev max-levels))]
     (html [:span {:class (str "n" (if level level "x"))} (str name)])))
 (defn gen-form [node context]
   (html [:code (declaration-form (.form node) context)]))
@@ -252,6 +257,32 @@
     code
     (str code "1")))
 
+#_ (* Recursively extracts all identifiers declared within the transitive 
+      closure of named items (e.g., arg, opt, etc.) within a flow, 
+      and updates the supplied context with those identifiers.
+      
+      @p This notionally gets run once at the start of an artifact's flow
+      processing, and populates the context so that any identifier can be
+      appropriately rendered at any point within the artifact's scope.
+      
+      @arg flow The current top level flow.
+      @arg level The current lexicographic level.
+      @arg context The context to add to.
+      @returns The updated context.
+      )
+(defn extract-ids [flow level context]
+  (let [named-subs (filter #(satisfies? HasName %) flow)]
+    (reduce 
+      (fn [context+ named]
+        (let [context++ (extract-ids (content-of named) (inc level) context+)
+              context+++ (context-item! context++ (name-of named) level)]
+          ;; idiot special case for Option objects with identifier
+          (if (and (= (type named) cjd.core_elements.Option)(has-id? named))
+            (context-item! context+++ (identifier-of named) level)
+            context+++)
+          ))
+      context
+      named-subs)))
 
 #_ (* Generates HTML content for a CJD comment flow.
       @p The "flow" notion is defined implicitly\: fundamentally, it's a sequence 
@@ -282,9 +313,13 @@
     (throw (CJDException. "gen-flow: not a flow")))
   (let [level (context-level context)
         named-subs (filter #(satisfies? HasName %) flow)
+        upcontext- (if (context-extracted context) context 
+                     (context-extracted! (extract-ids flow level context) true))
+        ;; in effect, we do a extract-ids again, 'cause extract-ids isn't fully general 
+        ;; and tends to miss form and fun elements used within plain old paragraphs.
         upcontext (reduce 
                     (fn [context+ named] (context-item! context+ (name-of named) level))
-                    context named-subs)
+                    upcontext- named-subs)
         ncontext (context-level! upcontext (inc level))
     
         [desc-nodes post-desc] 
@@ -367,6 +402,8 @@
             (declaration-form (name-of node) context) 
             (if (has-param? node)
               (html [:span.expr " " (html-encode (str (parameter-of node)))]))
+            (if (has-id? node)
+              (html [:span.expr " " (declaration-form (identifier-of node) context)]))
             (if (has-default? node) 
               (str " (default: " (html [:span.expr (pr-str (default-value-of node))]) ")"))
             " &mdash; " blurb] 
@@ -747,11 +784,13 @@
 (mk-category :multidef "Multimethod")
 (mk-category :multimethod "Multimethod Implementation")
 
+(def def-uri "http://clojure.org/special_forms#Special%20Forms--%28def%20symbol%20init?%29")
+
 #_ (* Generates detailed documentation for an artifact.)
 (defn gen-artifact [artifact context]
   (msg context :a "gen-artifact" (.toString artifact))
-  (let [gen-fn (gen-fn-of artifact)]
-    (if-not gen-fn 
+  (let [generate-function (gen-fn-of artifact)]
+    (if-not generate-function 
       (throw (CJDException. (str "No generator for artifact type " (type artifact)))))
     (let [neocon (init-context context artifact)
           type-uri (if (= 'def (defined-by artifact)) 
@@ -762,7 +801,10 @@
            [:table.topline
             [:tbody
              [:tr 
-              [:td [:span.itemname (artifact-name-of artifact)]]
+              [:td 
+               (if-let [src-uri (resolve-source artifact)]
+                 [:a.itemname { :href src-uri } (artifact-name-of artifact)]
+                 [:span.itemname (artifact-name-of artifact)])]
               [:td {:align "right"}
                #_ [:span.itemtype (descriptive-of artifact)]
                (if type-uri
@@ -770,7 +812,7 @@
                  (defined-by artifact))
                " in "
                [:a { :href (str "#top" )} (context-ns neocon)]]]]]
-           (gen-fn artifact neocon)]))))
+           (generate-function artifact neocon)]))))
 
 #_ (* Retrieves the "blurb", the first paragraph, of a CJD comment.
       @p By weak convention, the first paragraph of an artifact's description

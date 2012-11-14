@@ -8,10 +8,11 @@
      
      You must not remove this notice, or any other, from this software.
      )
-#_ (* Provides support for specifying resources, such as images or .css documents,
-      to be included in the output.
+#_ (* Functions to support customization of CJD operation. 
+      @p This includes specifying resources such as images or .css documents to be 
+      included in the output, and for custom headers and footers.
       )
-(ns cjd.resource)
+(ns cjd.custom)
 
 (def css-docs* (ref #{}))
 (def resource-fns* (ref #{}))
@@ -54,3 +55,28 @@
     (if (= (context-theme context) :dark)
       ["cjd.css" "/cjd/resources/cjd-r.css"]
       ["cjd.css" "/cjd/resources/cjd.css"])))
+
+(def header-fn* (ref nil))
+(def footer-fn* (ref nil))
+
+#_ (* Specifies a function to be invoked by CJD to create a header for each generated page.
+      @(arg header-fn The header-generating function, which should have a form
+            @(fun [context]), where\: 
+            @arg context The @(il cjd.context.Context) object describing the current state
+            of CJD processing.
+            @returns A string containing HTML content to be used as the header.)
+      )
+(defn set-header [header-fn]
+  (ref-set header-fn* header-fn))
+
+#_ (* Specifies a function to be invoked by CJD to create a footer for each generated page.
+      @(arg footer-fn The footer-generating function, which should have a form
+            @(fun [context]), where\: 
+            @arg context The @(il cjd.context.Context) object describing the current state
+            of CJD processing.
+            @returns A string containing HTML content to be used as the footer.)
+      )
+(defn set-footer [footer-fn]
+  (ref-set footer-fn* footer-fn))
+
+

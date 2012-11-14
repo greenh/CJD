@@ -23,14 +23,14 @@
     [cjd.context]
     [extensomatic.extensomatic]
     [cjd.resolver]
-    [cjd.resource]
+    [cjd.custom]
     [hiccup.core]
     )
   (:import
     [cjd.cjd.cjd_artifacts Extenso Constructo Artifactoid Subartifactoid])
   )
 
-(add-link-resolvers 
+(add-external-resolvers 
   (fn [ns sym]
     (if (re-matches #"extensomatic\..*" (name ns))
         (str "http://greenh.github.com/Extensomatic/doc/dark/" (name ns) ".html"

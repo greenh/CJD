@@ -148,7 +148,7 @@
                   [(str (name xns) ".html" (if xname (str "#" xname))) xns xname]
                   
                   :else
-                  (if-let [link (resolve-link xns xname)]
+                  (if-let [link (resolve-external xns xname)]
                     [link xns xname])))]
         (if sym-ns
           ; lookup succeeded in finding something
@@ -169,13 +169,13 @@
             
             ; Finally, assume that it might be a name or namespace name not
             ; declared or used anywhere in scope. In this case, we try
-            ; and see if one of resolve-link's routines knows and loves it.
+            ; and see if one of resolve-external's routines knows and loves it.
             (let [nns (namespace item)
                   nname (if nns (name item) nil)
                   #_ (prn 'trying item nns nname)
                   link (if nns 
-                         (resolve-link nns nname)
-                         (resolve-link item nil))]
+                         (resolve-external nns nname)
+                         (resolve-external item nil))]
               (if link
                 [link nns nname]))))))))
 

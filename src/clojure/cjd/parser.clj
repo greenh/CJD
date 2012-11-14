@@ -441,13 +441,16 @@
        (fn [context name content] (make-Field name (context-level context) content) ))
 (mk-el ['key 'opt] "Option" 1 
        (fn [context name content] 
-         (make-Option name (context-level context) content false nil nil)))
+         (make-Option name (context-level context) content false nil nil nil)))
 (mk-el ['option] "Option with default" 2 
        (fn [context name default content] 
-         (make-Option name (context-level context) content true default nil)))
+         (make-Option name (context-level context) content true default nil nil)))
 (mk-el ['popt] "Option with parameter" 2 
        (fn [context name param content] 
-         (make-Option name (context-level context) content false nil param)))
+         (make-Option name (context-level context) content false nil param nil)))
+(mk-el ['nopt] "Option with identifier" 2 
+       (fn [context name id content] 
+         (make-Option name (context-level context) content false nil nil id)))
 
 (mk-el ['see] "See also" 0 
        (fn [context content] (make-SeeAlso content) ))

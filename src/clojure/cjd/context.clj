@@ -74,7 +74,8 @@
    (title nil) (overview nil) (throw-on-warn nil) 
    (gen-time (java.util.Date.)) (version *cjd-version*) 
    (verbiage #{}) (theme :light) (header nil) (footer nil) (index-name nil)
-   (all-public nil) (use-docstrings nil) (artifact-filter nil)]
+   (all-public nil) (use-docstrings nil) (artifact-filter nil)
+   (extracted false)]
   
   (context-file [context] file)
   (context-file! [context file] (assoc context :file file))
@@ -160,6 +161,9 @@
         ) 
   (context-filter [context] artifact-filter)
   (context-filter! [context t] (assoc context :artifact-filter t))
+  
+  (context-extracted [context] extracted)
+  (context-extracted! [context ext] (assoc context :extracted ext)) 
   
   Messaging
   (msg [context opt stuff]

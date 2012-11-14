@@ -156,8 +156,8 @@
 (defartifact Macro defmacro "macro" 
   [(HasDocString docstring) (HasParameterSets parameter-sets)] []  parse-functional)
 
-#_ (* Artifact that describes a function with optional keyed parameters, as defined by 
-      @(linkto http://clojuredocs.org/clojure_contrib/clojure.contrib.def/defnk defnk).)
+#_ (* Artifact that describes a function with optional keyed parameters, such as are used
+      by @(linkto http://clojuredocs.org/clojure_contrib/clojure.contrib.def/defnk defnk).)
 (defartifact KeyedFunction defnk "keyed function" 
   [(HasDocString docstring) (HasParameterSets parameter-sets)] []  parse-functional)
 
