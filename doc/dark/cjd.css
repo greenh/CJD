@@ -53,7 +53,7 @@ p { margin-top: 3pt; margin-bottom: 3pt;
 	border-top: thin solid white;
 }
 
-.itemname { text-align: left; font-size: medium; font-weight: bold; }
+.itemname { text-align: left; font-size: medium; font-weight: bold; color: white; }
 
 .itemtype { text-align: right; font-size: medium; }
 
@@ -114,8 +114,11 @@ p { margin-top: 3pt; margin-bottom: 3pt;
 .n2 { font-family: monospace; font-size: 13px; color: rgb(0, 255, 0); }
 .n3 { font-family: monospace; font-size: 13px; color: rgb(174, 133, 255); }
 .n4 { font-family: monospace; font-size: 13px; color: orange; }
-.n5 { font-family: monospace; font-size: 13px; color: olive; }
-.n6 { font-family: monospace; font-size: 13px; color: maroon; }
+.n5 { font-family: monospace; font-size: 13px; color: yellow; }
+.n6 { font-family: monospace; font-size: 13px; color: rgb(255, 83, 255); }
+.n7 { font-family: monospace; font-size: 13px; color: rgb(202, 194, 136); }
+.n8 { font-family: monospace; font-size: 13px; color: rgb(200, 200, 200); }
+
 
 .fn { font-family: monospace; font-size: 13px; color: cyan; }
 
