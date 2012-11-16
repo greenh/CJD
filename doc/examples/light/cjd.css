@@ -3,31 +3,32 @@
 
 body {
 	font-family: arial, sans-serif;
-	background: black;
-	color: white;
+	background: white;
+	color: black;
 	font-size: 13px;
 	margin-left: 4mm;
 	margin-right: 4mm;
 }
 
-ul { padding-left: 0mm; margin-left: 5mm; }
-ol { padding-left: 0mm; margin-left: 5mm; }
+ul { padding-left: 0mm; margin-left: 5mm;}
+ol { padding-left: 0mm; margin-left: 5mm;}
 
 /* General-purpose pre block */
-pre.pre { margin-left: 4mm; margin-top: 2mm; margin-bottom: 2mm; color: rgb(255,255,221);}
+pre { margin-left: 4mm; margin-top: 2mm; margin-bottom: 2mm; }
 
 /* pre entries for examples: .u  for user input, .r for REPL output, .prompt for prompt  */
-pre.u { margin-left: 4mm; margin-top: 0; margin-bottom: 0; color: rgb(193,209,255);}
-pre.r { margin-left: 4mm; margin-top: 0; margin-bottom: 0; color: rgb(255,193,234);}
-.prompt { color: white; }
+pre.u { margin-left: 4mm; margin-top: 0; margin-bottom: 0; color: rgb(128,0,0);}
+pre.r { margin-left: 4mm; margin-top: 0; margin-bottom: 0; color: rgb(0,0,255);}
+.prompt { color: black; }
 div.spacer { 
 	margin-top: 8pt; 
 	margin-bottom: 8pt; 
 	padding-top: 4pt; 
 	padding-bottom: 4pt; 
-	border: thin solid grey; }
+	border: thin solid rgb(80,80,80); }
 
-a { color: rgb(247,202,102);  } /* rgb(186,17,255) */
+
+a { color: rgb(114,98,54); font-weight: bold;  } /* rgb(186,17,255) rgb(112,35,215); */
 a:link { text-decoration: none }
 a:active { text-decoration: none }
 a:visited { text-decoration: none }
@@ -50,10 +51,10 @@ p { margin-top: 3pt; margin-bottom: 3pt;
 .artifact {
 	padding-top: 3px;
 	margin-top: 18px;
-	border-top: thin solid white;
+	border-top: thin solid black;
 }
 
-.itemname { text-align: left; font-size: medium; font-weight: bold; color: white; }
+.itemname { text-align: left; font-size: medium; font-weight: bold; color: black; }
 
 .itemtype { text-align: right; font-size: medium; }
 
@@ -109,21 +110,23 @@ p { margin-top: 3pt; margin-bottom: 3pt;
 
 .id { font-family: monospace; font-size: 13px; }
 
-.n0 { font-family: monospace; font-size: 13px; color: rgb(113, 201, 255); }
-.n1 { font-family: monospace; font-size: 13px; color: rgb(255, 105, 105); }
-.n2 { font-family: monospace; font-size: 13px; color: rgb(0, 255, 0); }
-.n3 { font-family: monospace; font-size: 13px; color: rgb(174, 133, 255); }
-.n4 { font-family: monospace; font-size: 13px; color: orange; }
-.n5 { font-family: monospace; font-size: 13px; color: yellow; }
-.n6 { font-family: monospace; font-size: 13px; color: rgb(255, 83, 255); }
-.n7 { font-family: monospace; font-size: 13px; color: rgb(202, 194, 136); }
-.n8 { font-family: monospace; font-size: 13px; color: rgb(200, 200, 200); }
+.n0 { font-weight: bold; font-family: monospace; font-size: 13px; color: rgb(50,50,255); }
+.n1 { font-weight: bold; font-family: monospace; font-size: 13px; color: red; }
+.n2 { font-weight: bold; font-family: monospace; font-size: 13px; color: rgb(50,150,0); }
+.n3 { font-weight: bold; font-family: monospace; font-size: 13px; color: rgb(180,1,199); }
+.n4 { font-weight: bold; font-family: monospace; font-size: 13px; color: orange; }
+.n5 { font-weight: bold; font-family: monospace; font-size: 13px; color: olive; }
+.n6 { font-weight: bold; font-family: monospace; font-size: 13px; color: maroon; }
+.n7 { font-weight: bold; font-family: monospace; font-size: 13px; color: teal; }
+.n8 { font-weight: bold; font-family: monospace; font-size: 13px; color: black; }
 
 
-.fn { font-family: monospace; font-size: 13px; color: cyan; }
+.fn { font-weight: bold; font-family: monospace; font-size: 13px;
+	color: rgb(178,0,208); }
 
 .trailer { margin-top: 6mm; margin-bottom: 3mm; text-align: center; width: 100%; }
 .ending { font-size: 9pt; font-style: italic; }
 
 samp { background: pink; }
 kbd { background: yellow; }
+
