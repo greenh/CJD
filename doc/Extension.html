@@ -14,17 +14,17 @@ xmlns="http://www.w3.org/TR/REC-html40">
  <o:DocumentProperties>
   <o:Author>Howard Green</o:Author>
   <o:LastAuthor>Howard Green</o:LastAuthor>
-  <o:Revision>2</o:Revision>
-  <o:TotalTime>28927</o:TotalTime>
+  <o:Revision>7</o:Revision>
+  <o:TotalTime>29825</o:TotalTime>
   <o:Created>2012-01-30T02:29:00Z</o:Created>
-  <o:LastSaved>2012-01-30T02:29:00Z</o:LastSaved>
+  <o:LastSaved>2012-11-09T02:06:00Z</o:LastSaved>
   <o:Pages>1</o:Pages>
-  <o:Words>1590</o:Words>
-  <o:Characters>9069</o:Characters>
+  <o:Words>2046</o:Words>
+  <o:Characters>11668</o:Characters>
   <o:Company>None</o:Company>
-  <o:Lines>75</o:Lines>
-  <o:Paragraphs>21</o:Paragraphs>
-  <o:CharactersWithSpaces>10638</o:CharactersWithSpaces>
+  <o:Lines>97</o:Lines>
+  <o:Paragraphs>27</o:Paragraphs>
+  <o:CharactersWithSpaces>13687</o:CharactersWithSpaces>
   <o:Version>11.9999</o:Version>
  </o:DocumentProperties>
  <o:OfficeDocumentSettings>
@@ -388,7 +388,6 @@ ul
 	mso-pagination:widow-orphan;
 	font-size:10.0pt;
 	font-family:"Times New Roman";
-	mso-fareast-font-family:"Times New Roman";
 	mso-ansi-language:#0400;
 	mso-fareast-language:#0400;
 	mso-bidi-language:#0400;}
@@ -413,7 +412,7 @@ table.MsoTableGrid
 	mso-bidi-language:#0400;}
 </style>
 <![endif]--><!--[if gte mso 9]><xml>
- <o:shapedefaults v:ext="edit" spidmax="8194"/>
+ <o:shapedefaults v:ext="edit" spidmax="9218"/>
 </xml><![endif]--><!--[if gte mso 9]><xml>
  <o:shapelayout v:ext="edit">
   <o:idmap v:ext="edit" data="1"/>
@@ -451,8 +450,8 @@ normal'><span style='font-size:16.0pt;color:red'>Use at your own risk!<o:p></o:p
 <p class=MsoNormal><o:p>&nbsp;</o:p></p>
 
 <p class=MsoNormal>Clojure, as a dialog of Lisp, carries on Lisp's longstanding
-tradition of syntactic extensibility. Clojure's extension facilities—notably
-its macro mechanism—allow a suitably inspired programmer to effectively make
+tradition of syntactic extensibility. Clojure's extension facilities—notably its
+macro mechanism—allow a suitably inspired programmer to effectively make
 additions to the base Clojure language.</p>
 
 <p class=MsoNormal>This has some interesting ramifications for a structured
@@ -670,12 +669,15 @@ style='font-size:12.0pt;font-family:"Times New Roman";mso-no-proof:yes'><o:p></o
 <p class=MsoNormal style='margin-left:0in'><!--[if supportFields]><span
 style='mso-element:field-end'></span><![endif]--><o:p>&nbsp;</o:p></p>
 
-<h1><a name="_Toc315266621">Adding extensions to CJD</a></h1>
+<h1><a name="_Toc315266621">Preliminaries</a></h1>
+
+<h2><span style='mso-bookmark:_Toc315266621'><a name="_Adding_extensions_to"></a>Adding
+extensions to CJD</span></h2>
 
 <p class=MsoNormal>An extension to CJD is written in Clojure. Generally
-speaking, they're contained in one or more namespaces dedicated to CJD support—they're
-development-time code, and not something you'd generally want to ship as part
-of the operational output your project. </p>
+speaking, they're contained in one or more namespaces dedicated to CJD
+support—they're development-time code, and not something you'd generally want
+to ship as part of the operational output your project. </p>
 
 <p class=MsoNormal>You make CJD aware of such namespaces by including their
 names in the &quot;requires&quot; option when you run CJD: this is either:</p>
@@ -716,12 +718,10 @@ which are hierarchically loaded by one another, it's generally only necessary
 to tell CJD about the root namespaces of the hierarchy, as Clojure will
 automatically load the rest. </p>
 
-<h1>Preliminaries</h1>
-
 <h2>The CJD context object</h2>
 
 <p class=MsoNormal>CJD ubiquitously uses a &quot;context object&quot; in many
-aspects of its internal operations. It's currently defined by the <a
+aspects of its internal operations. It's defined by the <a
 href="http://greenh.github.com/CJD/doc/dark/cjd.context.html#Context">Context</a>
 record type, and essentially consists of a long list of fields and what amount
 to setter/getter methods. </p>
@@ -736,52 +736,168 @@ context-sensitive messages, warnings, and errors.</p>
 probably won't need to deal much with the context object; but many CJD
 functions require or receive it as a parameter. This is often done on a
 pro-forma basis; so the takeaway here is that if you need, say, to write a
-function that takes a context object as a parameter, you it, and that's OK—it
-won't bite.</p>
+function that takes a context object as a parameter, and your function just
+ignores it, then that's OK—it won't bite.</p>
 
-<h1><a name="_Toc315266622"></a><a name="_Toc315255992"><span style='mso-bookmark:
-_Toc315266622'>Customizing CJD output</span></a></h1>
+<h1><a name="_Toc315255992"></a><a name="_Toc315266622"><span style='mso-bookmark:
+_Toc315255992'>Customizing CJD output</span></a></h1>
 
 <p class=MsoNormal>CJD provides a limited set of ways by which you can
 customize its output. </p>
 
-<h2><a name="_Toc315266623"></a><a name="_Toc315255993"><span style='mso-bookmark:
-_Toc315266623'>Adding</span></a><span style='mso-bookmark:_Toc315255993'><span
-style='mso-bookmark:_Toc315266623'><span class=ProgTextChar><span
+<h2><a name="_Toc315255993"></a><a name="_Toc315266623"><span style='mso-bookmark:
+_Toc315255993'>Adding</span></a><span style='mso-bookmark:_Toc315266623'><span
+style='mso-bookmark:_Toc315255993'><span class=ProgTextChar><span
 style='font-size:11.0pt;mso-bidi-font-size:14.0pt;mso-bidi-font-family:Arial'> </span></span>web
-resources</span></span><span style='mso-bookmark:_Toc315266623'></span><span
-style='mso-bookmark:_Toc315255993'></span><span class=ProgTextChar><span
+resources</span></span><span style='mso-bookmark:_Toc315255993'></span><span
+style='mso-bookmark:_Toc315266623'></span><span class=ProgTextChar><span
 style='font-size:14.0pt;mso-bidi-font-family:Arial'><o:p></o:p></span></span></h2>
 
 <p class=MsoNormal>Occasionally you may want to add web-related resources such
-as images or custom CSS files to </p>
+as images or custom CSS documents to the CJD output tree. </p>
 
-<h2><a name="_Toc315266624"></a><a name="_Toc315255994"><span style='mso-bookmark:
-_Toc315266624'>Link resolution functions</span></a></h2>
+<h2><a name="_Toc315255994"></a><a name="_Toc315266624"><span style='mso-bookmark:
+_Toc315255994'>Link resolver functions</span></a></h2>
 
 <p class=MsoNormal>One of CJD's goals is to make it easy to generate links that
-reference the documentation of program-related entities, such as Clojure
-artifacts or Java classes. CJD natively knows about a few such bodies of
-documentation, like for <span class=ProgTextChar><span style='mso-bidi-font-family:
-"Times New Roman"'>clojure.core</span></span> and <span class=ProgTextChar><span
-style='mso-bidi-font-family:"Times New Roman"'>java</span></span> classes.
-Thus, if you're documenting a function that uses, say, <span
+reference the documentation of program-related entities outside of the
+namespaces for which it's generating documentation, such as Clojure artifacts
+or Java classes. CJD natively knows about a few such bodies of documentation,
+like for <span class=ProgTextChar><span style='mso-bidi-font-family:"Times New Roman"'>clojure.core</span></span>
+and <span class=ProgTextChar><span style='mso-bidi-font-family:"Times New Roman"'>java</span></span>
+classes. Thus, if you're documenting a function that uses, say, <span
 class=ProgTextChar><span style='mso-bidi-font-family:"Times New Roman"'>clojure.core/extends</span></span>,<span
 style='mso-spacerun:yes'>  </span>you can just put <span class=ProgTextChar><span
-style='mso-bidi-font-family:"Times New Roman"'>@(link&nbsp;extends)</span></span>
-in a CJD-comment and CJD will look up the symbol and insert the link to the <span
-class=ProgTextChar><span style='mso-bidi-font-family:"Times New Roman"'>extends</span></span>
+style='mso-bidi-font-family:"Times New Roman"'>@(l&nbsp;extends)</span></span>
+in a CJD-comment and CJD will insert the link to the <span class=ProgTextChar><span
+style='mso-bidi-font-family:"Times New Roman"'>extends</span></span>
 documentation (as we discuss in detail <a href="#_Linking_to_other">above</a>).</p>
 
-<p class=MsoNormal>CJD allows you to add add</p>
+<p class=MsoNormal>To make this happen, CJD first resolves the symbol to its
+fully qualified name, which it does by normal Clojure mechanisms. Then, it needs
+a way to map the fully qualified name into its documentation's URL. This is
+where link resolver functions come in: CJD sequentially calls each link
+resolver function it knows of, passing it the symbol's namespace and name,
+until one responds with a URL. </p>
 
-<h2><a name="_Toc315266625"></a><a name="_Toc315255995"><span style='mso-bookmark:
-_Toc315266625'>Document headers and footers</span></a></h2>
+<p class=MsoNormal>Thus, a link resolver function needs to do two things:
+first, to decide if it recognizes the namespace and/or name it's handed, and
+second, if it does recognize them, to generate a URL. A link resolver function
+can be pretty much as general or specific as desired: for example, CJD comes
+equipped with a couple of default name resolver functions, one of which
+recognizes <span style='mso-spacerun:yes'> </span><span class=ProgTextChar>clojure.*</span>
+namespace, and the other, <span class=ProgTextChar>java.*</span>. <span
+style='mso-spacerun:yes'> </span></p>
 
-<p class=MsoNormal>CJD places simple headers and footers the documents it
-generates. You might like replace or add to these headers or footers, perhaps to
-add a logo, or a copyright or other fine print (as, for example, in the footer
-that appears on each page of <a
+<p class=MsoNormal>The first of these looks like:</p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+mso-border-alt:solid windowtext .5pt;padding:1.0pt 4.0pt 1.0pt 4.0pt;
+background:#FFFFDD;margin-left:.6in;margin-right:.1in'>
+
+<p class=ProgText style='margin:0in;margin-bottom:.0001pt;background:#FFFFDD'>(<span
+style='mso-bidi-font-weight:bold'>fn</span> [ns sym]</p>
+
+<p class=ProgText style='margin:0in;margin-bottom:.0001pt;background:#FFFFDD'><span
+style='mso-spacerun:yes'>      </span>(<span style='mso-bidi-font-weight:bold'>if</span>
+(<span style='mso-bidi-font-weight:bold'>re-matches</span> #&quot;clojure\..*&quot;
+(<span style='mso-bidi-font-weight:bold'>name</span> ns))</p>
+
+<p class=ProgText style='margin:0in;margin-bottom:.0001pt;background:#FFFFDD'><span
+style='mso-spacerun:yes'>        </span>(<span style='mso-bidi-font-weight:
+bold'>str</span> &quot;http://clojuredocs.org/clojure_core/&quot; (<span
+style='mso-bidi-font-weight:bold'>name</span> ns) </p>
+
+<p class=ProgText style='margin:0in;margin-bottom:.0001pt;background:#FFFFDD'><span
+style='mso-spacerun:yes'>             </span>(<span style='mso-bidi-font-weight:
+bold'>if</span> sym (<span style='mso-bidi-font-weight:bold'>str</span> &quot;/&quot;
+(<span style='mso-bidi-font-weight:bold'>name</span> sym))))))</p>
+
+</div>
+
+<p class=MsoNormal><a name="_Toc315255995"></a><a name="_Toc315266625"><span
+style='mso-bookmark:_Toc315255995'>With link resolver function in hand, call
+CJD's </span></a><span style='mso-bookmark:_Toc315266625'><span
+style='mso-bookmark:_Toc315255995'></span></span><a
+href="http://greenh.github.com/CJD/doc/dark/cjd.link-resolver.html#add-link-resolvers"><span
+style='mso-bookmark:_Toc315266625'><span style='mso-bookmark:_Toc315255995'><span
+style='font-family:"Courier New";mso-no-proof:yes'>add-resolvers</span></span></span><span
+style='mso-bookmark:_Toc315266625'><span style='mso-bookmark:_Toc315255995'></span></span></a><span
+style='mso-bookmark:_Toc315266625'><span style='mso-bookmark:_Toc315255995'>
+function to add your resolvers. Typically, this involves placing them in a
+namespace, such as:</span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+mso-border-alt:solid windowtext .5pt;padding:1.0pt 4.0pt 1.0pt 4.0pt;
+background:#FFFFDD;margin-left:.6in;margin-right:.1in'>
+
+<p class=ProgText style='margin:0in;margin-bottom:.0001pt;background:#FFFFDD'><span
+style='mso-bookmark:_Toc315266625'><span style='mso-bookmark:_Toc315255995'>(ns
+my-project.cjd-fns</span></span></p>
+
+<p class=ProgText style='margin:0in;margin-bottom:.0001pt;background:#FFFFDD'><span
+style='mso-bookmark:_Toc315266625'><span style='mso-bookmark:_Toc315255995'><span
+style='mso-spacerun:yes'>  </span>(:use [cjd link-resolver]))</span></span></p>
+
+<p class=ProgText style='margin:0in;margin-bottom:.0001pt;background:#FFFFDD'><span
+style='mso-bookmark:_Toc315266625'><span style='mso-bookmark:_Toc315255995'><o:p>&nbsp;</o:p></span></span></p>
+
+<p class=ProgText style='margin:0in;margin-bottom:.0001pt;background:#FFFFDD'><span
+style='mso-bookmark:_Toc315266625'><span style='mso-bookmark:_Toc315255995'>(add-resolvers
+</span></span></p>
+
+<p class=ProgText style='margin:0in;margin-bottom:.0001pt;background:#FFFFDD'><span
+style='mso-bookmark:_Toc315266625'><span style='mso-bookmark:_Toc315255995'><span
+style='mso-tab-count:1'>   </span>(<span style='mso-bidi-font-weight:bold'>fn</span>
+[ns sym]</span></span></p>
+
+<p class=ProgText style='margin:0in;margin-bottom:.0001pt;background:#FFFFDD'><span
+style='mso-bookmark:_Toc315266625'><span style='mso-bookmark:_Toc315255995'><span
+style='mso-spacerun:yes'>      </span>(<span style='mso-bidi-font-weight:bold'>if</span>
+(<span style='mso-bidi-font-weight:bold'>re-matches</span> #&quot;clojure\..*&quot;
+(<span style='mso-bidi-font-weight:bold'>name</span> ns))</span></span></p>
+
+<p class=ProgText style='margin:0in;margin-bottom:.0001pt;background:#FFFFDD'><span
+style='mso-bookmark:_Toc315266625'><span style='mso-bookmark:_Toc315255995'><span
+style='mso-spacerun:yes'>        </span>(<span style='mso-bidi-font-weight:
+bold'>str</span> &quot;http://clojuredocs.org/clojure_core/&quot; (<span
+style='mso-bidi-font-weight:bold'>name</span> ns) </span></span></p>
+
+<p class=ProgText style='margin:0in;margin-bottom:.0001pt;background:#FFFFDD'><span
+style='mso-bookmark:_Toc315266625'><span style='mso-bookmark:_Toc315255995'><span
+style='mso-spacerun:yes'>             </span>(<span style='mso-bidi-font-weight:
+bold'>if</span> sym (<span style='mso-bidi-font-weight:bold'>str</span> &quot;/&quot;
+(<span style='mso-bidi-font-weight:bold'>name</span> sym))))))</span></span></p>
+
+</div>
+
+<p class=MsoNormal><span style='mso-bookmark:_Toc315266625'><span
+style='mso-bookmark:_Toc315255995'>Then, when running CJD, inform CJD about the
+namespace using the </span></span><span style='mso-bookmark:_Toc315266625'><span
+style='mso-bookmark:_Toc315255995'><span class=ProgTextChar>:requires</span> option,
+as </span></span><a href="#_Adding_extensions_to"><span style='mso-bookmark:
+_Toc315266625'><span style='mso-bookmark:_Toc315255995'>described above</span></span><span
+style='mso-bookmark:_Toc315266625'><span style='mso-bookmark:_Toc315255995'></span></span></a><span
+style='mso-bookmark:_Toc315266625'><span style='mso-bookmark:_Toc315255995'>. </span></span></p>
+
+<p class=MsoNormal><span style='mso-bookmark:_Toc315266625'><span
+style='mso-bookmark:_Toc315255995'>If you'd prefer to replace CJD's default Clojure
+and Java link resolvers with your own, simply add a call </span></span><span
+style='mso-bookmark:_Toc315266625'><span style='mso-bookmark:_Toc315255995'></span></span><a
+href="http://greenh.github.com/CJD/doc/dark/cjd.link-resolver.html#reset-resolver-fns"><span
+style='mso-bookmark:_Toc315266625'><span style='mso-bookmark:_Toc315255995'><span
+style='font-family:"Courier New";mso-no-proof:yes'>reset-resolver-fns</span></span></span><span
+style='mso-bookmark:_Toc315266625'><span style='mso-bookmark:_Toc315255995'></span></span></a><span
+style='mso-bookmark:_Toc315266625'><span style='mso-bookmark:_Toc315255995'>
+before adding your own functions.</span></span></p>
+
+<h2><span style='mso-bookmark:_Toc315266625'><span style='mso-bookmark:_Toc315255995'>Document
+headers and footers</span></span></h2>
+
+<p class=MsoNormal>CJD can place simple headers and footers the documents it
+generates. You might like replace or add to these headers or footers, perhaps
+to add a logo, or a copyright or other fine print (as, for example, in the
+footer that appears on each page of <a
 href="http://greenh.github.com/CJD/doc/dark/index.html">CJD's documentation</a>).
 </p>
 
@@ -960,8 +1076,8 @@ tab-stops:list 1.3in'><![if !supportLists]><span style='font-family:"Courier New
 mso-fareast-font-family:"Courier New"'><span style='mso-list:Ignore'>o<span
 style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 </span></span></span><![endif]><span class=ProgTextChar><span style='mso-bidi-font-family:
-"Times New Roman"'>&quot;What Is It&quot;</span></span> is a (very) short
-string describing of what kind of thing the artifact represents, available for
+"Times New Roman"'>&quot;What Is It&quot;</span></span> is a (very) short string
+describing of what kind of thing the artifact represents, available for
 potential use in describing the artifact in the output.</p>
 
 <p class=MsoNormal style='margin-left:1.3in;text-indent:-.25in;mso-list:l0 level2 lfo4;
@@ -1072,6 +1188,29 @@ my&#8209;ns.cjd</span></span> option (or <span class=ProgTextChar><span
 style='mso-bidi-font-family:"Times New Roman"'>&#8209;&#8209;requires</span></span>
 <span class=ProgTextChar><span style='mso-bidi-font-family:"Times New Roman"'>my&#8209;ns.cjd</span></span>
 from the command line) to commend the namespace to CJD's attention.</p>
+
+<h2>Defining more complex artifacts with Extensomatic</h2>
+
+<p class=MsoNormal>When it comes to artifacts, sometimes &quot;simple&quot; is
+just not enough. Complicated artifacts often contain substructures or specificational
+elements that need to be recorded and reflected in their documentation, which gives
+rise to a need for more complicated structures to record them.</p>
+
+<p class=MsoNormal>CJD uses a small package called Extensomatic to generate the
+data structures it uses to represent artifacts. It's build atop Clojure's
+standard protocol and record mechanisms, and is principally aimed at allowing simple
+structures to be conveniently and concisely defined. In the end, Extensomatic offers
+no capabilities not already available in Clojure, but merely provides a more
+convenient way of specifying data structures.</p>
+
+<p class=MsoNormal>The Extensomatic mechanism is based on two kinds of artifacts,
+called <i style='mso-bidi-font-style:normal'>extensos</i> and <i
+style='mso-bidi-font-style:normal'>constructos</i>. A constructo, specified using
+the <span class=ProgTextChar>defconstructo</span> macro, defines a Clojure record,
+complete with fields and method implementations. An extenso, on the other hand,
+is a fragment of a record. As such, it contains defines a </p>
+
+<p class=MsoNormal><o:p>&nbsp;</o:p></p>
 
 <p class=MsoNormal><o:p>&nbsp;</o:p></p>
 
