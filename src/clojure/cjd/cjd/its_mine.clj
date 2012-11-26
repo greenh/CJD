@@ -35,6 +35,8 @@
       (.format year-format (context-gen-time context))
       " Howard Green. All rights reserved."]])))
 
+(set-footer gen-footer)
+
 (add-source-resolver 
   (fn [artifact]
     (let [path (defined-in artifact)
@@ -42,5 +44,6 @@
           #_ (pr 'path path 'line line)] 
       (if (and path line 
                (or (re-matches #"src/clojure/cjd.*" path) 
-                   (re-matches #"src/clojure/leiningen\.cjd.*" path))) 
+                   (re-matches #"src/clojure/leiningen\.cjd.*" path)
+                   (re-matches #"examples/examples/.*" path))) 
         (str "https://github.com/greenh/CJD/blob/master/" path "#L" line)))))

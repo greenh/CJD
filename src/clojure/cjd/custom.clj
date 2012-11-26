@@ -14,15 +14,24 @@
       )
 (ns cjd.custom)
 
-(def css-docs* (ref #{}))
+(def css-docs* (ref []))
 (def resource-fns* (ref #{}))
 
-#_ (* Adds one or more CSS document name to the list of CSS documents to be referenced by
-      generated HTML pages.
-      @arg css-doc A string representing a CSS document name.
+#_ (* Adds a CSS document name, or sequence of names, to the sequence of CSS documents 
+      to be referenced by generated HTML pages.
+      @arg css-doc A string representing a CSS document name, or a sequence of 
+      strings of document names.
      )
 (defn add-css [css-doc] 
-  (dosync (alter css-docs* conj css-doc)))
+  (dosync (alter css-docs* concat (if (seq? css-doc) css-doc [css-doc]))))
+
+#_ (* Replaces the sequence of CSS document names to be referenced by generated HTML 
+      pages by the specified document name or sequence of document names.
+      @arg css-doc A string representing a CSS document name, or a sequence of
+      strings of CSS document names.
+     )
+(defn use-css [css-doc] 
+  (dosync (ref-set css-docs* (if (seq? css-doc) css-doc [css-doc]))))
 
 #_ (* Adds a request to copy a resource to the output directory.
       @p CJD evaluates the requests when it's had a chance to fully establish
@@ -67,7 +76,8 @@
             @returns A string containing HTML content to be used as the header.)
       )
 (defn set-header [header-fn]
-  (ref-set header-fn* header-fn))
+  (dosync 
+    (ref-set header-fn* header-fn)))
 
 #_ (* Specifies a function to be invoked by CJD to create a footer for each generated page.
       @(arg footer-fn The footer-generating function, which should have a form
@@ -77,6 +87,7 @@
             @returns A string containing HTML content to be used as the footer.)
       )
 (defn set-footer [footer-fn]
-  (ref-set footer-fn* footer-fn))
+  (dosync 
+    (ref-set footer-fn* footer-fn)))
 
 

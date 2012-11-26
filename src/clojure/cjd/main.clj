@@ -24,8 +24,10 @@
       @(arg option... A list of options, which can be a combination of\:
             @opt --all Selects all recognized artifacts for inclusion, regardless
             of whether or not they have documentation.
-            @popt --css "<css-file>[;<css-file>...]"  A semicolon-separated list of 
-            alternative CSS file names to be used.
+            @popt --use-css "<css-doc>[;<css-doc>...]"  A semicolon-separated list of 
+            replacement CSS document names to be used.
+            @popt --add-css "<css-doc>[;<css-doc>...]"  A semicolon-separated list of 
+            additional CSS document names to be used.
             @opt --docstrings Uses docstrings as a documentation source in addition
             to CJD comments.
             @(popt --filter <filter> Specifies the name of a function to select artifacts
@@ -81,9 +83,10 @@ where:
    --all 
       Selects all recognized artifacts for inclusion, regardless
       of whether or not they have documentation.
-   --css <css-file>[;<css-file>...] 
-      A semicolon-separated list of alternative CSS file names to 
-      be used.
+   --use-css <css-doc>[;<css-doc>...]
+      A semicolon-separated list of replacement CSS document names to be used.
+   --add-css <css-doc>[;<css-doc>...]  
+      A semicolon-separated list of additional CSS document names to be used.
    --docstrings 
      Uses docstrings as a documentation source in addition to CJD comments.
    --help
@@ -136,11 +139,17 @@ where:
               (condp = opt
                "all" (recur remains+ (assoc opts+ :all true))
                 
-                "css"
+                "add-css"
                 (if param
                   (let [csss (vec (.split param ";"))]
-                    (recur remains* (assoc opts+ :css csss)))
-                  (throw (CJDException. "Missing parameter for --css")))
+                    (recur remains* (assoc opts+ :add-css csss)))
+                  (throw (CJDException. "Missing parameter for --add-css")))
+              
+                "use-css"
+                (if param
+                  (let [csss (vec (.split param ";"))]
+                    (recur remains* (assoc opts+ :use-css csss)))
+                  (throw (CJDException. "Missing parameter for --use-css")))
               
                "docstrings" (recur remains+ (assoc opts+ :docstrings true))
                 

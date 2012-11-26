@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="CJD" basedir="." default="install">
 	
-	<property name="lein" value="C:\Documents and Settings\Howard Green\Desktop\Libraries\lein\lein.bat"/>
-	<property name="maven" value="C:\Documents and Settings\Howard Green\Desktop\Libraries\apache-maven-2.2.1\bin\mvn.bat" />
-	<property name="scp" value="C:\Program Files\Git\bin\scp.exe" />
+	<property environment="env" />
+	
+	<property name="lein" value="${env.LEIN_BASE}\lein.bat"/>
+	<property name="maven" value="${env.M2_HOME}\bin\mvn.bat" />
+	<property name="scp" value="${env.GIT_HOME}\bin\scp.exe" />
 	
 	<property name="pom" value="pom.xml"/>
 	
@@ -17,9 +19,9 @@
 	<property name="classes.dir" value="classes" />
 	<property name="dest.dir" value="bin" />
 	
-	<property name="ntlr121.dir" value="../NTLR121/bin"/>
-	<property name="ntlr130.dir" value="../NTLR130/bin"/>
-	<property name="ntlr140.dir" value="../NTLR140/bin"/>
+	<property name="ntlr121.dir" value="${NTLR_BASE}/../NTLR121/bin"/>
+	<property name="ntlr130.dir" value="${NTLR_BASE}/../NTLR130/bin"/>
+	<property name="ntlr140.dir" value="${NTLR_BASE}/../NTLR140/bin"/>
 
 	<property name="cjd-doc.jar" value="cjd-doc-${version}.jar" />
     <property name="cjd.jar" value="cjd-${version}.jar" />

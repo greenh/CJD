@@ -253,8 +253,12 @@
         This supports extensions for such purposes as added artifacts or alternative
         generation methods. Namespaces can be specified as symbols or strings.
         
-        @opt :css  Name, or a collection of names, of the CSS 
-        document or documents to use. These documents replace the standard CSS documents.
+        @opt :use-css  String, or a collection of strings, representing URI :nb (s) of CSS 
+        document :nb (s) to use. These URIs @(i replace) the standard CSS documents.  
+        
+        @opt :add-css  String, or a collection of strings, representing URI :nb (s) of CSS 
+        document :nb (s) to add. These URIs are @(i added to) the standard CSS documents,
+        or those specified by the @(opt :use-css) option.
         
         @opt :title  A title for the body of documentation. This will appear in 
         the document title of all generated pages.
@@ -329,11 +333,13 @@
         generation process.)
       )
 (defn cjd-generator [sources out-dir options] 
-  (let [{ :keys [exclude requires css title overview throw-on-warn 
+  (let [{ :keys [exclude requires  title overview throw-on-warn 
                  nogen v theme header footer index noindex 
                  all docstrings ]
-           filter-item :filter 
-           :or { :css "cjd.css" }} options
+         used-css :use-css 
+         added-css :add-css 
+         filter-item :filter 
+         :or { :use-css "cjd.css" }} options
         outdir (File. out-dir)
         exclusions (if exclude (if (coll? exclude) exclude [exclude]))
         file-set (find-files (sorted-set) 
@@ -361,13 +367,17 @@
       (.mkdirs outdir))
     (if (and overview-file (not (.canRead overview-file)))
       (throw (CJDException. "Overview file not found")))
-    (when-not css 
-      (add-css "cjd.css")
-      (copy-resource 
-        (fn [context]
-          (if (= (context-theme context) :dark)
-            ["cjd.css" "/cjd/resources/cjd-r.css"]
-            ["cjd.css" "/cjd/resources/cjd-f.css"]))))
+    (if used-css 
+      (use-css use)
+      (do
+        (use-css "cjd.css")
+        (copy-resource 
+          (fn [context]
+            (if (= (context-theme context) :dark)
+              ["cjd.css" "/cjd/resources/cjd-r.css"]
+              ["cjd.css" "/cjd/resources/cjd-f.css"])))))
+    (if added-css
+      (add-css added-css))
     ;; Doing a reset here collides with the fact that extensions (or stuff loaded by
     ;; extensions) aren't reloaded  after an initial run of cjd-generator. 
     ;; This is a a non-issue for one-off runs, from command-line or lein, 
@@ -412,17 +422,16 @@
           nss (set (map artifact-name-of ns-artifacts))
           base-context 
           (-> pre-context
-            (context-css! 
-              (if css 
-                (if (coll? css) css [css])
-                @css-docs*))
+            (context-css! @css-docs*)
             (context-namespaces! nss)
             (context-title! title)
-            (context-header! (find-item header "header function"))
-            (context-footer! (find-item footer "footer function"))
+            (context-header! 
+              (if-let [hdrfn (find-item header "header function")] hdrfn @header-fn*))
+            (context-footer! 
+              (if-let [ftrfn (find-item footer "footer function")] ftrfn @footer-fn*))
             (context-overview! overview-doc)
             (context-throw-on-warn! throw-on-warn))]
-      
+
       (if nogen
         [ns-artifacts base-context]
         (do 

@@ -270,7 +270,7 @@
             @nopt :xx x Value of the @(key :xx) key in @(arg p2). 
             @nopt :yy y Value of the @(key :yy) key in @(arg p2). 
             )
-      @(returns A collection tuple of the form @(form [aa bb cc]), where\:
+      @(returns A tuple of the form @(form [aa bb cc]), where\:
             @arg aa The first element of the tuple.
             @arg bb The second element of the tuple.
             @arg cc The third element of the tuple.)
@@ -344,16 +344,16 @@
   (misopen [this])
   #_ (* Misreads a @(l MisFile).
         @arg dest Destination buffer for misread data.
-        @arg byte The number of bytes to misread.
+        @arg bytes The number of bytes to misread.
         @arg start 
         @returns The number of bytes actually misread.)
   (misread [this dest bytes] [this start dest bytes])
   #_ (* Miswrites a @(l MisFile).
-        @arg dest Source buffer for data to miswrite.
-        @arg byte The number of bytes to miswrite.
+        @arg source Source buffer for data to miswrite.
+        @arg bytes The number of bytes to miswrite.
         @arg start When specified, specifies the location to miswrite to. 
         @returns The number of bytes actually miswritten.)
-  (miswrite [this source bytes] [this start dest bytes])
+  (miswrite [this source bytes] [this source start dest bytes])
   #_ (* Stochastically closes the @(l MisFile), and possibly misplaces it, too.)
   (misclose [this])
   ) 
@@ -376,16 +376,16 @@
   #_ (* Stochastically closes the @(l MisFile), and possibly misplaces it, too.)
   (misclose [this])
 )
-(declare abc-xyz)
+(declare xyz-zyx)
 
 #_(* This is documentation for function @name . It lazily
-	 relies on @(link abc-xyz) to do its work for it.
+	 relies on @(link xyz-zyx) to do its work for it.
   )
-(defn xyz-abc [] (abc-xyz))
+(defn xyz-abc [] (xyz-zyx))
 
 #_(* Does something remarkable with @(l xyz-abc).
 	 )
-(defn abc-xyz [] (xyz-abc))
+(defn xyz-zyx [] (xyz-abc))
 
 
 

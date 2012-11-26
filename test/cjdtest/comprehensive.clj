@@ -142,3 +142,53 @@ But that's life...
                 { :keys [ppp qqq rrr] :as fff }
                 { :strs [ttt uuu vvv]}
                 { :syms [gg hh ii] }])
+
+
+#_ (* Generates and returns a single value by applying a function 
+      to the elements of a collection.
+      
+      @name internally maintains an value that functions as an "accumulator". The 
+      accumulator is initialized to the first element of @(arg coll) in the two-argument
+      form of reduce, or to @(arg val) in the three-element form. Then, @name
+      calls the function @(arg f) once for each subsequent element of @(arg coll),
+      passing to it the current accumulator value and the next element of @(arg coll), 
+      and each time updating the accumulator with the value @(arg f) returns. When @(arg f)
+      has been called with all elements in @(arg coll), @name returns the final value
+      of the accumulator.
+      
+      There are two forms of @name. The first, two-argument form, initially calls 
+      @(arg f) with the first two elements of @(coll). For the second and any
+      subsequent elments of @(arg coll) @name calls @(arg f) with the value 
+      returned by the previous call to @(arg f) and the next element in @(arg coll).
+      @name then returns the value returned by the call to @(arg f) with the final
+      element of @(arg coll). 
+      
+      If @(arg coll) is empty, @(arg f) is called with no arguments, and must therefore 
+      have a zero-argument form. If @(arg coll) has exactly one element, @name returns it 
+      without calling @(arg f).
+      
+      In the second, three-argument form, @name initially calls @(arg f) with
+      @(arg val) and the first element of @(arg coll). For each successive element
+      in @(arg coll), @name calls @(arg f) with the value returned by the previous call
+      to @(arg f) and the next element of @(arg coll). @name returns the value returned
+      by the final call to @(arg f).
+      
+      In this form, if @(arg coll) is empty, @name returns @(arg val) without calling 
+      @(arg f).
+      
+      @(arg f A function of the form @(fun [acc element]), where
+            @(arg acc The "accumulator" value, which is either @(arg val) or 
+                  the first element of @(arg coll) on the first call to @(arg f), or 
+                  the result of the prior call to @(arg f) on subsequent calls.)
+            @(arg element The next unprocessed element of @(arg coll).)
+            @returns The next "accumulator" value. )
+      @arg val An initial value for the "accumulator".
+      @arg coll A collection of elements.
+      @returns The value of the "accumulator" after the final call to @(arg f). 
+)
+(defn irreduce 
+  ([f col] )
+  ([f val col]))
+
+
+
