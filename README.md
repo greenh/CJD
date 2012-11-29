@@ -1,21 +1,22 @@
 # CJD
 
-CJD is a system for documenting Clojure programs through the use of structured 
+CJD is a technology for documenting Clojure programs through the use of structured 
 comments embedded in Clojure source code. As such, it's a supplement to or replacement
 for the docstring mechanism. 
 
-CJD was inspired by Javadoc, to which it bears superficial similarity. Like Javadoc,
+CJD was inspired by Javadoc, to which it bears a (very) superficial similarity. 
+Like Javadoc,
 CJD-comments support a simple form of markup. This allows CJD's processing facility
 to extract the documentation content from collections of Clojure namespaces and convert 
 it into trees of consistently-formatted HTML documents. 
 
-CJD goes fair ways beyond Javadoc, though. Specifically, CJD: 
+CJD goes a fair ways beyond Javadoc, though. Specifically, CJD: 
 
 * Structures comments and markup in terms of well-defined Clojure forms, allowing 
 structure-sensitive editors to be used to good advantage.
 
 * Incorporates a recursively-defined documentation syntax that allows 
-of Clojure's recursively-defined data structures and functions 
+Clojure's recursively-defined data structures and functions 
 to be documented to whatever depth is needful.
 
 * Provides support for documenting most core Clojure artifacts (vars, functions,
@@ -24,8 +25,6 @@ allow user-defined artifacts to be compatibly documented.
 
 * Doesn't insist on completeness --- what does and doesn't get documented,
 and to what extent, is entirely at the developer's discretion.
-
-* Allows a limited degree of customization of the output.
 
 So, what does a CJD comment look like? Here's a taste, in the form a 
 randomly selected function from the CJD source:
@@ -41,9 +40,9 @@ randomly selected function from the CJD source:
 	      )
 	(defn flow-run [context contents] . . . )
 
-And if you'd like to see the corresponding generated output, you get your choice of
+And if you'd like to see the corresponding generated output, you have your choice of
 [dark-background](http://greenh.github.com/CJD/doc/dark/cjd.parser.html#flow-run) and
-[light-background](http://greenh.github.com/CJD/doc/dark/cjd.parser.html#flow-run)
+[light-background](http://greenh.github.com/CJD/doc/light/cjd.parser.html#flow-run)
 renderings.
 
 The CJD source is itself extensively commented using CJD. You can view the full CJD 
@@ -52,16 +51,16 @@ from the top in both [dark-background](http://greenh.github.com/CJD/doc/dark/ind
 and [light-background](http://greenh.github.com/CJD/doc/light/index.html) forms.
 
 For a description of how to obtain, use, and customize CJD, see the
- [user guide](http://greenh.github.com/CJD/doc/User.html).
-
-For a not-terribly-reverent introduction to CJD and how it got there, 
+[user guide](http://greenh.github.com/CJD/doc/User.html). Or, for a 
+not-terribly-reverent introduction to CJD and how it got there, 
 check out [the FAQ](http://greenh.github.com/CJD/doc/FAQ.html).
 
 ## Documentation
-Several documents are in the making:
+Several documents are in the making. These are mostly complete but nonetheless
+works in progress, so proceed with caution! 
 
 * A [user guide](http://greenh.github.com/CJD/doc/User.html), which attempts to explain 
-how to obtain, use, and customize CJD. It's still a work in progress, so beware.
+how to obtain, use, and customize CJD.
 
 * A [quick reference](http://greenh.github.com/CJD/doc/QuickRef.html) to CJD markup
 elements. 
@@ -85,27 +84,29 @@ ClojureScript support at the moment.
 * The current implementation's operation involves loading Clojure files to assist 
 its name resolution processes. Works like a charm, but there's a down side: 
 
- + Clojure source files _must_ be loadable, i.e., at least syntactically correct.
+ + Clojure source files must be (transitively) loadable.
  
  + CJD's classpath needs to include everything that your project depends on...
  
  + ...which introduces the possibility of conflicts with CJD's dependencies. 
-Hiccup represents the principle potential incompatibility; CJD uses 
+[Hiccup](https://github.com/weavejester/hiccup) represents the principle potential 
+incompatibility; CJD uses 
 Hiccup 1.x, which isn't interface-compatible with Hiccup 0.x. 
 
 * It's currently tested only with Clojure 1.4.0, but it's historically worked 
 with 1.2.1 and 1.3.0.
 
-* It includes Leiningen support, but has been recently tried with 2.x only. 
-Leiningen 1.x support is still there and even might work.
+* CJD incorporates a Leiningen plugin, but there are still issues. It has been recently 
+tried with 2.x only. Leiningen 1.x support is still there and even might work.
 
 * Error reporting is less than fully wonderful:
 
- + Syntax errors messages tend to get you to the offending comment, not the specific line.
+ + Syntax error messages tend to get you to the offending comment, not the specific line.
  
  + Due to parsing behavior, CJD often reports the same syntax error twice.
-
-* Requires Java 6 or above.
+ 
+And: the build process is all over the floor, and testing leaves everything to be 
+desired. So, aside from all of the above, everything is wonderful. 
  
 ## License
 
