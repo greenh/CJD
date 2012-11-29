@@ -14,14 +14,19 @@ CJD goes fair ways beyond Javadoc, though. Specifically, CJD:
 * Structures comments and markup in terms of well-defined Clojure forms, allowing 
 structure-sensitive editors to be used to good advantage.
 
-* Defines a recursively-defined documentation syntax to allow documentation
-of Clojure's recursively-defined data structures and functions in all their glory.
+* Incorporates a recursively-defined documentation syntax that allows 
+of Clojure's recursively-defined data structures and functions 
+to be documented to whatever depth is needful.
 
 * Provides support for documenting most core Clojure artifacts (vars, functions,
 macros, protocols, records, etc.), and provides facilities for extending CJD to
 allow documentation of user-defined artifacts.  
 
-So, what does a CJD comment look like? Here's a taste of the source format:
+* Does not insist on completeness --- what does and doesn't get documented,
+and to what extent, is entirely at the developer's discretion.
+
+So, what does a CJD comment look like? Here's a randomly selected function
+from the CJD source to give you a taste:
 
 	#_ (* Processes a sequence of CJD comment-content forms into a 
 	      sequence of flow-forms, which will in turn contain phrasing 
