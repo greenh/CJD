@@ -20,13 +20,15 @@ to be documented to whatever depth is needful.
 
 * Provides support for documenting most core Clojure artifacts (vars, functions,
 macros, protocols, records, etc.), and provides facilities for extending CJD to
-allow documentation of user-defined artifacts.  
+allow user-defined artifacts to be compatibly documented.  
 
 * Doesn't insist on completeness --- what does and doesn't get documented,
 and to what extent, is entirely at the developer's discretion.
 
-So, what does a CJD comment look like? Here's a randomly selected function
-from the CJD source to give you a taste:
+* Allows a limited degree of customization of the output.
+
+So, what does a CJD comment look like? Here's a taste, in the form a 
+randomly selected function from the CJD source:
 
 	#_ (* Processes a sequence of CJD comment-content forms into a sequence 
 	      of flow-forms, which will in turn contain phrasing and text content.
@@ -52,7 +54,7 @@ and [light-background](http://greenh.github.com/CJD/doc/light/index.html) forms.
 For a description of how to obtain, use, and customize CJD, see the
  [user guide](http://greenh.github.com/CJD/doc/User.html).
 
-For a not-terribly-reverent introduction to CJD, 
+For a not-terribly-reverent introduction to CJD and how it got there, 
 check out [the FAQ](http://greenh.github.com/CJD/doc/FAQ.html).
 
 ## Documentation
@@ -85,28 +87,25 @@ its name resolution processes. Works like a charm, but there's a down side:
 
  + Clojure source files _must_ be loadable, i.e., at least syntactically correct.
  
- + CJD's classpath needs to include everything that your project depends on.
+ + CJD's classpath needs to include everything that your project depends on...
  
- + ...which introduces the possibility of conflicts with CJD's dependencies 
-(Hiccup represents the principle exposure; CJD is using Hiccup 1.x, which isn't
-interface-compatible with Hiccup 0.x). 
+ + ...which introduces the possibility of conflicts with CJD's dependencies. 
+Hiccup represents the principle potential incompatibility; CJD uses 
+Hiccup 1.x, which isn't interface-compatible with Hiccup 0.x. 
 
 * It's currently tested only with Clojure 1.4.0, but it's historically worked 
 with 1.2.1 and 1.3.0.
 
 * It includes Leiningen support, but has been recently tried with 2.x only. 
-Lein 1.x support is still there and even might work.
+Leiningen 1.x support is still there and even might work.
 
 * Error reporting is less than fully wonderful:
 
- + Syntax errors tend to get you to the offending comment, not the specific line.
+ + Syntax errors messages tend to get you to the offending comment, not the specific line.
  
  + Due to parsing behavior, CJD often reports the same syntax error twice.
 
-
 * Requires Java 6 or above.
-
-
  
 ## License
 
