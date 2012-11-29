@@ -22,21 +22,19 @@ to be documented to whatever depth is needful.
 macros, protocols, records, etc.), and provides facilities for extending CJD to
 allow documentation of user-defined artifacts.  
 
-* Does not insist on completeness --- what does and doesn't get documented,
+* Doesn't insist on completeness --- what does and doesn't get documented,
 and to what extent, is entirely at the developer's discretion.
 
 So, what does a CJD comment look like? Here's a randomly selected function
 from the CJD source to give you a taste:
 
-	#_ (* Processes a sequence of CJD comment-content forms into a 
-	      sequence of flow-forms, which will in turn contain phrasing 
-	      and text content.
+	#_ (* Processes a sequence of CJD comment-content forms into a sequence 
+	      of flow-forms, which will in turn contain phrasing and text content.
+	      
 	      @arg context The context map.
 	      @arg contents A sequence of input forms to be parsed.
-	      @(returns A tuple of the form @(form [flows remaining]),
-		    where\: 
-	        @arg flows A sequence of flow nodes describing the  
-	        parsed content
+	      @(returns A tuple of the form @(form [flows remaining]), where\: 
+	        @arg flows A sequence of flow nodes describing the parsed content
 	        @arg remaining Any unparsed forms in the input sequence.)
 	      )
 	(defn flow-run [context contents] . . . )
@@ -51,8 +49,11 @@ documentation tree
 from the top in both [dark-background](http://greenh.github.com/CJD/doc/dark/index.html) 
 and [light-background](http://greenh.github.com/CJD/doc/light/index.html) forms.
 
-For a description of how to [user guide](http://greenh.github.com/CJD/doc/User.html).
-For a not-terribly-reverent introduction to CJD, [try the FAQ](http://greenh.github.com/CJD/doc/FAQ.html).
+For a description of how to obtain, use, and customize CJD, see the
+ [user guide](http://greenh.github.com/CJD/doc/User.html).
+
+For a not-terribly-reverent introduction to CJD, 
+check out [the FAQ](http://greenh.github.com/CJD/doc/FAQ.html).
 
 ## Documentation
 Several documents are in the making:
@@ -72,14 +73,39 @@ what CJD is and does, and how it managed to get there.
 
 ## Status
 
-The current version 
+It works! Except, of course, for those things that don't, or could be better.
  
+Some known problems and limitations:
 
-* Currently tested only with Clojure 1.4.0, but has historically worked with 1.2.1 and 1.3.0.
+* It's currently just for Clojure running on a JVM -- no Clojure/CLR or 
+ClojureScript support at the moment.
+
+* The current implementation's operation involves loading Clojure files to assist 
+its name resolution processes. Works like a charm, but there's a down side: 
+
+ + Clojure source files _must_ be loadable, i.e., at least syntactically correct.
+ 
+ + CJD's classpath needs to include everything that your project depends on.
+ 
+ + ...which introduces the possibility of conflicts with CJD's dependencies 
+(Hiccup represents the principle exposure; CJD is using Hiccup 1.x, which isn't
+interface-compatible with Hiccup 0.x). 
+
+* It's currently tested only with Clojure 1.4.0, but it's historically worked 
+with 1.2.1 and 1.3.0.
+
+* It includes Leiningen support, but has been recently tried with 2.x only. 
+Lein 1.x support is still there and even might work.
+
+* Error reporting is less than fully wonderful:
+
+ + Syntax errors tend to get you to the offending comment, not the specific line.
+ 
+ + Due to parsing behavior, CJD often reports the same syntax error twice.
+
 
 * Requires Java 6 or above.
 
-* Currently tested with Leiningen 2.x only. Lein 1.x support is still there and even might work.
 
  
 ## License
