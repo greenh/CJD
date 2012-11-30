@@ -4,7 +4,7 @@ CJD is a technology for documenting Clojure programs through the use of structur
 comments embedded in Clojure source code. As such, it's a supplement to or replacement
 for the docstring mechanism. 
 
-CJD was inspired by Javadoc, to which it bears a (very) superficial similarity. 
+CJD was inspired by Javadoc, to which it bears a superficial similarity. 
 Like Javadoc,
 CJD-comments support a simple form of markup. This allows CJD's processing facility
 to extract the documentation content from collections of Clojure namespaces and convert 
@@ -15,7 +15,7 @@ CJD goes a fair ways beyond Javadoc, though. Specifically, CJD:
 * Structures comments and markup in terms of well-defined Clojure forms, allowing 
 structure-sensitive editors to be used to good advantage.
 
-* Incorporates a recursively-defined documentation syntax that allows 
+* Incorporates a recursively-defined documentation structure that allows 
 Clojure's recursively-defined data structures and functions 
 to be documented to whatever depth is needful.
 
@@ -41,14 +41,15 @@ randomly selected function from the CJD source:
 	(defn flow-run [context contents] . . . )
 
 And if you'd like to see the corresponding generated output, you have your choice of
-[dark-background](http://greenh.github.com/CJD/doc/dark/cjd.parser.html#flow-run) and
-[light-background](http://greenh.github.com/CJD/doc/light/cjd.parser.html#flow-run)
+[dark background](http://greenh.github.com/CJD/doc/dark/cjd.parser.html#flow-run) and
+[light background](http://greenh.github.com/CJD/doc/light/cjd.parser.html#flow-run)
 renderings.
 
-The CJD source is itself extensively commented using CJD. You can view the full CJD 
+The CJD source is itself extensively commented using CJD, and serves as a pretty 
+good example of CJD-based documentation can look like. You can view the full CJD 
 documentation tree 
-from the top in both [dark-background](http://greenh.github.com/CJD/doc/dark/index.html) 
-and [light-background](http://greenh.github.com/CJD/doc/light/index.html) forms.
+from the top in both [dark background](http://greenh.github.com/CJD/doc/dark/index.html) 
+and [light background](http://greenh.github.com/CJD/doc/light/index.html) forms.
 
 For a description of how to obtain, use, and customize CJD, see the
 [user guide](http://greenh.github.com/CJD/doc/User.html). Or, for a 
@@ -60,7 +61,8 @@ Several documents are in the making. These are mostly complete but nonetheless
 works in progress, so proceed with caution! 
 
 * A [user guide](http://greenh.github.com/CJD/doc/User.html), which attempts to explain 
-how to obtain, use, and customize CJD.
+how to obtain, use, customize, and extend CJD. (This is mostly complete, to a first 
+approximation, except for the section on extensions.)
 
 * A [quick reference](http://greenh.github.com/CJD/doc/QuickRef.html) to CJD markup
 elements. 
