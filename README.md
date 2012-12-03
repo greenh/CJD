@@ -76,9 +76,9 @@ what CJD is and does, and how it managed to get there.
 
 ## Status
 
-It works! Except, of course, for those things that don't, or could be better.
- 
-Some known problems and limitations:
+It works! 
+
+With, of course, a few caveats. Some known problems, limitations, and gotchas:
 
 * It's currently just for Clojure running on a JVM -- no Clojure/CLR or 
 ClojureScript support at the moment.
@@ -86,9 +86,9 @@ ClojureScript support at the moment.
 * The current implementation's operation involves loading Clojure files to assist 
 its name resolution processes. Works like a charm, but there's a down side: 
 
- + Clojure source files must be (transitively) loadable.
+ + Clojure source files must be (transitively) loadable...
  
- + CJD's classpath needs to include everything that your project depends on...
+ + ...so CJD's classpath needs to include everything that your project depends on...
  
  + ...which introduces the possibility of conflicts with CJD's dependencies. 
 [Hiccup](https://github.com/weavejester/hiccup) represents the principle potential 
@@ -96,7 +96,8 @@ incompatibility; CJD uses
 Hiccup 1.x, which isn't interface-compatible with Hiccup 0.x. 
 
 * It's currently tested only with Clojure 1.4.0, but it's historically worked 
-with 1.2.1 and 1.3.0.
+with 1.2.1 and 1.3.0. CJD does contain release-specific code, so this can be 
+an issue.
 
 * CJD incorporates a Leiningen plugin, but there are still issues. It has been recently 
 tried with 2.x only. Leiningen 1.x support is still there and even might work.
@@ -107,8 +108,14 @@ tried with 2.x only. Leiningen 1.x support is still there and even might work.
  
  + Due to parsing behavior, CJD often reports the same syntax error twice.
  
-And: the build process is all over the floor, and testing leaves everything to be 
-desired. So, aside from all of the above, everything is wonderful. 
+ + Certain low-level (i.e., reader) errors cause exceptions that don't report 
+the location of the problem.
+
+ 
+And the build process is all over the floor, testing leaves everything to be 
+desired, it doesn't result in world peace and hasn't freed mankind from hunger, 
+disease, or bad guys. Or ants (that's _Leiningen's_ job). 
+But ignoring all of the foregoing, everything is wonderful! 
  
 ## License
 
