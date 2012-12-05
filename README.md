@@ -78,7 +78,7 @@ what CJD is and does, and how it managed to get there.
 
 It works! 
 
-With, of course, a few caveats. Some known problems, limitations, and gotchas:
+Well, after a fashion: there are a few caveats. Some known problems, limitations, and gotchas:
 
 * It's currently just for Clojure running on a JVM -- no Clojure/CLR or 
 ClojureScript support at the moment.
@@ -91,10 +91,9 @@ its name resolution processes. Works like a charm, but there's a down side:
  + ...so CJD's classpath needs to include everything that your project depends on...
  
  + ...which introduces the possibility of conflicts with CJD's dependencies. 
-[Hiccup](https://github.com/weavejester/hiccup) represents the principle potential 
-incompatibility; CJD uses 
-Hiccup 1.x, which isn't interface-compatible with Hiccup 0.x. 
-
+[Hiccup](https://github.com/weavejester/hiccup) represents the principle 
+potential incompatibility; CJD uses Hiccup 1.x, which isn't 
+interface-compatible with Hiccup 0.x. 
 
 * It's currently tested only with Clojure 1.4.0, but it's historically worked 
 with 1.2.1 and 1.3.0. CJD does contain release-specific code, so this can be 
@@ -111,11 +110,10 @@ tried with 2.x only. Leiningen 1.x support is still there and even might work.
  
  + Certain low-level (i.e., reader) errors cause exceptions that don't report 
 the location of the problem.
-
  
 And the build process is all over the floor, testing leaves everything to be 
 desired, it doesn't result in world peace and hasn't freed mankind from hunger, 
-disease, or bad guys. Or ants (that's _Leiningen's_ job). 
+disease, or bad guys. Or ants. (That's _Leiningen's_ job.) 
 But all this aside, everything is wonderful! 
  
 ## License
