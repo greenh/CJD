@@ -114,16 +114,16 @@ the location of the problem.
 * It's (probably) doesn't cover everything one can do with Clojure.
 
  + It accommodates most common syntactic variations (as a point of reference,
-it successufully makes it through the 1.4.0 Clojure source), 
-but there's been no effort made to ensure that
+it successfully makes it through the Clojure source code), 
+but there's been no effort expended to ensure that
 coverage is fully comprehensive. 
 
  + There's no way to accommodate anything that's dynamically or conditionally
-compiled: CJD just reads source files; it doesn't execute tham. 
+compiled: CJD is limited to just _reading_ source files; it doesn't _execute_ them. 
  
 And the build process is all over the floor, testing leaves everything to be 
 desired, it doesn't result in world peace and hasn't freed mankind from hunger, 
-disease, or bad guys. Or ants. (That's _Leiningen's_ job.) 
+disease, or bad guys. Or ants. (That's Leiningen's job.) 
 But all this aside, everything is wonderful! 
  
 ## License

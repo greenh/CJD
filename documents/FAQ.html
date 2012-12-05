@@ -14,17 +14,17 @@ xmlns="http://www.w3.org/TR/REC-html40">
  <o:DocumentProperties>
   <o:Author>Howard Green</o:Author>
   <o:LastAuthor>Howard Green</o:LastAuthor>
-  <o:Revision>14</o:Revision>
-  <o:TotalTime>16080</o:TotalTime>
+  <o:Revision>18</o:Revision>
+  <o:TotalTime>16115</o:TotalTime>
   <o:Created>2012-01-30T02:30:00Z</o:Created>
-  <o:LastSaved>2012-11-29T03:00:00Z</o:LastSaved>
+  <o:LastSaved>2012-12-05T23:39:00Z</o:LastSaved>
   <o:Pages>1</o:Pages>
-  <o:Words>3142</o:Words>
-  <o:Characters>17912</o:Characters>
+  <o:Words>3168</o:Words>
+  <o:Characters>18062</o:Characters>
   <o:Company>None</o:Company>
-  <o:Lines>149</o:Lines>
+  <o:Lines>150</o:Lines>
   <o:Paragraphs>42</o:Paragraphs>
-  <o:CharactersWithSpaces>21012</o:CharactersWithSpaces>
+  <o:CharactersWithSpaces>21188</o:CharactersWithSpaces>
   <o:Version>11.9999</o:Version>
  </o:DocumentProperties>
  <o:OfficeDocumentSettings>
@@ -201,7 +201,9 @@ span.ProgTextChar
 	mso-fareast-font-family:SimSun;
 	mso-hansi-font-family:"Courier New";
 	mso-bidi-font-family:"Courier New";
-	border:none;
+	border:none windowtext 1.0pt;
+	mso-border-alt:none windowtext 0in;
+	padding:0in;
 	background:#F3F3F3;
 	mso-ansi-language:EN-US;
 	mso-fareast-language:ZH-CN;
@@ -226,7 +228,6 @@ p.ProgText, li.ProgText, div.ProgText
 	mso-bidi-font-size:10.0pt;
 	font-family:"Courier New";
 	mso-fareast-font-family:SimSun;
-	background:#F3F3F3;
 	mso-no-proof:yes;}
  /* Page Definitions */
  @page
@@ -308,12 +309,13 @@ ul
 	mso-pagination:widow-orphan;
 	font-size:10.0pt;
 	font-family:"Times New Roman";
+	mso-fareast-font-family:"Times New Roman";
 	mso-ansi-language:#0400;
 	mso-fareast-language:#0400;
 	mso-bidi-language:#0400;}
 </style>
 <![endif]--><!--[if gte mso 9]><xml>
- <o:shapedefaults v:ext="edit" spidmax="15362"/>
+ <o:shapedefaults v:ext="edit" spidmax="16386"/>
 </xml><![endif]--><!--[if gte mso 9]><xml>
  <o:shapelayout v:ext="edit">
   <o:idmap v:ext="edit" data="1"/>
@@ -530,9 +532,9 @@ display:none;mso-hide:screen;font-weight:normal'><span style='mso-element:field-
 style='font-size:12.0pt;font-family:"Times New Roman";mso-no-proof:yes'><o:p></o:p></span></p>
 
 <p class=MsoToc2 style='tab-stops:right dotted 431.5pt'><span
-class=MsoHyperlink><span style='mso-no-proof:yes'><a href="#_Toc339870714">You really
-don't like docstrings, do you?<span style='color:windowtext;display:none;
-mso-hide:screen;font-weight:normal'><span style='mso-tab-count:1 dotted'>. </span></span><!--[if supportFields]><span
+class=MsoHyperlink><span style='mso-no-proof:yes'><a href="#_Toc339870714">You
+really don't like docstrings, do you?<span style='color:windowtext;display:
+none;mso-hide:screen;font-weight:normal'><span style='mso-tab-count:1 dotted'>. </span></span><!--[if supportFields]><span
 style='color:windowtext;display:none;mso-hide:screen;font-weight:normal'><span
 style='mso-element:field-begin'></span> PAGEREF _Toc339870714 \h </span><span
 style='color:windowtext;font-weight:normal'><span style='display:none;
@@ -559,8 +561,8 @@ display:none;mso-hide:screen;font-weight:normal'><span style='mso-element:field-
 style='mso-no-proof:yes'><o:p></o:p></span></p>
 
 <p class=MsoToc2 style='tab-stops:right dotted 431.5pt'><span
-class=MsoHyperlink><span style='mso-no-proof:yes'><a href="#_Toc339870716">So, why
-didn't you just copy Javadoc?<span style='color:windowtext;display:none;
+class=MsoHyperlink><span style='mso-no-proof:yes'><a href="#_Toc339870716">So,
+why didn't you just copy Javadoc?<span style='color:windowtext;display:none;
 mso-hide:screen;font-weight:normal'><span style='mso-tab-count:1 dotted'>. </span></span><!--[if supportFields]><span
 style='color:windowtext;display:none;mso-hide:screen;font-weight:normal'><span
 style='mso-element:field-begin'></span> PAGEREF _Toc339870716 \h </span><span
@@ -609,35 +611,30 @@ with a simple-minded form of document markup.<span style='mso-spacerun:yes'> 
 
 <h3><a name="_Toc339870702">How would I know a CJD comment if one bit me?</a> </h3>
 
-<p class=MsoNormal>In languages like Java or C, the syntax includes the notion of
-a &quot;block comment&quot;, with a form like <span class=ProgTextChar><span
-style='mso-bidi-font-family:"Times New Roman";border:none'><span
-style='border:none'>/* ..comment text.. */</span></span></span>, where what
-comes between the <span class=ProgTextChar><span style='mso-bidi-font-family:
-"Times New Roman";border:none'><span style='border:none'>/*</span></span></span>
-and <span class=ProgTextChar><span style='mso-bidi-font-family:"Times New Roman";
-border:none'><span style='border:none'>*/</span></span></span> is of more or
-less of arbitrary content, can span multiple lines, and can run on for as long as
-the commenter likes. Javadoc leverages this by recognizing comments of the form
-<span class=ProgTextChar><span style='mso-bidi-font-family:"Times New Roman";
-border:none'><span style='border:none'>/** ..javadoc comment text.. */</span></span></span>
-(note the leading <span class=ProgTextChar><span style='mso-bidi-font-family:
-"Times New Roman";border:none'><span style='border:none'>**</span></span></span>—that's
+<p class=MsoNormal>In languages like Java or C, the syntax includes the notion
+of a &quot;block comment&quot;, with a form like <span class=ProgTextChar><span
+style='mso-bidi-font-family:"Times New Roman"'>/* ..comment text.. */</span></span>,
+where what comes between the <span class=ProgTextChar><span style='mso-bidi-font-family:
+"Times New Roman"'>/*</span></span> and <span class=ProgTextChar><span
+style='mso-bidi-font-family:"Times New Roman"'>*/</span></span> is of more or
+less of arbitrary content, can span multiple lines, and can run on for as long
+as the commenter likes. Javadoc leverages this by recognizing comments of the
+form <span class=ProgTextChar><span style='mso-bidi-font-family:"Times New Roman"'>/**
+..javadoc comment text.. */</span></span> (note the leading <span
+class=ProgTextChar><span style='mso-bidi-font-family:"Times New Roman"'>**</span></span>—that's
 the cue), and then processing their contents as Javadoc source material.</p>
 
 <p class=MsoNormal>Clojure doesn't have block comments as such, but it's got
 something <i style='mso-bidi-font-style:normal'>even better!</i> In Clojure, an
 entire form can be commented out by inserting the two-character reader macro <span
-class=ProgTextChar><span style='mso-bidi-font-family:"Times New Roman";
-border:none'><span style='border:none'>#_</span></span></span> immediately
-before the start<span style='mso-spacerun:yes'>  </span>of the form. So, CJD
-riffs off of Javadoc a tiny little bit, and defines a CJD comment as a
-commented-out list which has a <span class=ProgTextChar><span style='mso-bidi-font-family:
-"Times New Roman";border:none'><span style='border:none'>*</span></span></span>
-as its first element. So, if a form of the form <span class=ProgTextChar><span
-style='mso-bidi-font-family:"Times New Roman";border:none'><span
-style='border:none'>#_(* ...contents...)</span></span></span> appears on your
-radar, it's a candidate CJD comment.</p>
+class=ProgTextChar><span style='mso-bidi-font-family:"Times New Roman"'>#_</span></span>
+immediately before the start<span style='mso-spacerun:yes'>  </span>of the
+form. So, CJD riffs off of Javadoc a tiny little bit, and defines a CJD comment
+as a commented-out list which has a <span class=ProgTextChar><span
+style='mso-bidi-font-family:"Times New Roman"'>*</span></span> as its first
+element. So, if a form of the form <span class=ProgTextChar><span
+style='mso-bidi-font-family:"Times New Roman"'>#_(* ...contents...)</span></span>
+appears on your radar, it's a candidate CJD comment.</p>
 
 <p class=MsoNormal>Here's a genuine certified example CJD-comment, captured
 live in the wild:</p>
@@ -674,8 +671,8 @@ style='mso-tab-count:1'>      </span><span style='mso-spacerun:yes'>  
 </span>where\: </p>
 
 <p class=ProgText style='margin:0in;margin-bottom:.0001pt;background:#F3F3F3'><span
-style='mso-spacerun:yes'>         </span>@arg flows A sequence of flow nodes
-describing the </p>
+style='mso-spacerun:yes'>         </span>@arg flows A sequence of flow nodes describing
+the </p>
 
 <p class=ProgText style='margin:0in;margin-bottom:.0001pt;background:#F3F3F3'><span
 style='mso-spacerun:yes'>         </span>parsed content</p>
@@ -698,7 +695,8 @@ flow-run [context contents] . . . )</p>
 href="http://greenh.github.com/CJD/doc/dark/cjd.parser.html#flow-run"><b
 style='mso-bidi-font-weight:normal'>here</b></a> (or <a
 href="http://greenh.github.com/CJD/doc/light/cjd.parser.html#flow-run"><b
-style='mso-bidi-font-weight:normal'>here</b></a>, if you prefer a light background).</p>
+style='mso-bidi-font-weight:normal'>here</b></a>, if you prefer a light
+background).</p>
 
 <p class=MsoNormal>This isn't the place for describing the gory details of
 what's going on here; but several quick thoughts: </p>
@@ -716,14 +714,12 @@ tab-stops:list .8in'><![if !supportLists]><span style='font-family:Symbol;
 mso-fareast-font-family:Symbol;mso-bidi-font-family:Symbol'><span
 style='mso-list:Ignore'>·<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 </span></span></span><![endif]>The forms beginning with <span
-class=ProgTextChar><span style='mso-bidi-font-family:"Times New Roman";
-border:none'><span style='border:none'>@</span></span></span> are what CJD uses
-both for structuring and marking up the comment. These come both in open—like
-the <span class=ProgTextChar><span style='mso-bidi-font-family:"Times New Roman";
-border:none'><span style='border:none'>@arg</span></span></span>—and
-closed—like the <span class=ProgTextChar><span style='mso-bidi-font-family:
-"Times New Roman";border:none'><span style='border:none'>@(<span
-style='border:none'>returns ...)</span></span></span></span>—syntactic forms. </p>
+class=ProgTextChar><span style='mso-bidi-font-family:"Times New Roman"'>@</span></span>
+are what CJD uses both for structuring and marking up the comment. These come
+both in open—like the <span class=ProgTextChar><span style='mso-bidi-font-family:
+"Times New Roman"'>@arg</span></span>—and closed—like the <span
+class=ProgTextChar><span style='mso-bidi-font-family:"Times New Roman"'>@(returns
+...)</span></span>—syntactic forms. </p>
 
 <p class=MsoNormal style='margin-left:.8in;text-indent:-.25in;mso-list:l0 level1 lfo2;
 tab-stops:list .8in'><![if !supportLists]><span style='font-family:Symbol;
@@ -750,7 +746,7 @@ comment above is a nice example of a recursive documentation structure.</p>
 
 <p class=MsoNormal>For the gory details, see <a
 href="http://greenh.github.com/CJD/doc/User.html"><b style='mso-bidi-font-weight:
-normal'>the user guide</b></a>, which was laboriously prepared to belabor those
+normal'>the user guide</b></a>, which was laboriously prepared to belabor all the
 details. </p>
 
 <h3><a name="_Toc339870703">Can I put any just old thing in a CJD comment?</a></h3>
@@ -771,21 +767,20 @@ then <i style='mso-bidi-font-style:normal'>bang!</i> it will go.</p>
 <p class=MsoNormal>Like, paired characters—parens, brackets, braces, quotes,
 etc.—all have to match up correctly, just like in fully compiled forms. Like,
 if your comment says &quot;<span class=ProgTextChar><span style='mso-bidi-font-family:
-"Times New Roman";border:none'><span style='border:none'>see the following:</span></span></span>&quot;,
-the reader will nastily inform you that it really truly does not like colons
-that occur at the ends of words. An unescaped semicolon will cause everything
-to the next end-of-line to be flushed (which gives rise to the
-occasionally-useful notion of commenting out comments). To deal with these and
-other situations, CJD supplies several escape mechanisms (see <a
+"Times New Roman"'>see the following:</span></span>&quot;, the reader will
+nastily inform you that it really truly does not like colons that occur at the
+ends of words. An unescaped semicolon will cause everything to the next
+end-of-line to be flushed (which gives rise to the occasionally-useful notion
+of commenting out comments). To deal with these and other situations, CJD
+supplies several escape mechanisms (see <a
 href="http://greenh.github.com/CJD/doc/User.html#comment_content"><b
 style='mso-bidi-font-weight:normal'>here</b></a>).</p>
 
 <p class=MsoNormal>But empirical experience suggests that these little gotchas
 don't really interfere with one's ability to write or read more or less
 normal-looking text. And after a while, typing stuff like <span
-class=ProgTextChar><span style='mso-bidi-font-family:"Times New Roman";
-border:none'><span style='border:none'>it does that\; or maybe this\: </span></span></span>comes
-to feel perfectly… uh… normal. </p>
+class=ProgTextChar><span style='mso-bidi-font-family:"Times New Roman"'>it does
+that\; or maybe this\: </span></span>comes to feel perfectly… uh… normal. </p>
 
 <h3><a name="_Toc339870704">Does CJD insist that I comment everything?</a></h3>
 
@@ -797,11 +792,10 @@ the return value—or not. </p>
 <p class=MsoNormal>To make this a little more explicit, CJD currently does not
 do <i style='mso-bidi-font-style:normal'>any</i> enforcement at all. In some
 cases, this may even be a little too much of a good thing: you can document
-parameters, for example, that are not actually declared by a function, so
-there's nothing to ensure that comment content is in sync with what's being
-commented upon. But if you have problems keeping things in sync without a
-program holding your hand, you're not gonna cut it as a Clojure programmer
-anyway.</p>
+parameters, for example, that are not actually declared by a function; there's
+nothing to ensure that comment content is in sync with what's being commented
+upon. But if you have problems keeping things in sync without a program holding
+your hand, you're not gonna cut it as a Clojure programmer anyway.</p>
 
 <p class=MsoNormal>In general, though, CJD assumes that its users are competent
 programmers capable of exercising good judgment about what needs to be
@@ -813,28 +807,19 @@ accept whatever scraps of documentation you feed it.</p>
 <p class=MsoNormal>We’ve taken to using the term &quot;artifact&quot; to denote
 &quot;something that can be documented with CJD&quot;. A first-approximation
 list of out-of-the-box artifacts includes pretty much everything in <span
-class=ProgTextChar><span style='mso-bidi-font-family:"Times New Roman";
-border:none'><span style='border:none'>clojure.core</span></span></span> that
-can be created with a <span class=ProgTextChar><span style='mso-bidi-font-family:
-"Times New Roman";border:none'><span style='border:none'>def</span></span></span>-something
-special form, function, or macro. So, artifacts defined with <span
-class=ProgTextChar><span style='mso-bidi-font-family:"Times New Roman";
-border:none'><span style='border:none'>def</span></span></span>, <span
-class=ProgTextChar><span style='mso-bidi-font-family:"Times New Roman";
-border:none'><span style='border:none'>defonce</span></span></span>, <span
-class=ProgTextChar><span style='mso-bidi-font-family:"Times New Roman";
-border:none'><span style='border:none'>defn</span></span></span>, <span
-class=ProgTextChar><span style='mso-bidi-font-family:"Times New Roman";
-border:none'><span style='border:none'>defmacro</span></span></span>, <span
-class=ProgTextChar><span style='mso-bidi-font-family:"Times New Roman";
-border:none'><span style='border:none'>defmulti</span></span></span>, <span
-class=ProgTextChar><span style='mso-bidi-font-family:"Times New Roman";
-border:none'><span style='border:none'>defprotocol</span></span></span>, <span
-class=ProgTextChar><span style='mso-bidi-font-family:"Times New Roman";
-border:none'><span style='border:none'>defrecord</span></span></span>, <span
-class=ProgTextChar><span style='mso-bidi-font-family:"Times New Roman";
-border:none'><span style='border:none'>deftype</span></span></span> all work,
-and probably a few others that don't come to mind at the moment. </p>
+class=ProgTextChar><span style='mso-bidi-font-family:"Times New Roman"'>clojure.core</span></span>
+that can be created with a <span class=ProgTextChar><span style='mso-bidi-font-family:
+"Times New Roman"'>def</span></span>-something special form, function, or
+macro. So, artifacts defined with <span class=ProgTextChar><span
+style='mso-bidi-font-family:"Times New Roman"'>def</span></span>, <span
+class=ProgTextChar><span style='mso-bidi-font-family:"Times New Roman"'>defonce</span></span>,
+<span class=ProgTextChar><span style='mso-bidi-font-family:"Times New Roman"'>defn</span></span>,
+<span class=ProgTextChar><span style='mso-bidi-font-family:"Times New Roman"'>defmacro</span></span>,
+<span class=ProgTextChar><span style='mso-bidi-font-family:"Times New Roman"'>defmulti</span></span>,
+<span class=ProgTextChar><span style='mso-bidi-font-family:"Times New Roman"'>defprotocol</span></span>,
+<span class=ProgTextChar><span style='mso-bidi-font-family:"Times New Roman"'>defrecord</span></span>,
+<span class=ProgTextChar><span style='mso-bidi-font-family:"Times New Roman"'>deftype</span></span>
+all work, and probably a few others that don't come to mind at the moment. </p>
 
 <p class=MsoNormal>Some kinds of artifacts have substantial internal
 structures—subartifacts—that are sufficiently notable to be worthy of CJD
@@ -848,32 +833,34 @@ own CJD comments. Finally, a project—or even a collection of projects—doesn't
 currently rate as an artifact per se, but can have usefully an overview comment
 for the project as a whole, too. We note in this regard that a Leiningen<span
 style='mso-spacerun:yes'>  </span><span class=ProgTextChar><span
-style='mso-bidi-font-family:"Times New Roman";border:none'><span
-style='border:none'>project.cjd</span></span></span> file is a dandy place to
-store such a thing.</p>
+style='mso-bidi-font-family:"Times New Roman"'>project.cjd</span></span> file
+is a dandy place to store such a thing.</p>
 
 <h3><a name="_Toc339870706">Can I extend CJD to support artifacts I've defined?</a></h3>
 
-<p class=MsoNormal>A first pass at instructions are in the <a
+<p class=MsoNormal>Absolutely. A first pass at instructions is slowly but
+surely appearing in the <a
 href="http://greenh.github.com/CJD/doc/User.html#extending"><b
-style='mso-bidi-font-weight:normal'>user guide</b></a> . Do please keep your
-expectations under control, however. Adding support for artifacts with no
-internal structure is very easy. Adding support for increasing amounts of
-internal structure—parameters, fields, methods, etc.—is correspondingly more
-work. Expect to have to build parsers for the input and HTML generators on the
-output side (though you may be able to leverage existing developments in either
-case). You may find yourself doing strange things like adding code to support
-reflection on your artifacts' structure (been there, done that). None of which
-is impossible, of course, or even likely to strain your programming abilities,
-but it will feel like real work.</p>
+style='mso-bidi-font-weight:normal'>user guide</b></a> . </p>
+
+<p class=MsoNormal>Do please keep your expectations under control, however.
+Adding support for artifacts with no internal structure is very easy. Adding
+support for increasing amounts of internal structure—parameters, fields,
+methods, etc.—is correspondingly more work. Expect to have to build parsers for
+the input and HTML generators on the output side (though you may be able to
+leverage existing developments in either case). You may even find yourself
+doing strange things like adding code to support reflection on your artifacts'
+structure (been there, done that). None of which is impossible, of course, or
+even likely to strain your programming abilities, but it will feel like real
+work.</p>
 
 <h3><a name="_Toc339870707">Can CJD use my existing docstrings in lieu of CJD
 comments?</a></h3>
 
-<p class=MsoNormal>Yep. It doesn't currently do it by default, though: you'll
-need to specify <span class=ProgTextChar><span style='border:none'><span
-style='border:none'>:docstrings true</span></span></span> in the options to
-CJD. </p>
+<p class=MsoNormal>Yep. It even does an arguably semi-credible job of formatting
+them, though the results are not nearly as pretty as CJD comments. It doesn't
+currently do docstrings by default, though: you'll need to specify <span
+class=ProgTextChar>:docstrings true</span> in the options to CJD. </p>
 
 <h3><a name="_Toc339870708">I think your output format stinks. Can I invent my
 own?</a> </h3>
@@ -881,11 +868,11 @@ own?</a> </h3>
 <p class=MsoNormal>Knock yerself out, dude. You've got several opportunities.</p>
 
 <p class=MsoNormal>If your concerns are merely surface-cosmetic, like if you
-don't like the color scheme, you might get away with just overriding declarations
-in CJD's base CSS documents. Similarly, CJD provides a few hooks for such
-purposes as adding custom headers and footers. The user guide describes <a
-href="http://greenh.github.com/CJD/doc/User.html#custom"><b style='mso-bidi-font-weight:
-normal'>how to do this kind of customization</b></a>.</p>
+don't like the color scheme, you might get away with just overriding
+declarations in CJD's base CSS documents. Similarly, CJD provides a few hooks
+for such purposes as adding custom headers and footers. The user guide
+describes <a href="http://greenh.github.com/CJD/doc/User.html#custom"><b
+style='mso-bidi-font-weight:normal'>how to do this kind of customization</b></a>.</p>
 
 <p class=MsoNormal>But if you've got bigger aspirations…</p>
 
@@ -906,10 +893,10 @@ normal'>Hiccup</b></a>, which keeps it sane. Or as sane as it gets…). </p>
 <h3><a name="_Toc339870709">Does CJD work for ClojureScript or Clojure on CLR?</a></h3>
 
 <p class=MsoNormal>Nope. Currently CJD only works for Clojure/JVM. Current best
-guesstimate is that there are no inherent limitations in extending support to Clojure/CLR,
-but supporting ClojureScript involves some rather scary problems. In either
-case, don't hold your breath: doing these things involves, you know, like, real
-work. </p>
+guesstimate is that there are no inherent limitations in extending support to
+Clojure/CLR, but supporting ClojureScript involves some rather scary problems.
+In either case, don't hold your breath: doing these things involves, you know,
+like, real work. </p>
 
 <p class=MsoNormal>FWIW, the principle perceived problem with ClojureScript
 support has to do with the fact that CJD's current implementation operates
@@ -926,7 +913,7 @@ in a CLR environment, but feels kinda sorta problematic for ClojureScript.</p>
 <h3><a name="_Toc339870711">What does CJD stand for?</a></h3>
 
 <p class=MsoNormal>Nothing in particular (although it might possibly have
-something to do with something like <span style='mso-spacerun:yes'> </span><b
+something to do with something like<span style='mso-spacerun:yes'>  </span><b
 style='mso-bidi-font-weight:normal'><i style='mso-bidi-font-style:normal'>C</i></b><i
 style='mso-bidi-font-style:normal'>lo<b style='mso-bidi-font-weight:normal'>J</b>ure
 <b style='mso-bidi-font-weight:normal'>D</b>ocumentation</i>). Really, it's
@@ -954,44 +941,40 @@ you may not find them particularly loveable.</p>
 <p class=MsoNormal>Actually, docstrings have a perfectly reasonable use case.
 If you're plodding along in a REPL and you suddenly find yourself asking
 something like, &quot;So, what was the third argument to function <span
-class=ProgTextChar><span style='mso-bidi-font-family:"Times New Roman";
-border:none'><span style='border:none'>xyz</span></span></span>?&quot;, you can
-just type in <span class=ProgTextChar><span style='mso-bidi-font-family:"Times New Roman";
-border:none'><span style='border:none'>(doc xyz)</span></span></span>, and out
-pops the answer. Or, to put it another way, docstrings feel like they're
-possibly adequate as a sort of quickie aide-mémoire. </p>
+class=ProgTextChar><span style='mso-bidi-font-family:"Times New Roman"'>xyz</span></span>?&quot;,
+you can just type in <span class=ProgTextChar><span style='mso-bidi-font-family:
+"Times New Roman"'>(doc xyz)</span></span>, and out pops the answer. Or, to put
+it another way, docstrings feel like they're possibly adequate as a sort of
+quickie aide-mémoire. </p>
 
 <p class=MsoNormal>By stretching things a bit, we might even concede that
 they're an adequate documentation form for small functions, such, for example,
 as make up the bulk of the <span class=ProgTextChar><span style='mso-bidi-font-family:
-"Times New Roman";border:none'><span style='border:none'>clojure.core</span></span></span>
-namespace. But the suggestion about docstrings <a
+"Times New Roman"'>clojure.core</span></span> namespace. But the suggestion
+about docstrings <a
 href="http://clojure.org/special_forms#Special%20Forms--%28def%20symbol%20init?%29"><b
 style='mso-bidi-font-weight:normal'>here</b></a> (see the <span
-class=ProgTextChar><span style='border:none'><span style='border:none'>:doc</span></span></span>
-bullet)—&quot;a string containing short (1-3 line) documentation for the var
-contents&quot;—suggests what feels like a really appropriate limitation.</p>
+class=ProgTextChar>:doc</span> bullet)—&quot;a string containing short (1-3
+line) documentation for the var contents&quot;—suggests what feels like a
+really appropriate limitation.</p>
 
 <p class=MsoNormal>By the time we get to dealing with an artifact as
 complicated as, say, <span class=ProgTextChar><span style='mso-bidi-font-family:
-"Times New Roman";border:none'><span style='border:none'>defrecord</span></span></span>,
-we're clearly in a different ballpark. That's a pretty big chunk of
-documentation, and there are clearly much larger artifacts out there.</p>
+"Times New Roman"'>defrecord</span></span>, we're clearly in a different
+ballpark. That's a pretty big chunk of documentation, and there are clearly
+much larger artifacts out there.</p>
 
 <p class=MsoNormal>Another perceived problem with docstrings is that even when
 the information is there, it's not always easy to find. Our poster child
-(whipping boy?) for this is the docstring for <span class=ProgTextChar><span
-style='border:none'><a
+(whipping boy?) for this is the docstring for <span class=ProgTextChar><a
 href="http://clojure.github.com/clojure/clojure.core-api.html#clojure.core/reduce"><b
-style='mso-bidi-font-weight:normal'><span style='border:none windowtext 1.0pt;
-mso-border-alt:none windowtext 0in;padding:0in'>reduce</span></b></a></span></span>:
-it's easy enough to conclude that its first parameter is a function. Now… what
-are that function's parameters, and in what order? Well, the information is
-there; it merely takes a bunch of digging to extract. Which, after you've had
-to look it up several times not only ceases to be fun, but starts costing a
-goodly chunk of productivity. Point is, adding some structure to the
-documentation and arriving at a more or less consistent presentation can make
-life easier for everyone.</p>
+style='mso-bidi-font-weight:normal'>reduce</b></a></span>: it's easy enough to
+conclude that its first parameter is a function. Now… what are that function's
+parameters, and in what order? Well, the information is there; it merely takes
+a bunch of digging to extract. Which, after you've had to look it up several
+times not only ceases to be fun, but starts costing a goodly chunk of
+productivity. Point is, adding some structure to the documentation and arriving
+at a more or less consistent presentation can make life easier for everyone.</p>
 
 <p class=MsoNormal>Aside from all of the foregoing, some of us simply detest
 having to write and maintain hand-formatted simple-text-only documentation. And
@@ -1049,20 +1032,17 @@ for commenting, and generating hypertext-based output (this is the Internet
 age, after all). </p>
 
 <p class=MsoNormal>Javadoc has lots of little limitations and annoyances. Like,
-having to type <span class=ProgTextChar><span style='mso-bidi-font-family:"Times New Roman";
-border:none'><span style='border:none'>&lt;p&gt;</span></span></span> to start
-a paragraph… but <span class=ProgTextChar><span style='mso-bidi-font-family:
-"Times New Roman";border:none'><span style='border:none'>@pa<span
-style='border:none'>ram</span></span></span></span> to start a parameter
-description. Or, heaven help us, <span class=ProgTextChar><span
-style='mso-bidi-font-family:"Times New Roman";border:none'><span
-style='border:none'>{$link ..whatever..}</span></span></span> to insert a link
-(is that even the right syntax? Can't ever remember…).<span
-style='mso-spacerun:yes'>  </span>But that's the petty-annoyance stuff. </p>
+having to type <span class=ProgTextChar><span style='mso-bidi-font-family:"Times New Roman"'>&lt;p&gt;</span></span>
+to start a paragraph… but <span class=ProgTextChar><span style='mso-bidi-font-family:
+"Times New Roman"'>@param</span></span> to start a parameter description. Or,
+heaven help us, <span class=ProgTextChar><span style='mso-bidi-font-family:
+"Times New Roman"'>{$link ..whatever..}</span></span> to insert a link (is that
+even the right syntax? Can't ever remember…).<span style='mso-spacerun:yes'> 
+</span>But that's the petty-annoyance stuff. </p>
 
-<p class=MsoNormal>A few major issues: first, we use editors that are highly tuned
-for editing Clojure code. Stands to reason, then, that the documentation syntax
-would also be Clojure-ish in form, so our editors can help us out. </p>
+<p class=MsoNormal>A few major issues: first, we use editors that are highly
+tuned for editing Clojure code. Stands to reason, then, that the documentation
+syntax would also be Clojure-ish in form, so our editors can help us out. </p>
 
 <p class=MsoNormal>Second, artifacts arising in Clojure are often recursively
 defined. If we define a function, it has parameters and a return value, so we'd
@@ -1090,14 +1070,12 @@ Clojure, however, has macros, and macros can spawn all sorts of fun new
 artifacts, any of which may have their own needs and aspirations when it comes
 to documentation. From this it follows that CJD needs to extensible as well.
 Like, if your program has a <span class=ProgTextChar><span style='mso-bidi-font-family:
-"Times New Roman";border:none'><span style='border:none'>defwhatsit</span></span></span>
-macro and you're creating <span class=ProgTextChar><span style='mso-bidi-font-family:
-"Times New Roman";border:none'><span style='border:none'>whatsit</span></span></span>
+"Times New Roman"'>defwhatsit</span></span> macro and you're creating <span
+class=ProgTextChar><span style='mso-bidi-font-family:"Times New Roman"'>whatsit</span></span>
 thingies all over the place, then CJD needs to be able to allow you to add the
 wherewithal to generate pretty documentation for your <span class=ProgTextChar><span
-style='mso-bidi-font-family:"Times New Roman";border:none'><span
-style='border:none'>whatsits</span></span></span> as such.<span
-style='mso-spacerun:yes'>  </span></p>
+style='mso-bidi-font-family:"Times New Roman"'>whatsits</span></span> as
+such.<span style='mso-spacerun:yes'>  </span></p>
 
 <p class=MsoNormal>Bottom line here is that Javadoc feels like a reasonable
 point of departure, but CJD follows its own path from there.</p>
