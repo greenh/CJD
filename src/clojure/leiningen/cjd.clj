@@ -14,10 +14,12 @@
   "Generates a HTML documentation tree from CJD source comments."
   (:use
     [cjd.exome]
+    [cjd.version]
     )
   (:require 
     [leiningen.core.classpath :as classpath]
     [leiningen.core.main :as main]
+    [leiningen.core.eval :as lein-eval] 
     )
   (:import 
     [java.io File]
@@ -100,9 +102,9 @@
 (defn cjd-1 [project]
   (try
     (let [ { opts :cjd-opts target-dir :target-dir } project
-          s1 (or (:cjd-source-path project) (:source-paths project) "src")
+          s1 (or (:cjd-source project) (:source-paths project) "src")
           sources (if (coll? s1) s1 [s1])
-          dest (or (:cjd-dest-path project) "doc")
+          dest (or (:cjd-dest project) "doc")
           ]
       (let [sep (File/separator)
             jbin (File. (str (System/getProperty "java.home") sep "bin"))
@@ -160,11 +162,12 @@
 (defn cjd-2 [project]
   (try
     (let [ { opts :cjd-opts } project
-          s1 (or (:cjd-source-path project) (:source-paths project) "src")
+          s1 (or (:cjd-source project) (:source-paths project) "src")
           sources (if (coll? s1) s1 [s1])
-          dest (or (:cjd-dest-path project) "doc")
+          dest (or (:cjd-dest project) "doc")
           ]
-      (cjd-generator sources dest opts))
+      (lein-eval/eval-in (update-in project [:dependencies] conj ['cjd *cjd-version*]) 
+                         (cjd-generator sources dest opts)))
     (catch Throwable t (.printStackTrace t))))
 
 #_ (* CJD's front end for leiningen.
@@ -194,14 +197,14 @@
 	in the main project map. 
 	
 	CJD selects source locations, in order of preference, from:
-	-- The :cjd-source-path option in the project map. Note that this can be
+	-- The :cjd-source option in the project map. Note that this can be
 	   either a single string, or a collection of strings. CJD will search any 
      directories for .clj files.
 	-- The :source-paths option in the project map.
 	-- \"src\" in the current directory. 
 	
 	CJD selects the destination directory, in order of preference, from:
-	-- The :cjd-dest-path value in the project map;
+	-- The :cjd-dest value in the project map;
 	-- \"doc\" in the current directory. 
 	
 	CJD takes all other options from a map associated the :cjd-opts key. Options and

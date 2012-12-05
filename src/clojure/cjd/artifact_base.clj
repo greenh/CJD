@@ -126,6 +126,7 @@
 
 #_ (* Extenso defining a default implementation of the @(link Artifact) protocol.)
 (defextenso ArtifactBase [] [artifact-name artifact-namespace def-file def-line]
+  (namespace-of! [this ns-sym] (assoc this :artifact-namespace ns-sym))
   Artifact
   (namespace-of [this] artifact-namespace)
   (artifact-name-of [this] artifact-name)

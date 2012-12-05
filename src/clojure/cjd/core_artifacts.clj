@@ -66,12 +66,25 @@
 #_ (* An extenso incorporated by artifacts that can have docstrings @(i and) are
       willing to exert the effort to parse and record them.
       @p This is provided on the theory that docstrings may be pressed into service
-      as am archaic, pitiful, sorry, decrepit fallback for artifacts that are not blessed
-      with the clearly superior virtues of CJD documentation.)
+      as an archaic, pitiful, sorry, decrepit fallback for artifacts that are not blessed
+      with the clearly superior virtues of CJD documentation ~":-)" .)
 (defextenso HasDocString [] [docstring]
-  (has-docstring? [this] (boolean docstring))
-  (docstring-of [this] docstring)
+  (explicit-docstring? [this] (boolean docstring))
+  (explicit-docstring-of [this] docstring)
   )
+
+#_ (* Returns the docstring of an artifact.
+      @arg artifact The artifact to extract the docstring from.
+      @returns The docstring, if there is one, or nil otherwise.)
+(defn docstring-of [artifact]
+  (or (and (satisfies? HasDocString artifact) (explicit-docstring-of artifact))
+      (:doc (meta (artifact-name-of artifact)))))
+
+#_ (* Tests whether an artifact has a docstring.
+      @arg artifact The artifact to test.
+      @returns True if @(arg artifact) has a docstring.)
+(defn has-docstring? [artifact]
+  (boolean (docstring-of artifact)))
 
 #_ (* Protocol implemented by artifacts that have subartifacts that engender names 
       within their namespace. 
@@ -93,22 +106,41 @@
           [_ & usages] (some (fn [x] (if (and (coll? x) (= (first x) :use)) x)) stuff)]
       (make-artifact usages)))
 
-#_ (* Artifact representing a Clojure namespace. 
+#_ (* Extenso for artifacts representing a Clojure namespace. 
       @p In a canonical state of affairs,
       a @name object exists at the root of a rough abstract syntax tree of a 
       Clojure source file. As such, most other artifacts 
       (functions, defs, macros, etc., etc.) appear as children of the
       @(name), and much of the CDJ processing is driven from here.
       )
-(defartifact Namespace ns "namespace" [] [(artifacts* (ref [])) uses] parse-ns
+(defextenso NamespaceBase [] [(artifacts* (ref [])) uses] 
   (artifacts-of [this] @artifacts*)
   (add-artifact [this artifact] (dosync (alter artifacts* conj artifact)))
   (set-artifacts [this artifacts] (dosync (ref-set artifacts* artifacts)))
   (uses-of [this] uses)
   )
 
+#_ (* Artifact representing a namespace.)
+(defartifact Namespace ns "namespace" [NamespaceBase] [] parse-ns)
+
+#_ (* Artifact representing an @(il clojure.core/in-ns) declaration.
+      @p We record these mostly as a method for keeping artifact namespace
+      membership straight in the fact of @(il clojure.core/in-ns) declarations.
+      However, @name objects are merged into their corresponding @(l Namespace)
+      artifacts wherever such an artifact can be located. Consequently,
+      they shouldn't generally show up, unless an undocumented external namespace
+      is being extended.
+      )
+(defartifact In-Namespace in-ns "namespace" [NamespaceBase] [] parse-ns)
+
+#_ (* Predicate that tests to see if an artifact is derived from @(link NamespaceBase).)
+(defn namespace-derivative? [artifact] (satisfies? NamespaceBase artifact))
+
 #_ (* Predicate that tests to see if an artifact is a @(link Namespace).)
 (defn namespace-artifact? [artifact] (= (type artifact) Namespace))
+
+#_ (* Predicate that tests to see if an artifact is a @(link In-Namespace).)
+(defn in-ns-artifact? [artifact] (= (type artifact) In-Namespace))
 
 #_ (* Artifact that represents a var, as defined by the @(c def) special form. )
 (defartifact Var def "var" [] [] simple-artifact-parser)
@@ -129,17 +161,22 @@
   (let [[_ name & contents] form
         [?doc? & after-doc] contents
         docstr (if (string? ?doc?) ?doc? nil)
-        after-docstring (if (string? ?doc?) after-doc contents)
-        [?params? & body] after-docstring]
+        postdoc (if (string? ?doc?) after-doc contents)
+        [?attrs? & after-attrs] postdoc
+        attrs (if (map? ?attrs?) ?attrs? nil)
+        post-attrs (if (map? ?attrs?) after-attrs postdoc)
+        [?params? & body] post-attrs]
+    #_(prn '--> name docstr attrs ?params?)
     (make-artifact docstr
       (if (vector? ?params?) 
           [?params?]
          (reduce 
-           (fn [param-sets+ [param-set & _]] 
-             (if (vector? param-set) 
-               (conj param-sets+ param-set)
-               (parse-error form "parse-functional: expecting parameter vector" )))
-           [] after-docstring))))
+           (fn [param-sets+ ps]
+             (let [[param-set & _] ps] 
+               (if (vector? param-set) 
+                 (conj param-sets+ param-set)
+                 (parse-error form "parse-functional: expecting parameter vector" ))))
+           [] post-attrs))))
   ) ; parse-function
 
 #_ (* Incorporated by artifacts that can have multiple sets of parameters, such as 
@@ -297,16 +334,21 @@
       @returns The collection of @(link Poioo) objects parsed from @(arg poioo-specs).)
 (defn parse-poioos [parent poioo-specs]
   #_(println "parse-poioos:" parent poioo-specs) 
-  (loop [unparsed-specs poioo-specs
-               poioos+ []]
-          (if (empty? unparsed-specs)
-            poioos+
-            (let [[poioo unparsed-specs*] (parse-Poioo parent unparsed-specs)]
-              (if poioo
-                (recur unparsed-specs* (conj poioos+ poioo))
-                (parse-error unparsed-specs 
-                             "Expecting a protocol, interface, or Object:" 
-                             (enquote poioo)))))))
+  (let [deopted-specs 
+        (loop [[opt optval & more-specs :as deopted] poioo-specs]
+          (if (keyword? opt)
+            (recur more-specs)
+            deopted))]
+    (loop [unparsed-specs deopted-specs
+           poioos+ []]
+      (if (empty? unparsed-specs)
+        poioos+
+        (let [[poioo unparsed-specs*] (parse-Poioo parent unparsed-specs)]
+          (if poioo
+            (recur unparsed-specs* (conj poioos+ poioo))
+            (parse-error unparsed-specs 
+                         "Expecting a protocol, interface, or Object:" 
+                         (enquote poioo))))))))
 
 #_ (* Parses a record or type declaration, from a @(link defrecord) or @(link deftype) 
       declaration, with the ultimate intent of extracting protocol/interface 

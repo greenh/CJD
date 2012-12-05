@@ -95,6 +95,7 @@ its name resolution processes. Works like a charm, but there's a down side:
 incompatibility; CJD uses 
 Hiccup 1.x, which isn't interface-compatible with Hiccup 0.x. 
 
+
 * It's currently tested only with Clojure 1.4.0, but it's historically worked 
 with 1.2.1 and 1.3.0. CJD does contain release-specific code, so this can be 
 an issue.
@@ -115,7 +116,7 @@ the location of the problem.
 And the build process is all over the floor, testing leaves everything to be 
 desired, it doesn't result in world peace and hasn't freed mankind from hunger, 
 disease, or bad guys. Or ants (that's _Leiningen's_ job). 
-But ignoring all of the foregoing, everything is wonderful! 
+But all this aside, everything is wonderful! 
  
 ## License
 

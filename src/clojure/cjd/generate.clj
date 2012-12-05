@@ -41,6 +41,7 @@
     [cjd.artifact-base]
     [cjd.core-artifacts]
     [cjd.precis]
+    [cjd.custom]
     [cjd.link-resolver]
     [cjd.resolver]
     [hiccup.core]
@@ -551,8 +552,8 @@
     (let [flow (parse-comment context (doc-form-of artifact))]
       (gen-flow flow context want-blurb?))
     
-    (and (satisfies? HasDocString artifact) (has-docstring? artifact))
-    [context nil (html [:pre.doc (docstring-of artifact)])]
+    (has-docstring? artifact)
+    [context nil (html [:pre.doc (@docstring-editor* (docstring-of artifact))])]
     
     :else
     [context nil nil]))
@@ -582,7 +583,7 @@
         [upcontext _ content] (gen-flow flow context false)]
     (html [:div.desc content]))
     
-    (and (satisfies? HasDocString artifact) (has-docstring? artifact))
+    (has-docstring? artifact)
     (html [:pre.doc (docstring-of artifact)])))
 
 #_ (* Returns a link denoting an artifact or component, with the link text denoting
@@ -833,7 +834,7 @@
      
      :else nil))
 
-(def date-format (java.text.SimpleDateFormat. "dd MMMM yyyy HH:mm zzz"))
+(def date-format (java.text.SimpleDateFormat. "d MMMM yyyy HH:mm zzz"))
 
 #_ (* Generates a "leader", a simple-minded header.
       @p @name is the default header generator, and can be called if desired 
@@ -892,7 +893,8 @@
                 [:tr [:td {:colspan 2} [:p.sum-hdr category-header " Summary"]]]
                 (map
                   (fn [artifact]
-                    (if (has-doc? artifact) 
+                    (cond 
+                      (has-doc? artifact) 
                       (let [neocon (init-context context artifact)
                             flow (parse-comment neocon (doc-form-of artifact))
                             blurb (get-blurb flow neocon)]
@@ -900,7 +902,20 @@
                           [:tr.sum
                            [:td [:a {:href (str "#" (artifact-name-of artifact))}
                                  (nonbreak (artifact-name-of artifact))]]
-                           [:td [:div.blurb blurb]]]))))
+                           [:td [:div.blurb blurb]]]))
+                      
+                      (has-docstring? artifact)
+                      (let [strs (.split (docstring-of artifact) "\n")
+                            blurb (if (or (= (count strs) 1)
+                                          (re-matches #".*\. *" (first strs)))
+                                    (first strs)
+                                    (str (first strs) "..."))]
+                        (html 
+                          [:tr.sum
+                           [:td [:a {:href (str "#" (artifact-name-of artifact))}
+                                 (nonbreak (artifact-name-of artifact))]]
+                           [:td [:pre.preblurb blurb]]])
+                        )))
                   artifacts))))
         categories)]])
     ))
@@ -1009,7 +1024,7 @@
                        [:td [:a {:href (str (artifact-name-of ns-artifact) ".html")}
                              (nonbreak (artifact-name-of ns-artifact))]]
                        [:td ]])))
-              ns-artifacts)]])
+              (sort-by artifact-name-of ns-artifacts))]])
         [:p.sum-hdr "Documented artifacts"]
         [:p 
          (map 

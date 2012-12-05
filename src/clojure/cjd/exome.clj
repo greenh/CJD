@@ -131,11 +131,15 @@
     (let [[ns-artifact _ artifacts] 
           (reduce 
             (fn [[ns-artifact+ last-doc artifacts+] form] 
-              (if (cjd-doc? form)
-                [ns-artifact+ form artifacts+]
+              (cond 
+                (cjd-doc? form) [ns-artifact+ form artifacts+]
+
+                (not (list? form)) [ns-artifact+ nil artifacts+]
+
+                :else
                 (let [artifact (cjd-artifact form ns-artifact+ filename last-doc)]
                   (if artifact 
-                    (if (namespace-artifact? artifact)
+                    (if (namespace-derivative? artifact)
                       [artifact nil artifacts+]
                       [ns-artifact+ nil (conj artifacts+ artifact)])
                     [ns-artifact+ nil artifacts+]))))
@@ -224,7 +228,6 @@
         (catch Exception e 
           (throw (CJDException. (str "Unable to resolve " what ": " designator) e))))
       designator)))
-
 
 #_ (* Main CJD document processing driver.
       
@@ -335,11 +338,15 @@
 (defn cjd-generator [sources out-dir options] 
   (let [{ :keys [exclude requires  title overview throw-on-warn 
                  nogen v theme header footer index noindex 
-                 all docstrings ]
+                 all docstrings dump ]
          used-css :use-css 
          added-css :add-css 
          filter-item :filter 
          :or { :use-css "cjd.css" }} options
+        _ (when dump 
+            (prn sources)
+            (prn out-dir)
+            (prn options))
         outdir (File. out-dir)
         exclusions (if exclude (if (coll? exclude) exclude [exclude]))
         file-set (find-files (sorted-set) 
@@ -351,8 +358,8 @@
                     filter-item (find-item filter-item "artifact filter function")
                     all (fn [artifact] true)
                     docstrings (fn [artifact]
-                                     (or (has-doc? artifact) 
-                                         (has-docstring? artifact)))
+                                 (or (has-doc? artifact) 
+                                     (has-docstring? artifact)))
                     :else has-doc?)
         pre-context (-> (make-Context)
                       (context-verbiage! (set v))
@@ -395,7 +402,10 @@
           (if overview-file
             (let [c (first (forms-from-file overview-file))]
               (if (and c (cjd-doc? c)) c nil)))
-          [ns-artifacts name-map]
+          
+          ;;; XXX --- the name-map thingy below almost certainly needs to be moved
+          ;;; below, to _after_ we've done the in-ns merge.
+          [raw-ns-artifacts name-map]
           (reduce 
             (fn [[ns-artifacts+ name-map+] file]
               (let [filename (.replaceAll (.getPath file) "\\\\" "/")
@@ -419,6 +429,55 @@
                     [ns-artifacts+ name-map+]))))
             [[] (sorted-map)] 
             file-set)
+          
+          ; Sort out the namespace artifacts from the in-ns artifacts. Then,
+          ; engage in a joyous process of merging each in-ns's contents into
+          ; the partent namespace---if there is one.
+          ns-artifacts 
+          (let [{ nss cjd.core_artifacts.Namespace 
+                 in-nss cjd.core_artifacts.In-Namespace } 
+                (group-by type raw-ns-artifacts)]
+            (if (not-empty in-nss) 
+              (let [nss-map-0 
+                    (reduce 
+                      (fn [nss-map+ nsa] (assoc nss-map+ (artifact-name-of nsa) nsa))
+                      {} nss)
+                    ; We do a reduce to produce an updated nss-map here even though 
+                    ; we don't currently alter the contents (largely because we can
+                    ; ns artifact memership is non-persistent state). 
+                    ; We may, down the road, though...
+                    nss-map 
+                    (reduce 
+                      (fn [nss-map+ in-nsa]
+                        (let [[qs in-name] (artifact-name-of in-nsa)
+                              nsa (get nss-map+ in-name)]
+                          (if (and (= qs 'quote) (symbol? in-name))
+                            (if nsa
+                              ; We have an in-ns artifact and its corresponding ns artifact. 
+                              ; Now, we go through the in-ns's artifact list, change each
+                              ; artifact's namespace to the ns artifact, and add 'em to the
+                              ; ns artifact's list if artifacts.
+                              (do
+                                (doseq [art (artifacts-of in-nsa)]
+                                  (add-artifact nsa (namespace-of! art nsa)))
+                                nss-map+) 
+                              ; else, valid-looking in-ns name, but no top-level ns.
+                              ; We could synthesize a NS artifact... or just toss it.
+                              (do 
+                                (warn pre-context (str "No namespace for in-ns "
+                                                   (artifact-name-of in-nsa) " at "
+                                                   (defined-in in-nsa) ":" (defined-at in-nsa)))
+                                nss-map+))
+                            ; else
+                            (do 
+                              (warn pre-context (str "Unable to process in-ns name: " 
+                                                 (artifact-name-of in-nsa) " at "
+                                                 (defined-in in-nsa) ":" (defined-at in-nsa)))
+                              nss-map+))))
+                      nss-map-0 in-nss)]
+                (vals nss-map))
+              ; else...
+              nss))
           nss (set (map artifact-name-of ns-artifacts))
           base-context 
           (-> pre-context
@@ -430,7 +489,8 @@
             (context-footer! 
               (if-let [ftrfn (find-item footer "footer function")] ftrfn @footer-fn*))
             (context-overview! overview-doc)
-            (context-throw-on-warn! throw-on-warn))]
+            (context-throw-on-warn! throw-on-warn))
+          ]
 
       (if nogen
         [ns-artifacts base-context]
@@ -464,16 +524,17 @@
       options can be specified as keyword-value argument pairs.
       )
 (defnk cjd-gen [sources out-dir :exclude nil :requires nil 
-                :css nil :title nil 
+                :add-css nil :use-css nil :title nil 
                 :overview nil :throw-on-warn false :nogen false
                 :v #{ :f :n } :theme :light :header nil :footer nil
                 :noindex false :index nil :filter nil 
-                :docstrings false :all false] 
+                :docstrings false :all false :dump false] 
   (cjd-generator sources out-dir 
                  { :exclude exclude :requires requires
-                  :css css :title title :index index :noindex noindex
+                  :use-css use-css :add-css add-css 
+                  :title title :index index :noindex noindex
                   :overview overview :throw-on-warn throw-on-warn 
                   :nogen nogen :v v :theme theme :header header :footer footer
-                  :filter filter :docstrings docstrings :all all}))
+                  :filter filter :docstrings docstrings :all all :dump dump}))
 
 

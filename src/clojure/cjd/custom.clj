@@ -90,4 +90,19 @@
   (dosync 
     (ref-set footer-fn* footer-fn)))
 
+(def docstring-editor* (ref identity)) 
+
+#_ (* Specifies a function allows each docstring to be "edited" before
+      it's rendered.
+      @p Note that this applies to @(u docstrings) only, and not to proper
+      CJD comments. 
+      @p The intent here is to allow, e.g., formatting-related artifacts 
+      (like leading spaces) to be removed prior to rendering.
+      @(arg editor-fn A function of the form @(fun [doc-string]), where
+            @arg doc-string A string, the docstring to edit.
+            @returns The edited docstring.)
+      )
+(defn use-docstring-editor [editor-fn]
+  (dosync (ref-set docstring-editor* editor-fn))) 
+
 

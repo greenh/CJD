@@ -34,6 +34,10 @@
   (list
     (fn [ns sym]
       (if (re-matches #"clojure\..*" (name ns))
+        (str "http://clojure.github.com/clojure/" (name ns) "-api.html#"
+             (name ns) (if sym (str "/" (name sym))))))
+    #_(fn [ns sym]
+      (if (re-matches #"clojure\..*" (name ns))
         (str "http://clojuredocs.org/clojure_core/" (name ns) 
              (if sym (str "/" (name sym))))))
     (fn [ns sym]
@@ -42,7 +46,6 @@
               cls (.replaceAll cls- "\\$" ".")]
           (str "http://download.oracle.com/javase/7/docs/api/" cls ".html" 
                (if sym (str "/" (name sym))))))) ))
-
 
 #_ (* Reference to the list of external resolver functions. 
       @p Any resolver functions are added to the list before the  

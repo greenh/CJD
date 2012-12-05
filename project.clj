@@ -39,11 +39,14 @@
   
 ;  :javac-options ["-destdir" "classes/"]
   
-;  :cjd-source-path ["src/clojure/cjd" "src/clojure/leiningen"]
-  :cjd-dest-path "doc/dark"
+  :cjd-source ["src/clojure/cjd" "src/clojure/leiningen"]
+  
+  :cjd-dest "doc/dark"
+  
   :cjd-opts { :exclude [#"src/clojure/cjd/vox.*"] 
+             :theme :dark :dump true
              :title "CJD" :overview "project.clj" 
-             :requires 'cjd.cjd.artifact-gen  :v #{ :n :f} 
-             :footer 'cjd.cjd.its-mine/gen-footer }
+             :requires ["cjd.cjd.artifact-gen" "cjd.cjd.its-mine"]  :v #{ :n :f} 
+              }
 
   )
