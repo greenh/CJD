@@ -12,20 +12,20 @@ This allows CJD's processing facility
 to extract the documentation content from collections of Clojure namespaces and convert 
 it into trees of consistently-formatted HTML documents. 
 
-CJD goes a fair ways beyond Javadoc, though. Specifically, CJD: 
+A few salient CJD features: 
 
-* Structures comments and markup in terms of well-defined Clojure forms, allowing 
+* It structures comments and markup in terms of well-defined Clojure forms, allowing 
 structure-sensitive editors to be used to good advantage.
 
-* Incorporates a recursively-defined documentation structure that allows 
+* It incorporates a recursively-defined documentation structure that allows 
 Clojure's recursively-defined data structures and functions 
 to be documented to whatever depth is needful.
 
-* Provides support for documenting most core Clojure artifacts (vars, functions,
+* It provides support for documenting most core Clojure artifacts (vars, functions,
 macros, protocols, records, etc.), and provides facilities for extending CJD to
 allow user-defined artifacts to be compatibly documented.  
 
-* Doesn't insist on completeness --- what does and doesn't get documented,
+* It doesn't insist on completeness --- what does and doesn't get documented,
 and to what extent, is entirely at the developer's discretion.
 
 So, what does a CJD comment look like? Here's a taste, in the form a 
@@ -80,7 +80,7 @@ what CJD is and does, and how it managed to get there.
 
 It works! 
 
-Well, after a fashion: there are a few caveats. Some known problems, limitations, and gotchas:
+Well, after a fashion -- there are a few caveats. Some known problems, limitations, and gotchas:
 
 * It's currently just for Clojure running on a JVM -- no Clojure/CLR or 
 ClojureScript support at the moment.
