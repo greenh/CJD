@@ -181,7 +181,7 @@ where:
                 "requires"
                 (if param
                   (let [reqs (vec (.split param ";"))]
-                    (recur remains* (assoc opts+ :require reqs)))
+                    (recur remains* (assoc opts+ :requires reqs)))
                   (throw (CJDException. "Missing parameter for --require")))
                 
                 "showopts" (recur remains+ (assoc opts+ :showopts true))

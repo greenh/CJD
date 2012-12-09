@@ -21,7 +21,6 @@
      [hiccup "1.0.1"]
      [commons-lang "2.6"]
      [extensomatic "0.2.0"]
-     [leiningen "2.0.0-preview10"]
      ]
   :target-path "bin/"
   :compile-path "classes"

@@ -229,6 +229,18 @@
           (throw (CJDException. (str "Unable to resolve " what ": " designator) e))))
       designator)))
 
+#_ (* "Massages" identifiers for things like the :requires option.
+      @arg An identifier, quoted or not, or a list of identifiers, quoted or not.
+      @returns A collection of unquoted idenfitiers.
+      )
+(defn massage [stuff]
+  (cond
+    (and (list? stuff) (= (first stuff) 'quote)) [(second stuff)]
+    (coll? stuff) (map (fn [item] (if (and (list? item) (= (first item) 'quote))
+                                    (second item) item)) 
+                       stuff)
+    :else [stuff]))
+
 #_ (* Main CJD document processing driver.
       
       @arg sources A file or directory name (string), or collection of files or 
@@ -338,7 +350,7 @@
 (defn cjd-generator [sources out-dir options] 
   (let [{ :keys [exclude requires  title overview throw-on-warn 
                  nogen v theme header footer index noindex 
-                 all docstrings dump ]
+                 all docstrings dump showopts]
          used-css :use-css 
          added-css :add-css 
          filter-item :filter 
@@ -346,7 +358,9 @@
         _ (when dump 
             (prn sources)
             (prn out-dir)
-            (prn options))
+            (prn options)
+            (doseq [pn (.split (.replaceAll (System/getProperty "java.class.path") "\\\\" "/") ";")]
+              (println "cp:" pn)))
         outdir (File. out-dir)
         exclusions (if exclude (if (coll? exclude) exclude [exclude]))
         file-set (find-files (sorted-set) 
@@ -392,7 +406,8 @@
     ;; of link resolvers if one does multiple runs from the REPL.
 ;   (reset-resolver-fns)
     (if requires
-      (doseq [req (if (coll? requires) requires [requires])]
+      (doseq [req (massage requires)]
+        (if showopts (prn 'requiring req))
         (require :reload (symbol req))))
     (init-artifacts)
     (reset-resolver)
@@ -528,13 +543,13 @@
                 :overview nil :throw-on-warn false :nogen false
                 :v #{ :f :n } :theme :light :header nil :footer nil
                 :noindex false :index nil :filter nil 
-                :docstrings false :all false :dump false] 
+                :docstrings false :all false :showopts false] 
   (cjd-generator sources out-dir 
                  { :exclude exclude :requires requires
                   :use-css use-css :add-css add-css 
                   :title title :index index :noindex noindex
                   :overview overview :throw-on-warn throw-on-warn 
                   :nogen nogen :v v :theme theme :header header :footer footer
-                  :filter filter :docstrings docstrings :all all :dump dump}))
+                  :filter filter :docstrings docstrings :all all :showopts showopts}))
 
 
