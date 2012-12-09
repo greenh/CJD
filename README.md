@@ -6,7 +6,9 @@ for the docstring mechanism.
 
 CJD was inspired by Javadoc, to which it bears a superficial similarity. 
 Like Javadoc,
-CJD-comments support a simple form of markup. This allows CJD's processing facility
+CJD-comments support a simple form of markup that not only adds formatting detail
+but provides a level of metadata that describes what's being documented. 
+This allows CJD's processing facility
 to extract the documentation content from collections of Clojure namespaces and convert 
 it into trees of consistently-formatted HTML documents. 
 
@@ -86,7 +88,7 @@ ClojureScript support at the moment.
 * The current implementation's operation involves loading Clojure files to assist 
 its name resolution processes. Works like a charm, but there's a down side: 
 
- + Clojure source files must be (transitively) loadable...
+ + Clojure files must be (transitively) loadable...
  
  + ...so CJD's classpath needs to include everything that your project depends on...
  
@@ -95,12 +97,12 @@ its name resolution processes. Works like a charm, but there's a down side:
 potential incompatibility; CJD uses Hiccup 1.x, which isn't 
 interface-compatible with Hiccup 0.x. 
 
-* It's currently tested only with Clojure 1.4.0, but it's historically worked 
-with 1.2.1 and 1.3.0. CJD does contain release-specific code, so this can be 
+* It's currently tested principally with Clojure 1.4.0, but it's recently worked 
+with 1.3.0 (but not with 1.2.1). CJD does contain release-specific code, so this can be 
 an issue.
 
-* CJD incorporates a Leiningen plugin, but there are still issues. It has been recently 
-tried with 2.x only. Leiningen 1.x support is still there and even might work.
+* CJD incorporates a Leiningen plugin, but there are still issues. Currently, the plugin
+works Leiningen 1.x only. Leiningen 2.x support is underway, but has issues.
 
 * Error reporting is less than fully wonderful:
 
@@ -124,7 +126,7 @@ compiled: CJD is limited to just _reading_ source files; it doesn't _execute_ th
 And the build process is all over the floor, testing leaves everything to be 
 desired, it doesn't result in world peace and hasn't freed mankind from hunger, 
 disease, or bad guys. Or ants. (That's Leiningen's job.) 
-But all this aside, everything is wonderful! 
+But ignoring these minor details, everything is wonderful! 
  
 ## License
 
