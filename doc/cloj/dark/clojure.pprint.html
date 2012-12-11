@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html><head><meta charset="ISO-8859-1"><title>Clojure 1.4.0 &ndash; clojure.pprint</title><link href="cjd.css" rel="stylesheet" type="text/css" /></head><body><div id="top"></div><div class="leader"><table><tbody><tr><td width="100%"><td align="right"><a href="index.html"><span class="headlink">Index</span></a></td></tr></tbody></table></div><div class="ns">clojure.pprint</div><div class="desc"><table class="summary"><tbody><tr><td colspan="2"><p class="sum-hdr">Function/Macro Summary</p></td></tr><tr class="sum"><td><a href="#cl-format">cl&#8209;format</a></td><td><pre class="preblurb">An implementation of a Common Lisp compatible format function. cl-format formats its...</pre></td></tr><tr class="sum"><td><a href="#formatter">formatter</a></td><td><pre class="preblurb">Makes a function which can directly run format-in. The function is...</pre></td></tr><tr class="sum"><td><a href="#formatter-out">formatter&#8209;out</a></td><td><pre class="preblurb">Makes a function which can directly run format-in. The function is...</pre></td></tr><tr class="sum"><td><a href="#fresh-line">fresh&#8209;line</a></td><td><pre class="preblurb">Make a newline if *out* is not already at the beginning of the line. If *out* is...</pre></td></tr><tr class="sum"><td><a href="#get-pretty-writer">get&#8209;pretty&#8209;writer</a></td><td><pre class="preblurb">Returns the java.io.Writer passed in wrapped in a pretty writer proxy, unless it's ...</pre></td></tr><tr class="sum"><td><a href="#getf">getf</a></td><td><pre class="preblurb">Get the value of the field a named by the argument (which should be a keyword).</pre></td></tr><tr class="sum"><td><a href="#pp">pp</a></td><td><pre class="preblurb">A convenience macro that pretty prints the last thing output. This is...</pre></td></tr><tr class="sum"><td><a href="#pprint">pprint</a></td><td><pre class="preblurb">Pretty print object to the optional output writer. If the writer is not provided, ...</pre></td></tr><tr class="sum"><td><a href="#pprint-indent">pprint&#8209;indent</a></td><td><pre class="preblurb">Create an indent at this point in the pretty printing stream. This defines how ...</pre></td></tr><tr class="sum"><td><a href="#pprint-logical-block">pprint&#8209;logical&#8209;block</a></td><td><pre class="preblurb">Execute the body as a pretty printing logical block with output to *out* which ...</pre></td></tr><tr class="sum"><td><a href="#pprint-newline">pprint&#8209;newline</a></td><td><pre class="preblurb">Print a conditional newline to a pretty printing stream. kind specifies if the ...</pre></td></tr><tr class="sum"><td><a href="#pprint-tab">pprint&#8209;tab</a></td><td><pre class="preblurb">Tab at this point in the pretty printing stream. kind specifies whether the tab...</pre></td></tr><tr class="sum"><td><a href="#print-length-loop">print&#8209;length&#8209;loop</a></td><td><pre class="preblurb">A version of loop that iterates at most *print-length* times. This is designed ...</pre></td></tr><tr class="sum"><td><a href="#print-table">print&#8209;table</a></td><td><pre class="preblurb">Alpha - subject to change.</pre></td></tr><tr class="sum"><td><a href="#set-pprint-dispatch">set&#8209;pprint&#8209;dispatch</a></td><td><pre class="preblurb">Set the pretty print dispatch function to a function matching (fn [obj] ...)...</pre></td></tr><tr class="sum"><td><a href="#with-pprint-dispatch">with&#8209;pprint&#8209;dispatch</a></td><td><pre class="preblurb">Execute body with the pretty print dispatch function bound to function.</pre></td></tr><tr class="sum"><td><a href="#write">write</a></td><td><pre class="preblurb">Write an object subject to the current bindings of the printer control variables.</pre></td></tr><tr class="sum"><td><a href="#write-out">write&#8209;out</a></td><td><pre class="preblurb">Write an object to *out* subject to the current bindings of the printer control ...</pre></td></tr><tr><td colspan="2"><p class="sum-hdr">Variable Summary</p></td></tr><tr class="sum"><td><a href="#*print-base*">*print&#8209;base*</a></td><td><pre class="preblurb">The base to use for printing integers and rationals.</pre></td></tr><tr class="sum"><td><a href="#*print-circle*">*print&#8209;circle*</a></td><td><pre class="preblurb">Mark circular structures (N.B. This is not yet used)</pre></td></tr><tr class="sum"><td><a href="#*print-lines*">*print&#8209;lines*</a></td><td><pre class="preblurb">Maximum number of lines to print in a pretty print instance (N.B. This is not yet used)</pre></td></tr><tr class="sum"><td><a href="#*print-miser-width*">*print&#8209;miser&#8209;width*</a></td><td><pre class="preblurb">The column at which to enter miser style. Depending on the dispatch table, ...</pre></td></tr><tr class="sum"><td><a href="#*print-pprint-dispatch*">*print&#8209;pprint&#8209;dispatch*</a></td><td><pre class="preblurb">The pretty print dispatch function. Use with-pprint-dispatch or set-pprint-dispatch...</pre></td></tr><tr class="sum"><td><a href="#*print-pretty*">*print&#8209;pretty*</a></td><td><pre class="preblurb">Bind to true if you want write to use pretty printing</pre></td></tr><tr class="sum"><td><a href="#*print-radix*">*print&#8209;radix*</a></td><td><pre class="preblurb">Print a radix specifier in front of integers and rationals. If *print-base* is 2, 8, ...</pre></td></tr><tr class="sum"><td><a href="#*print-right-margin*">*print&#8209;right&#8209;margin*</a></td><td><pre class="preblurb">Pretty printing will try to avoid anything going beyond this column.</pre></td></tr><tr class="sum"><td><a href="#*print-shared*">*print&#8209;shared*</a></td><td><pre class="preblurb">Mark repeated structures rather than repeat them (N.B. This is not yet used)</pre></td></tr><tr class="sum"><td><a href="#*print-suppress-namespaces*">*print&#8209;suppress&#8209;namespaces*</a></td><td><pre class="preblurb">Don't print namespaces with symbols. This is particularly useful when ...</pre></td></tr></tbody></table></div><div class="artifact" id="*print-base*"><table class="topline"><tbody><tr><td><a class="itemname" href="https://github.com/clojure/clojure/blob/master/src/clj/clojure/pprint/pprint_base.clj#L87">*print-base*</a></td><td align="right"><a href="http://clojure.org/special_forms#Special%20Forms--%28def%20symbol%20init?%29">def</a> in <a href="#top">clojure.pprint</a></td></tr></tbody></table><div class="desc"><pre class="doc">The base to use for printing integers and rationals.</pre></div></div><div class="artifact" id="*print-circle*"><table class="topline"><tbody><tr><td><a class="itemname" href="https://github.com/clojure/clojure/blob/master/src/clj/clojure/pprint/pprint_base.clj#L61">*print-circle*</a></td><td align="right"><a href="http://clojure.org/special_forms#Special%20Forms--%28def%20symbol%20init?%29">def</a> in <a href="#top">clojure.pprint</a></td></tr></tbody></table><div class="desc"><pre class="doc">Mark circular structures (N.B. This is not yet used)</pre></div></div><div class="artifact" id="*print-lines*"><table class="topline"><tbody><tr><td><a class="itemname" href="https://github.com/clojure/clojure/blob/master/src/clj/clojure/pprint/pprint_base.clj#L55">*print-lines*</a></td><td align="right"><a href="http://clojure.org/special_forms#Special%20Forms--%28def%20symbol%20init?%29">def</a> in <a href="#top">clojure.pprint</a></td></tr></tbody></table><div class="desc"><pre class="doc">Maximum number of lines to print in a pretty print instance (N.B. This is not yet used)</pre></div></div><div class="artifact" id="*print-miser-width*"><table class="topline"><tbody><tr><td><a class="itemname" href="https://github.com/clojure/clojure/blob/master/src/clj/clojure/pprint/pprint_base.clj#L47">*print-miser-width*</a></td><td align="right"><a href="http://clojure.org/special_forms#Special%20Forms--%28def%20symbol%20init?%29">def</a> in <a href="#top">clojure.pprint</a></td></tr></tbody></table><div class="desc"><pre class="doc">The column at which to enter miser style. Depending on the dispatch table, 
+miser style add newlines in more places to try to keep lines short allowing for further 
+levels of nesting.</pre></div></div><div class="artifact" id="*print-pprint-dispatch*"><table class="topline"><tbody><tr><td><a class="itemname" href="https://github.com/clojure/clojure/blob/master/src/clj/clojure/pprint/pprint_base.clj#L34">*print-pprint-dispatch*</a></td><td align="right"><a href="clojure.core.html#defonce">defonce</a> in <a href="#top">clojure.pprint</a></td></tr></tbody></table><div class="desc"><pre class="doc">The pretty print dispatch function. Use with-pprint-dispatch or set-pprint-dispatch
+to modify.</pre></div></div><div class="artifact" id="*print-pretty*"><table class="topline"><tbody><tr><td><a class="itemname" href="https://github.com/clojure/clojure/blob/master/src/clj/clojure/pprint/pprint_base.clj#L30">*print-pretty*</a></td><td align="right"><a href="http://clojure.org/special_forms#Special%20Forms--%28def%20symbol%20init?%29">def</a> in <a href="#top">clojure.pprint</a></td></tr></tbody></table><div class="desc"><pre class="doc">Bind to true if you want write to use pretty printing</pre></div></div><div class="artifact" id="*print-radix*"><table class="topline"><tbody><tr><td><a class="itemname" href="https://github.com/clojure/clojure/blob/master/src/clj/clojure/pprint/pprint_base.clj#L80">*print-radix*</a></td><td align="right"><a href="http://clojure.org/special_forms#Special%20Forms--%28def%20symbol%20init?%29">def</a> in <a href="#top">clojure.pprint</a></td></tr></tbody></table><div class="desc"><pre class="doc">Print a radix specifier in front of integers and rationals. If *print-base* is 2, 8, 
+or 16, then the radix specifier used is #b, #o, or #x, respectively. Otherwise the 
+radix specifier is in the form #XXr where XX is the decimal value of *print-base* </pre></div></div><div class="artifact" id="*print-right-margin*"><table class="topline"><tbody><tr><td><a class="itemname" href="https://github.com/clojure/clojure/blob/master/src/clj/clojure/pprint/pprint_base.clj#L40">*print-right-margin*</a></td><td align="right"><a href="http://clojure.org/special_forms#Special%20Forms--%28def%20symbol%20init?%29">def</a> in <a href="#top">clojure.pprint</a></td></tr></tbody></table><div class="desc"><pre class="doc">Pretty printing will try to avoid anything going beyond this column.
+Set it to nil to have pprint let the line be arbitrarily long. This will ignore all 
+non-mandatory newlines.</pre></div></div><div class="artifact" id="*print-shared*"><table class="topline"><tbody><tr><td><a class="itemname" href="https://github.com/clojure/clojure/blob/master/src/clj/clojure/pprint/pprint_base.clj#L67">*print-shared*</a></td><td align="right"><a href="http://clojure.org/special_forms#Special%20Forms--%28def%20symbol%20init?%29">def</a> in <a href="#top">clojure.pprint</a></td></tr></tbody></table><div class="desc"><pre class="doc">Mark repeated structures rather than repeat them (N.B. This is not yet used)</pre></div></div><div class="artifact" id="*print-suppress-namespaces*"><table class="topline"><tbody><tr><td><a class="itemname" href="https://github.com/clojure/clojure/blob/master/src/clj/clojure/pprint/pprint_base.clj#L72">*print-suppress-namespaces*</a></td><td align="right"><a href="http://clojure.org/special_forms#Special%20Forms--%28def%20symbol%20init?%29">def</a> in <a href="#top">clojure.pprint</a></td></tr></tbody></table><div class="desc"><pre class="doc">Don't print namespaces with symbols. This is particularly useful when 
+pretty printing the results of macro expansions</pre></div></div><div class="artifact" id="cl-format"><table class="topline"><tbody><tr><td><a class="itemname" href="https://github.com/clojure/clojure/blob/master/src/clj/clojure/pprint/cl_format.clj#L27">cl-format</a></td><td align="right"><a href="clojure.core.html#defn">defn</a> in <a href="#top">clojure.pprint</a></td></tr></tbody></table><p class="decl"><span class="expr">(<span class="n0">cl&#8209;format</span> [writer format&#8209;in &amp; args])</span></p><div class="desc"><pre class="doc">An implementation of a Common Lisp compatible format function. cl-format formats its
+arguments to an output stream or string based on the format control string given. It 
+supports sophisticated formatting of structured data.
+
+Writer is an instance of java.io.Writer, true to output to *out* or nil to output 
+to a string, format-in is the format control string and the remaining arguments 
+are the data to be formatted.
+
+The format control string is a string to be output with embedded 'format directives' 
+describing how to format the various arguments passed in.
+
+If writer is nil, cl-format returns the formatted result string. Otherwise, cl-format 
+returns nil.
+
+For example:
+ (let [results [46 38 22]]
+      (cl-format true "There ~[are~;is~:;are~]~:* ~d result~:p: ~{~d~^, ~}~%" 
+                 (count results) results))
+
+Prints to *out*:
+ There are 3 results: 46, 38, 22
+
+Detailed documentation on format control strings is available in the "Common Lisp the 
+Language, 2nd edition", Chapter 22 (available online at:
+http://www.cs.cmu.edu/afs/cs.cmu.edu/project/ai-repository/ai/html/cltl/clm/node200.html#SECTION002633000000000000000) 
+and in the Common Lisp HyperSpec at 
+http://www.lispworks.com/documentation/HyperSpec/Body/22_c.htm
+</pre></div></div><div class="artifact" id="formatter"><table class="topline"><tbody><tr><td><a class="itemname" href="https://github.com/clojure/clojure/blob/master/src/clj/clojure/pprint/cl_format.clj#L1858">formatter</a></td><td align="right"><a href="clojure.core.html#defmacro">defmacro</a> in <a href="#top">clojure.pprint</a></td></tr></tbody></table><p class="decl"><span class="expr">(<span class="n0">formatter</span> [format&#8209;in])</span></p><div class="desc"><pre class="doc">Makes a function which can directly run format-in. The function is
+fn [stream & args] ... and returns nil unless the stream is nil (meaning 
+output to a string) in which case it returns the resulting string.
+
+format-in can be either a control string or a previously compiled format.</pre></div></div><div class="artifact" id="formatter-out"><table class="topline"><tbody><tr><td><a class="itemname" href="https://github.com/clojure/clojure/blob/master/src/clj/clojure/pprint/cl_format.clj#L1878">formatter-out</a></td><td align="right"><a href="clojure.core.html#defmacro">defmacro</a> in <a href="#top">clojure.pprint</a></td></tr></tbody></table><p class="decl"><span class="expr">(<span class="n0">formatter&#8209;out</span> [format&#8209;in])</span></p><div class="desc"><pre class="doc">Makes a function which can directly run format-in. The function is
+fn [& args] ... and returns nil. This version of the formatter macro is
+designed to be used with *out* set to an appropriate Writer. In particular,
+this is meant to be used as part of a pretty printer dispatch method.
+
+format-in can be either a control string or a previously compiled format.</pre></div></div><div class="artifact" id="fresh-line"><table class="topline"><tbody><tr><td><a class="itemname" href="https://github.com/clojure/clojure/blob/master/src/clj/clojure/pprint/cl_format.clj#L1188">fresh-line</a></td><td align="right"><a href="clojure.core.html#defn">defn</a> in <a href="#top">clojure.pprint</a></td></tr></tbody></table><p class="decl"><span class="expr">(<span class="n0">fresh&#8209;line</span> [])</span></p><div class="desc"><pre class="doc">Make a newline if *out* is not already at the beginning of the line. If *out* is
+not a pretty writer (which keeps track of columns), this function always outputs a newline.</pre></div></div><div class="artifact" id="get-pretty-writer"><table class="topline"><tbody><tr><td><a class="itemname" href="https://github.com/clojure/clojure/blob/master/src/clj/clojure/pprint/cl_format.clj#L1146">get-pretty-writer</a></td><td align="right"><a href="clojure.core.html#defn">defn</a> in <a href="#top">clojure.pprint</a></td></tr></tbody></table><p class="decl"><span class="expr">(<span class="n0">get&#8209;pretty&#8209;writer</span> [writer])</span></p><div class="desc"><pre class="doc">Returns the java.io.Writer passed in wrapped in a pretty writer proxy, unless it's 
+already a pretty writer. Generally, it is unneccesary to call this function, since pprint,
+write, and cl-format all call it if they need to. However if you want the state to be 
+preserved across calls, you will want to wrap them with this. 
+
+For example, when you want to generate column-aware output with multiple calls to cl-format, 
+do it like in this example:
+
+  (defn print-table [aseq column-width]
+    (binding [*out* (get-pretty-writer *out*)]
+      (doseq [row aseq]
+        (doseq [col row]
+          (cl-format true "~4D~7,vT" col column-width))
+        (prn))))
+
+Now when you run:
+
+  user> (print-table (map #(vector % (* % %) (* % % %)) (range 1 11)) 8)
+
+It prints a table of squares and cubes for the numbers from 1 to 10:
+
+     1      1       1    
+     2      4       8    
+     3      9      27    
+     4     16      64    
+     5     25     125    
+     6     36     216    
+     7     49     343    
+     8     64     512    
+     9     81     729    
+    10    100    1000</pre></div></div><div class="artifact" id="getf"><table class="topline"><tbody><tr><td><a class="itemname" href="https://github.com/clojure/clojure/blob/master/src/clj/clojure/pprint/pretty_writer.clj#L37">getf</a></td><td align="right"><a href="clojure.core.html#defmacro">defmacro</a> in <a href="#top">clojure.pprint</a></td></tr></tbody></table><p class="decl"><span class="expr">(<span class="n0">getf</span> [sym])</span></p><div class="desc"><pre class="doc">Get the value of the field a named by the argument (which should be a keyword).</pre></div></div><div class="artifact" id="pp"><table class="topline"><tbody><tr><td><a class="itemname" href="https://github.com/clojure/clojure/blob/master/src/clj/clojure/pprint/pprint_base.clj#L254">pp</a></td><td align="right"><a href="clojure.core.html#defmacro">defmacro</a> in <a href="#top">clojure.pprint</a></td></tr></tbody></table><p class="decl"><span class="expr">(<span class="n0">pp</span> [])</span></p><div class="desc"><pre class="doc">A convenience macro that pretty prints the last thing output. This is
+exactly equivalent to (pprint *1).</pre></div></div><div class="artifact" id="pprint"><table class="topline"><tbody><tr><td><a class="itemname" href="https://github.com/clojure/clojure/blob/master/src/clj/clojure/pprint/pprint_base.clj#L241">pprint</a></td><td align="right"><a href="clojure.core.html#defn">defn</a> in <a href="#top">clojure.pprint</a></td></tr></tbody></table><p class="decl"><span class="expr">(<span class="n0">pprint</span> [object])</span></p><p class="decl"><span class="expr">(<span class="n0">pprint</span> [object writer])</span></p><div class="desc"><pre class="doc">Pretty print object to the optional output writer. If the writer is not provided, 
+print the object to the currently bound value of *out*.</pre></div></div><div class="artifact" id="pprint-indent"><table class="topline"><tbody><tr><td><a class="itemname" href="https://github.com/clojure/clojure/blob/master/src/clj/clojure/pprint/pprint_base.clj#L341">pprint-indent</a></td><td align="right"><a href="clojure.core.html#defn">defn</a> in <a href="#top">clojure.pprint</a></td></tr></tbody></table><p class="decl"><span class="expr">(<span class="n0">pprint&#8209;indent</span> [relative&#8209;to n])</span></p><div class="desc"><pre class="doc">Create an indent at this point in the pretty printing stream. This defines how 
+following lines are indented. relative-to can be either :block or :current depending 
+whether the indent should be computed relative to the start of the logical block or
+the current column position. n is an offset. 
+
+This function is intended for use when writing custom dispatch functions.
+
+Output is sent to *out* which must be a pretty printing writer.</pre></div></div><div class="artifact" id="pprint-logical-block"><table class="topline"><tbody><tr><td><a class="itemname" href="https://github.com/clojure/clojure/blob/master/src/clj/clojure/pprint/pprint_base.clj#L302">pprint-logical-block</a></td><td align="right"><a href="clojure.core.html#defmacro">defmacro</a> in <a href="#top">clojure.pprint</a></td></tr></tbody></table><p class="decl"><span class="expr">(<span class="n0">pprint&#8209;logical&#8209;block</span> [&amp; args])</span></p><div class="desc"><pre class="doc">Execute the body as a pretty printing logical block with output to *out* which 
+must be a pretty printing writer. When used from pprint or cl-format, this can be 
+assumed. 
+
+This function is intended for use when writing custom dispatch functions.
+
+Before the body, the caller can optionally specify options: :prefix, :per-line-prefix, 
+and :suffix.</pre></div></div><div class="artifact" id="pprint-newline"><table class="topline"><tbody><tr><td><a class="itemname" href="https://github.com/clojure/clojure/blob/master/src/clj/clojure/pprint/pprint_base.clj#L329">pprint-newline</a></td><td align="right"><a href="clojure.core.html#defn">defn</a> in <a href="#top">clojure.pprint</a></td></tr></tbody></table><p class="decl"><span class="expr">(<span class="n0">pprint&#8209;newline</span> [kind])</span></p><div class="desc"><pre class="doc">Print a conditional newline to a pretty printing stream. kind specifies if the 
+newline is :linear, :miser, :fill, or :mandatory. 
+
+This function is intended for use when writing custom dispatch functions.
+
+Output is sent to *out* which must be a pretty printing writer.</pre></div></div><div class="artifact" id="pprint-tab"><table class="topline"><tbody><tr><td><a class="itemname" href="https://github.com/clojure/clojure/blob/master/src/clj/clojure/pprint/pprint_base.clj#L356">pprint-tab</a></td><td align="right"><a href="clojure.core.html#defn">defn</a> in <a href="#top">clojure.pprint</a></td></tr></tbody></table><p class="decl"><span class="expr">(<span class="n0">pprint&#8209;tab</span> [kind colnum colinc])</span></p><div class="desc"><pre class="doc">Tab at this point in the pretty printing stream. kind specifies whether the tab
+is :line, :section, :line-relative, or :section-relative. 
+
+Colnum and colinc specify the target column and the increment to move the target
+forward if the output is already past the original target.
+
+This function is intended for use when writing custom dispatch functions.
+
+Output is sent to *out* which must be a pretty printing writer.
+
+THIS FUNCTION IS NOT YET IMPLEMENTED.</pre></div></div><div class="artifact" id="print-length-loop"><table class="topline"><tbody><tr><td><a class="itemname" href="https://github.com/clojure/clojure/blob/master/src/clj/clojure/pprint/pprint_base.clj#L391">print-length-loop</a></td><td align="right"><a href="clojure.core.html#defmacro">defmacro</a> in <a href="#top">clojure.pprint</a></td></tr></tbody></table><p class="decl"><span class="expr">(<span class="n0">print&#8209;length&#8209;loop</span> [bindings &amp; body])</span></p><div class="desc"><pre class="doc">A version of loop that iterates at most *print-length* times. This is designed 
+for use in pretty-printer dispatch functions.</pre></div></div><div class="artifact" id="print-table"><table class="topline"><tbody><tr><td><a class="itemname" href="https://github.com/clojure/clojure/blob/master/src/clj/clojure/pprint/print_table.clj#L11">print-table</a></td><td align="right"><a href="clojure.core.html#defn">defn</a> in <a href="#top">clojure.pprint</a></td></tr></tbody></table><p class="decl"><span class="expr">(<span class="n0">print&#8209;table</span> [ks rows])</span></p><p class="decl"><span class="expr">(<span class="n0">print&#8209;table</span> [rows])</span></p><div class="desc"><pre class="doc">Alpha - subject to change.
+ Prints a collection of maps in a textual table. Prints table headings
+ ks, and then a line of output for each row, corresponding to the keys
+ in ks. If ks are not specified, use the keys of the first item in rows.</pre></div></div><div class="artifact" id="set-pprint-dispatch"><table class="topline"><tbody><tr><td><a class="itemname" href="https://github.com/clojure/clojure/blob/master/src/clj/clojure/pprint/pprint_base.clj#L260">set-pprint-dispatch</a></td><td align="right"><a href="clojure.core.html#defn">defn</a> in <a href="#top">clojure.pprint</a></td></tr></tbody></table><p class="decl"><span class="expr">(<span class="n0">set&#8209;pprint&#8209;dispatch</span> [function])</span></p><div class="desc"><pre class="doc">Set the pretty print dispatch function to a function matching (fn [obj] ...)
+where obj is the object to pretty print. That function will be called with *out* set
+to a pretty printing writer to which it should do its printing.
+
+For example functions, see simple-dispatch and code-dispatch in 
+clojure.pprint.dispatch.clj.</pre></div></div><div class="artifact" id="with-pprint-dispatch"><table class="topline"><tbody><tr><td><a class="itemname" href="https://github.com/clojure/clojure/blob/master/src/clj/clojure/pprint/pprint_base.clj#L274">with-pprint-dispatch</a></td><td align="right"><a href="clojure.core.html#defmacro">defmacro</a> in <a href="#top">clojure.pprint</a></td></tr></tbody></table><p class="decl"><span class="expr">(<span class="n0">with&#8209;pprint&#8209;dispatch</span> [function &amp; body])</span></p><div class="desc"><pre class="doc">Execute body with the pretty print dispatch function bound to function.</pre></div></div><div class="artifact" id="write"><table class="topline"><tbody><tr><td><a class="itemname" href="https://github.com/clojure/clojure/blob/master/src/clj/clojure/pprint/pprint_base.clj#L197">write</a></td><td align="right"><a href="clojure.core.html#defn">defn</a> in <a href="#top">clojure.pprint</a></td></tr></tbody></table><p class="decl"><span class="expr">(<span class="n0">write</span> [object &amp; kw&#8209;args])</span></p><div class="desc"><pre class="doc">Write an object subject to the current bindings of the printer control variables.
+Use the kw-args argument to override individual variables for this call (and any 
+recursive calls). Returns the string result if :stream is nil or nil otherwise.
+
+The following keyword arguments can be passed with values:
+Keyword              Meaning                              Default value
+:stream              Writer for output or nil             true (indicates *out*)
+:base                Base to use for writing rationals    Current value of *print-base*
+:circle*             If true, mark circular structures    Current value of *print-circle*
+:length              Maximum elements to show in sublists Current value of *print-length*
+:level               Maximum depth                        Current value of *print-level*
+:lines*              Maximum lines of output              Current value of *print-lines*
+:miser-width         Width to enter miser mode            Current value of *print-miser-width*
+:dispatch            The pretty print dispatch function   Current value of *print-pprint-dispatch*
+:pretty              If true, do pretty printing          Current value of *print-pretty*
+:radix               If true, prepend a radix specifier   Current value of *print-radix*
+:readably*           If true, print readably              Current value of *print-readably*
+:right-margin        The column for the right margin      Current value of *print-right-margin*
+:suppress-namespaces If true, no namespaces in symbols    Current value of *print-suppress-namespaces*
+
+* = not yet supported
+</pre></div></div><div class="artifact" id="write-out"><table class="topline"><tbody><tr><td><a class="itemname" href="https://github.com/clojure/clojure/blob/master/src/clj/clojure/pprint/pprint_base.clj#L171">write-out</a></td><td align="right"><a href="clojure.core.html#defn">defn</a> in <a href="#top">clojure.pprint</a></td></tr></tbody></table><p class="decl"><span class="expr">(<span class="n0">write&#8209;out</span> [object])</span></p><div class="desc"><pre class="doc">Write an object to *out* subject to the current bindings of the printer control 
+variables. Use the kw-args argument to override individual variables for this call (and 
+any recursive calls).
+
+*out* must be a PrettyWriter if pretty printing is enabled. This is the responsibility
+of the caller.
+
+This method is primarily intended for use by pretty print dispatch functions that 
+already know that the pretty printer will have set up their environment appropriately.
+Normal library clients should use the standard "write" interface. </pre></div></div><div class="trailer"><span class="ending">Generated by <a href="https://github.com/greenh/CJD">CJD</a> 0.1.0 under Clojure 1.4.0  on 10 December 2012 20:52 PST</span></div><div style="margin-top: 1mm; margin-bottom: 4mm; text-align: center; width: 100%;"><span style="font-size: 8pt;">Copyright &copy; 2012 Howard Green. All rights reserved.</span></div></body></html>

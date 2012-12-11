@@ -1,0 +1,133 @@
+@CHARSET "ISO-8859-1";
+
+
+body {
+	font-family: arial, sans-serif;
+	background: black;
+	color: white;
+	font-size: 13px;
+	margin-left: 4mm;
+	margin-right: 4mm;
+}
+
+ul { padding-left: 0mm; margin-left: 5mm; }
+ol { padding-left: 0mm; margin-left: 5mm; }
+
+/* General-purpose pre block */
+pre.pre { margin-left: 4mm; margin-top: 2mm; margin-bottom: 2mm; color: rgb(255,255,221);}
+
+/* pre entries for examples: .u  for user input, .r for REPL output, .prompt for prompt  */
+pre.u { margin-left: 4mm; margin-top: 0; margin-bottom: 0; color: rgb(193,209,255);}
+pre.r { margin-left: 4mm; margin-top: 0; margin-bottom: 0; color: rgb(255,193,234);}
+.prompt { color: white; }
+
+pre.preblurb { margin-left: 3mm; margin-top: 2pt; margin-bottom: 0; color: rgb(255,255,221);}
+
+
+div.spacer { 
+	margin-top: 8pt; 
+	margin-bottom: 8pt; 
+	padding-top: 4pt; 
+	padding-bottom: 4pt; 
+	border: thin solid grey; }
+
+a { color: rgb(247,202,102);  } /* rgb(186,17,255) */
+a:link { text-decoration: none }
+a:active { text-decoration: none }
+a:visited { text-decoration: none }
+a:hover { text-decoration: underline }
+
+.nolink { color:red; text-decoration: underline; }
+
+p { margin-top: 3pt; margin-bottom: 3pt;
+}
+
+.ns {
+	font-size: large; font-weight: bold;
+}
+
+/* Summary table header */
+.sum-hdr {
+	text-indent: -6mm; top-margin: 6pt; font-variant: small-caps;
+}
+
+.artifact {
+	padding-top: 3px;
+	margin-top: 18px;
+	border-top: thin solid white;
+}
+
+.itemname { text-align: left; font-size: medium; font-weight: bold; color: white; }
+
+.itemtype { text-align: right; font-size: medium; }
+
+.topline { width: 100%; }
+
+/* Declaration for an artifact, e.g. "(xyz-fn [aaa bbb ccc])" */
+.decl { margin-left: 24mm; text-indent: -24mm; }
+
+.sum { vertical-align: top;  }
+.blurb { margin-left: 3mm; margin-top: 2pt;}
+
+/*	
+	Description box for an artifact. This sets the base left margin for 
+	all of the artifact's content. 
+*/
+.desc { margin-left: 12mm; }
+
+/* Expression */
+.expr { font-family: monospace; }
+
+/*
+	Sections, where a "section" typically contains a header (e.g., "Arguments")
+	plus some number of arguments/options/fields/etc. and their descriptive 
+	text. Sets the left margin relative to the container's marging. 
+	.s1 is used for the outermost, .s for all subsequent levels. 
+*/
+.s1 { margin-left: 6mm; }
+.s { margin-left: 9mm; }
+
+/* 
+	Info  sections
+*/
+.i1 { text-indent: -6mm; margin-top: 6pt; }
+.i { text-indent: -3mm; margin-top: 6pt; }
+
+/*
+	Headers for sections, e.g. "Arguments:"
+*/
+.v1 { margin-top: 6pt; margin-bottom: 3pt; text-indent: -12mm; }
+.v { margin-top: 3pt; margin-bottom: 3pt; text-indent: -3mm; }
+
+/*
+	Argument-like things' first paragraph. 
+*/
+.a1 { text-indent: -6mm;}
+.a { text-indent: -6mm;}
+
+.k1 { font-variant: small-caps; }
+.k { font-variant: small-caps; }
+
+/* Protocol */
+.proto { text-indent: -6mm; margin-top: 6pt; }
+
+.id { font-family: monospace; font-size: 13px; }
+
+.n0 { font-family: monospace; font-size: 13px; color: rgb(113, 201, 255); }
+.n1 { font-family: monospace; font-size: 13px; color: rgb(255, 105, 105); }
+.n2 { font-family: monospace; font-size: 13px; color: rgb(0, 255, 0); }
+.n3 { font-family: monospace; font-size: 13px; color: rgb(174, 133, 255); }
+.n4 { font-family: monospace; font-size: 13px; color: orange; }
+.n5 { font-family: monospace; font-size: 13px; color: yellow; }
+.n6 { font-family: monospace; font-size: 13px; color: rgb(255, 83, 255); }
+.n7 { font-family: monospace; font-size: 13px; color: rgb(202, 194, 136); }
+.n8 { font-family: monospace; font-size: 13px; color: rgb(200, 200, 200); }
+
+
+.fn { font-family: monospace; font-size: 13px; color: cyan; }
+
+.trailer { margin-top: 6mm; margin-bottom: 3mm; text-align: center; width: 100%; }
+.ending { font-size: 9pt; font-style: italic; }
+
+samp { background: pink; }
+kbd { background: yellow; }
