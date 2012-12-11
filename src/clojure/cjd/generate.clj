@@ -164,6 +164,10 @@
                                   (declaration-form v context))) 
                            form))) 
          "}")
+      
+      (string? form)
+      (enquote form)
+      
       :else
       (str form)
       )))

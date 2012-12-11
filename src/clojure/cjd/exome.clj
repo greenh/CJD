@@ -388,6 +388,10 @@
       (.mkdirs outdir))
     (if (and overview-file (not (.canRead overview-file)))
       (throw (CJDException. "Overview file not found")))
+    (reset-resources)
+    (reset-external-resolvers)
+    (init-artifacts)
+    (reset-resolver)
     (if used-css 
       (use-css use)
       (do
@@ -399,18 +403,10 @@
               ["cjd.css" "/cjd/resources/cjd-f.css"])))))
     (if added-css
       (add-css added-css))
-    ;; Doing a reset here collides with the fact that extensions (or stuff loaded by
-    ;; extensions) aren't reloaded  after an initial run of cjd-generator. 
-    ;; This is a a non-issue for one-off runs, from command-line or lein, 
-    ;; but can produce a notable absence 
-    ;; of link resolvers if one does multiple runs from the REPL.
-;   (reset-resolver-fns)
     (if requires
       (doseq [req (massage requires)]
         (if showopts (prn 'requiring req))
         (require :reload (symbol req))))
-    (init-artifacts)
-    (reset-resolver)
     
     #_(println "File-set:" file-set)
     (let [overview-doc 

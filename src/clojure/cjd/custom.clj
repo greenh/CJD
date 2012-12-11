@@ -105,4 +105,13 @@
 (defn use-docstring-editor [editor-fn]
   (dosync (ref-set docstring-editor* editor-fn))) 
 
+#_ (* Resets resource state to initial values.
+      )
+(defn reset-resources []
+  (dosync
+    (ref-set header-fn* nil)
+    (ref-set footer-fn* nil)
+    (ref-set css-docs* [])
+    (ref-set resource-fns* #{})
+    )) 
 

@@ -52,7 +52,7 @@
       are placed at the end of the sequence specified by the user, and hence
       can be overridden.
       )
-(def external-resolvers* (ref default-external-fns))
+(def external-resolvers* (ref nil))
 
 #_ (* Adds resolver functions to the list of functions used to resolve entites
       named in @(c ~"@(link ...)") constructs into URIs.
