@@ -127,7 +127,7 @@ where:
 
 #_ (* Main method for cjd. )
 (defn -main [& args]
-  (prn 'cjd.args args)
+  ; (prn 'cjd.args args)
   (let [[opts remaining] 
         (loop [[arg & remains+ :as remaining+] args
                opts+ { }]  ; <-- default options go here
