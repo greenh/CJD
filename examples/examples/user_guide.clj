@@ -1,11 +1,18 @@
 
 #_ (* This is a collection of examples of CJD-based documentation. Most of the 
       contents here have starring roles in the CJD user guide.
-      @p The examples here are purely for explanatory purposes, and attempts
-      to actually run them may prove hazardous to your health.
+      
+      @p The examples here are purely for explanatory purposes. As such, they're
+      an ad-hoc mixed bag -- some are based on familiar Clojure functions,
+      others might be the start of something real, others are expository lunacy.
+      Needless to say, actually trying run any of them may prove hazardous 
+      to your health.
       )
 (ns examples.user-guide)
 
+#_(* This is a CJD-comment for the var "foo", which 
+     immediately follows the comment.)
+(def foo "bar") 
 
 #_ (* Returns the number of items in a collection.
       
@@ -18,71 +25,13 @@
       )
 (defn count [coll])
 
-#_ (* Generates and returns a single value by applying a function 
-      to the elements of a collection.
-      
-      @p @name internally maintains a value that serves as an "accumulator", 
-      which is initialized to @(arg val). Then, @name calls the function 
-      @(arg f) once for each element of @(arg coll), passing to it the 
-      current accumulator value and the next element of @(arg coll). 
-      @name then updates the accumulator with the value returned by @(arg f). 
-      When @(arg f) has been called with all elements  
-      in @(arg coll), @name returns the final value of the accumulator.
-      
-      @(arg f A function of the form @(fun [acc element]), where
-            @(arg acc The accumulator value, which is @(arg val) on the first call 
-                  to @(arg f), or the result of the prior call to @(arg f) 
-                  on subsequent calls.)
-            @(arg element The next unprocessed element of @(arg coll).)
-            @returns The updated accumulator value. )
-      @arg val An initial value for the accumulator.
-      @arg coll A collection of elements.
-      @returns The value returned by the final call to @(arg f). If @(arg coll)
-      is empty, returns @(arg val). 
-      )      
-     
-(defn reduce [f val coll])
-
 
 #_ (* Generates and returns a single value by applying a function 
       to the elements of a collection.
       
       @p @name internally maintains a value that serves as an "accumulator". The 
       accumulator's initial value is the first element of @(arg coll) in the two-argument
-      form of reduce, or @(arg val) in the three-element form. Then, @name
-      calls the function @(arg f) once for each subsequent element of @(arg coll),
-      passing to it the current accumulator value and the next element of @(arg coll), 
-      and each time updating the accumulator with the value @(arg f) returns. When @(arg f)
-      has been called with all elements in @(arg coll), @name returns the final value
-      of the accumulator.
-      
-      @p In the two-argument form, if @(arg coll) is empty, @name calls @(arg f) with no 
-      arguments, and @(arg f) must therefore have a zero-argument form. If @(arg coll) 
-      has exactly one element, @name returns it without calling @(arg f). Similarly,
-      in the three-argument form, if @(arg coll) is empty, @name returns @(arg val) 
-      without calling @(arg f).
-      
-      @(arg f A function of the form @(fun [acc element]), where
-            @(arg acc The "accumulator" value, which is either @(arg val) or 
-                  the first element of @(arg coll) on the first call to @(arg f) as 
-                  described above, or 
-                  the result of the prior call to @(arg f) on subsequent calls.)
-            @(arg element The next unprocessed element of @(arg coll).)
-            @returns The next "accumulator" value. )
-      @arg val An initial value for the "accumulator".
-      @arg coll A collection of elements.
-      @returns The value of the "accumulator" after the final call to @(arg f) . 
-)
-(defn reduce1 
-  ([f col] )
-  ([f val col]))
-
-#_ (* Generates and returns a single value by applying a function 
-      to the elements of a collection.
-      
-      @p @name internally maintains a value that serves as an "accumulator". The 
-      accumulator's initial value is the first element of @(arg coll) in the two-argument
-      form of reduce, or @(arg val) in the three-element form. Then, @name
+      form, or @(arg val) in the three-element form. Then, @name
       calls the function @(arg f) once for each subsequent element of @(arg coll),
       passing to it the current accumulator value and the next element of @(arg coll), 
       and each time updating the accumulator with the value @(arg f) returns. When @(arg f)
@@ -99,46 +48,7 @@
       @p In the three-argument form\: 
       @(ul 
          @(li if @(arg coll) is empty, @name returns @(arg val) without calling @(arg f).))
-      
-      @(arg f A function of the form @(fun [acc element]), where
-            @(arg acc The "accumulator" value, which is either @(arg val) or 
-                  the first element of @(arg coll) on the first call to @(arg f) as 
-                  described above, or 
-                  the result of the prior call to @(arg f) on subsequent calls.)
-            @(arg gloopy-doop Something bogus.) 
-            @(arg element The next unprocessed element of @(arg coll).)
-            @returns The next "accumulator" value. )
-      @arg val An initial value for the "accumulator".
-      @arg coll A collection of elements.
-      @returns The value of the "accumulator" after the final call to @(arg f) . 
-)
-(defn reduce2 
-  ([f col] )
-  ([f val col]))
-
-#_ (* Generates and returns a single value by applying a function 
-      to the elements of a collection.
-      
-      @p @name internally maintains a value that serves as an "accumulator". The 
-      accumulator's initial value is the first element of @(arg coll) in the two-argument
-      form of reduce, or @(arg val) in the three-element form. Then, @name
-      calls the function @(arg f) once for each subsequent element of @(arg coll),
-      passing to it the current accumulator value and the next element of @(arg coll), 
-      and each time updating the accumulator with the value @(arg f) returns. When @(arg f)
-      has been called with all elements in @(arg coll), @name returns the final value
-      of the accumulator.
-      
-      @p In the two-argument form\: 
-      @(ul
-        @(li if @(arg coll) is empty, @name calls @(arg f) with no 
-             arguments, and @(arg f) must therefore have a zero-argument form.) 
-        @( li If @(arg coll) has exactly one element, @name returns it without 
-              calling @(arg f).))
-      
-      @p In the three-argument form\: 
-      @(ul 
-         @(li if @(arg coll) is empty, @name returns @(arg val) without calling @(arg f).))
-      @p Examples
+      @p Examples\:
       @(example  
          "(reduce + [1 2 3 4 5])" "15"
          "(reduce + [])" "0"
@@ -165,11 +75,8 @@
       @arg val An initial value for the "accumulator".
       @arg coll A collection of elements.
       @returns The value of the "accumulator" after the final call to @(arg f) . 
-      
-      
-      
       )
-(defn reduce3
+(defn reduce
   ([f col] )
   ([f val col]))
 
@@ -326,7 +233,7 @@
 	                  @opt :on Sends output to stdout.
 	                  @opt :err Sends output to stderr.
                   @p Output types are any of\:
-	                  @option :error @(opt :err) Error messages.
+	                  @option :error :err Error messages.
 	                  @option :details :off Detail messages.
 	                  @option :debug :off Debug messages.
 	                  @option :misc :on Miscellaneous stuff.
@@ -335,6 +242,15 @@
       @returns An integer representing the number of substitutions made.
       )
 (defn substitute-stuff [from-to opts] ) 
+
+#_ (* Does nothing in particular.
+      @p Although we want to see if @(l extend) really works.
+      @since CJD ~"0.1.0" .
+      @(author Me :nb @(sup *), Myself :nb @(sup *), and I :nb @(sup *†).
+               @p @(sup *) These authors contributed equally to this work.
+               @p @(sup †) To whom complaints should be addressed\:
+               @(linkto "mailto:I@example.com" @(c ~"I@example.com")).))
+(defn misc-fn []) 
 
 #_ (* Protocol describing a @(i misfiles), a class of 
       objects for doing stochastically successful I / O.)
@@ -364,27 +280,25 @@
       )
 (defrecord MisFiler [path file]
   MisFile
+  #_ (* Misreads a @(l MisFile) starting from some location.)
   (misread [this dest bytes])
+  #_ (* Misreads a @(l MisFile) starting from a specified location.)
   (misread [this start dest bytes])
-  #_ (* Miswrites a @(l MisFile).
-        @arg dest Source buffer for data to miswrite.
-        @arg byte The number of bytes to miswrite.
-        @arg start When specified, specifies the location to miswrite to. 
-        @returns The number of bytes actually miswritten.)
+  #_ (* Miswrites a @(l MisFile) starting from a random location.)
   (miswrite [this source bytes])
-  (miswrite [this start dest bytes])
-  #_ (* Stochastically closes the @(l MisFile), and possibly misplaces it, too.)
+  #_ (* Miswrites a @(l MisFile) starting from a )
+  (miswrite [this source start dest bytes])
+  (misopen [this]) 
   (misclose [this])
 )
+
+
 (declare xyz-zyx)
 
-#_(* This is documentation for function @name . It lazily
-	 relies on @(link xyz-zyx) to do its work for it.
-  )
+#_(* A function that calls @(l xyz-zyx). )
 (defn xyz-abc [] (xyz-zyx))
 
-#_(* Does something remarkable with @(l xyz-abc).
-	 )
+#_(* A function that calls @(l xyz-abc). )
 (defn xyz-zyx [] (xyz-abc))
 
 
