@@ -97,6 +97,8 @@ its name resolution processes. Works like a charm, but there's a down side:
 potential incompatibility; CJD uses Hiccup 1.x, which isn't 
 interface-compatible with Hiccup 0.x. 
 
+<!-- xxx -->
+
 * It's currently tested principally with Clojure 1.4.0, but it's recently worked 
 with 1.3.0 (but not with 1.2.1). CJD does contain release-specific code, so this can be 
 an issue.
@@ -114,6 +116,8 @@ syntax error twice.
  
     + Certain low-level (i.e., reader) errors cause exceptions that don't report 
 the location of the problem.
+
+<!-- xxx -->
 
 * It doesn't cover everything one can do with Clojure.
 
