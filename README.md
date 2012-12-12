@@ -88,11 +88,11 @@ ClojureScript support at the moment.
 * The current implementation's operation involves loading Clojure files to assist 
 its name resolution processes. Works like a charm, but there's a down side: 
 
- + Clojure files must be (transitively) loadable...
+    + Clojure files must be (transitively) loadable...
  
- + ...so CJD's classpath needs to include everything that your project depends on...
+    + ...so CJD's classpath needs to include everything that your project depends on...
  
- + ...which introduces the possibility of conflicts with CJD's dependencies. 
+    + ...which introduces the possibility of conflicts with CJD's dependencies. 
 [Hiccup](https://github.com/weavejester/hiccup) represents the principle 
 potential incompatibility; CJD uses Hiccup 1.x, which isn't 
 interface-compatible with Hiccup 0.x. 
@@ -101,32 +101,35 @@ interface-compatible with Hiccup 0.x.
 with 1.3.0 (but not with 1.2.1). CJD does contain release-specific code, so this can be 
 an issue.
 
-* CJD incorporates a Leiningen plugin, but there are still issues. Currently, the plugin
-works Leiningen 1.x only. Leiningen 2.x support is underway, but has issues.
+* CJD incorporates a Leiningen plugin, but all is not completely well. Currently, the plugin
+seems to work pretty well with Leiningen 1.x, at least in relatively simple environments. 
+Leiningen 2.x support is underway, but is currently much afflicted with issues.
 
 * Error reporting is less than fully wonderful:
 
- + Syntax error messages tend to get you to the offending comment, not the specific line.
+    + Syntax error messages tend to get you to the offending comment, not the specific line.
  
- + Due to parsing behavior, CJD often reports the same syntax error twice.
+    + Due to the peculiarities of its parsing behavior, CJD often reports the same 
+syntax error twice.
  
- + Certain low-level (i.e., reader) errors cause exceptions that don't report 
+    + Certain low-level (i.e., reader) errors cause exceptions that don't report 
 the location of the problem.
 
-* It's (probably) doesn't cover everything one can do with Clojure.
+* It doesn't cover everything one can do with Clojure.
 
- + It accommodates most common syntactic variations (as a point of reference,
+    + CJD clearly accommodates most common syntactic variations (as a point of reference,
 it successfully makes it through the Clojure source code), 
 but there's been no effort expended to ensure that
-coverage is fully comprehensive. 
+coverage is fully comprehensive. This has occasionally been an issue in the reader variant
+CJD uses for comment parsing.
 
- + There's no way to accommodate anything that's dynamically or conditionally
+    + There's no way to accommodate anything that's dynamically or conditionally
 compiled: CJD is limited to just _reading_ source files; it doesn't _execute_ them. 
  
 And the build process is all over the floor, testing leaves everything to be 
-desired, it doesn't result in world peace and hasn't freed mankind from hunger, 
+desired, it doesn't result in world peace, and it hasn't freed mankind from hunger, 
 disease, or bad guys. Or ants. (That's Leiningen's job.) 
-But ignoring these minor details, everything is wonderful! 
+But aside from all these minor details, everything is wonderful! 
  
 ## License
 
