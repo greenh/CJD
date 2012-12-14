@@ -253,7 +253,7 @@
 (defn misc-fn []) 
 
 #_ (* Protocol describing a @(i misfiles), a class of 
-      objects for doing stochastically successful I / O.)
+      objects for doing occasionally successful I / O.)
 (defprotocol MisFile
   #_ (* Opens the misfile.
         @returns Zero, if the misfile might have been opened.)
@@ -261,7 +261,7 @@
   #_ (* Misreads a @(l MisFile).
         @arg dest Destination buffer for misread data.
         @arg bytes The number of bytes to misread.
-        @arg start 
+        @arg start Where the misreading begins.
         @returns The number of bytes actually misread.)
   (misread [this dest bytes] [this start dest bytes])
   #_ (* Miswrites a @(l MisFile).
@@ -269,8 +269,8 @@
         @arg bytes The number of bytes to miswrite.
         @arg start When specified, specifies the location to miswrite to. 
         @returns The number of bytes actually miswritten.)
-  (miswrite [this source bytes] [this source start dest bytes])
-  #_ (* Stochastically closes the @(l MisFile), and possibly misplaces it, too.)
+  (miswrite [this source bytes] [this start source bytes])
+  #_ (* Sometimes closes the @(l MisFile), and possibly misplaces it, too.)
   (misclose [this])
   ) 
 
@@ -280,15 +280,25 @@
       )
 (defrecord MisFiler [path file]
   MisFile
-  #_ (* Misreads a @(l MisFile) starting from some location.)
-  (misread [this dest bytes])
-  #_ (* Misreads a @(l MisFile) starting from a specified location.)
-  (misread [this start dest bytes])
-  #_ (* Miswrites a @(l MisFile) starting from a random location.)
-  (miswrite [this source bytes])
-  #_ (* Miswrites a @(l MisFile) starting from a )
-  (miswrite [this source start dest bytes])
+  #_ (* Misopens the @(l MisFiler) given by @(field path).
+        @p Or so we hope.
+        @returns @(field file), or 42, depending on the system's mood.)
   (misopen [this]) 
+  #_ (* Misreads @(l MisFiler) starting from some location.
+        @arg dest Buffer to which data is misread.
+        @arg bytes Amount of data to misread.
+        @returns Something.)
+  (misread [this dest bytes])
+  #_ (* Misreads @(field file) selectively.)
+  (misread [this start dest bytes])
+  #_ (* Miswrites a @(l MisFiler) starting from a some location.
+        @p This occasionally works correctly.
+        @arg source Buffer to miswrite from.
+        @arg bytes Number of bytes to miswrite.)
+  (miswrite [this source bytes])
+  #_ (* Miswrites a @(l MisFile) starting anywhere. )
+  (miswrite [this source start bytes])
+  #_ (* Does nothing unless the file was not misopened properly.) 
   (misclose [this])
 )
 
