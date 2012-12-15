@@ -244,7 +244,7 @@
 (defn substitute-stuff [from-to opts] ) 
 
 #_ (* Does nothing in particular.
-      @p Although we want to see if @(l extend) really works.
+      @p Although we want to see if the link to @(l extend) really works.
       @since CJD ~"0.1.0" .
       @(author Me :nb @(sup *), Myself :nb @(sup *), and I :nb @(sup *†).
                @p @(sup *) These authors contributed equally to this work.
@@ -252,8 +252,8 @@
                @(linkto "mailto:I@example.com" @(c ~"I@example.com")).))
 (defn misc-fn []) 
 
-#_ (* Protocol describing a @(i misfiles), a class of 
-      objects for doing occasionally successful I / O.)
+#_ (* Protocol describing @(i misfiles), a class of 
+      objects for doing occasionally successful ~"I/O" .)
 (defprotocol MisFile
   #_ (* Opens the misfile.
         @returns Zero, if the misfile might have been opened.)
@@ -264,11 +264,23 @@
         @arg start Where the misreading begins.
         @returns The number of bytes actually misread.)
   (misread [this dest bytes] [this start dest bytes])
-  #_ (* Miswrites a @(l MisFile).
-        @arg source Source buffer for data to miswrite.
+  #_ (* Miswrites a @(l MisFile). 
+        @p You might want to think twice about calling @name ,
+        as it has a reputation for doing things that are, well,
+        just @(i so) predictable and boring.
+        @p And we all know that predictable and boring is just a whole lot of
+        no fun, right?
+        @(arg source Source buffer for data to miswrite. Or, at least that's what
+              we think this is for.
+              @p On the other hand, it might really be for some other purpose which
+              we haven't discovered yet.)
         @arg bytes The number of bytes to miswrite.
         @arg start When specified, specifies the location to miswrite to. 
-        @returns The number of bytes actually miswritten.)
+        @(returns The number of bytes actually miswritten.
+                  @p @name tries to minimize this number, but the fates tend to 
+                  militate against its best efforts here.)
+        @p @name is best misused when the adversaries least expect it.
+        @p Or not.)
   (miswrite [this source bytes] [this start source bytes])
   #_ (* Sometimes closes the @(l MisFile), and possibly misplaces it, too.)
   (misclose [this])
