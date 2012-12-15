@@ -37,11 +37,11 @@
           (recur unparsed-forms*))
         unparsed-forms+))))
 
-#_ (* Parsing function for constructos and extensos.
+#_ (* Parsing function for extensos.
       @arg form The form to be parsed
-      @returns An appropriate artifact object.
+      @returns A @(l Extenso) .
       )
-(defn parse-extensomatics [form]
+(defn parse-extenso [form]
     (let [[_ name &composed-extensos &local-fields & local-protos-methods] form
           artifact (make-artifact)
           unparsed-forms (parse-method-implementations artifact local-protos-methods)
@@ -53,13 +53,26 @@
 #_ (* Artifact representing an extenso, as defined by @(link defextenso).
       )
 (defartifact Extenso defextenso "extenso" 
-  [HasMethodImplementations HasPoioos] [] parse-extensomatics
+  [HasMethodImplementations HasPoioos] [] parse-extenso
   HasNamedSubartifacts
   (named-subartifacts-of [this] (method-implementations-of this)))
 
+#_ (* Parsing function for constructos.
+      @arg form The form to be parsed
+      @returns A @(l Constructo) object.
+      )
+(defn parse-constructo [form]
+    (let [[_ name &composed-extensos &local-fields & local-protos-methods] form
+          artifact (make-artifact)
+          unparsed-forms (parse-method-implementations artifact local-protos-methods)
+          
+          poioos (parse-poioos artifact unparsed-forms)]
+      (set-poioos artifact poioos)
+      artifact))
+
 #_ (* Artifact representing a constructo, as defined by @(link defconstructo).)
 (defartifact Constructo defconstructo "constructo" 
-  [HasMethodImplementations HasPoioos] [] parse-extensomatics)
+  [HasMethodImplementations HasPoioos] [] parse-constructo)
 
 #_ (* Parsing function for artifacts.
       @arg form The form to be parsed
@@ -92,4 +105,4 @@
 
 #_ (* Artifact representing a CJD subartifact, as defined by @(link defsubartifact).)
 (defartifact Subartifactoid defsubartifact "subartifact" 
-  [HasMethodImplementations HasPoioos] [] simple-artifact-parser)
+  [HasMethodImplementations HasPoioos] [] parse-subartifact)

@@ -411,8 +411,9 @@
 
 #_ (* Defines a flow element, and adds it to the collection of flow elements 
       recognized by the parser.
-      @arg tags A vector of symbols that introduce the element, e.g. @(form ['arg]) 
-      for arguments. These symbols are all treated as synonyms.
+      @arg tags A vector of symbols representing the tags that introduce the element, 
+      e.g. @(c ['return :br 'returns :br 'rv]) 
+      for the returned values tag. These symbols are all treated as synonyms.
       @arg desc A string containing a @(i very) short description of the element.
       @arg arity The number of forms following the tag that are to be treated as
       arguments. May be zero or any positive integer. Any forms following the arguments are treated as content. @(c ~"@arg"),

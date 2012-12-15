@@ -154,7 +154,10 @@
       (str "[" (apply str (interpose " " (map (fn [x] (declaration-form x context)) form))) "]")
       
       (list? form)
-      (str "(" (apply str (interpose " " (map (fn [x] (declaration-form x context)) form))) ")")
+      (let [[funct sym] form]
+        (if (and (= (count form) 2) (= funct 'quote) (symbol? sym))
+          (str \' sym)
+          (str "(" (apply str (interpose " " (map (fn [x] (declaration-form x context)) form))) ")")))
       
       (map? form)
       (str "{" 
@@ -650,8 +653,8 @@
       with a record name "/" method name ID, so as to disambiguate it with respect to
       other implementations, and the protocol method.)
 (defn gen-method-impl [method-impl context]
-  (let [[upcontext blurb content] (gen-artifact-desc 
-                                 (init-context context method-impl) method-impl true)]
+  (let [neocontext (context-level! (init-context context method-impl) 2)
+        [upcontext blurb content] (gen-artifact-desc neocontext method-impl false)]
        #_[neocontext (init-context context method-impl)
         flow (if (has-doc? method-impl) (parse-comment neocontext (doc-form-of method-impl)))
         [upcontext blurb content] (if flow (gen-flow flow neocontext true) [neocontext])]
@@ -668,8 +671,8 @@
                      "/" (artifact-name-of method-impl)))}
         (declaration-form (list (artifact-name-of method-impl) 
                                 (parameters-of method-impl)) upcontext)]
-       (if-not (empty? blurb) (html " &mdash; " blurb))]
-      (if content [:div.desc content]))))
+       #_(if-not (empty? blurb) (html " &mdash; " blurb))]
+      content)))
 
 ;#_ (* Generation function for Protocol Or Interface Or Object artifacts found within
 ;      records.)
