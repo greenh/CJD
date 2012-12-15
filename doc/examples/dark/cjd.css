@@ -20,6 +20,10 @@ pre.pre { margin-left: 4mm; margin-top: 2mm; margin-bottom: 2mm; color: rgb(255,
 pre.u { margin-left: 4mm; margin-top: 0; margin-bottom: 0; color: rgb(193,209,255);}
 pre.r { margin-left: 4mm; margin-top: 0; margin-bottom: 0; color: rgb(255,193,234);}
 .prompt { color: white; }
+
+pre.preblurb { margin-left: 3mm; margin-top: 2pt; margin-bottom: 0; color: rgb(255,255,221);}
+
+
 div.spacer { 
 	margin-top: 8pt; 
 	margin-bottom: 8pt; 

@@ -14,17 +14,17 @@ xmlns="http://www.w3.org/TR/REC-html40">
  <o:DocumentProperties>
   <o:Author>Howard Green</o:Author>
   <o:LastAuthor>Howard Green</o:LastAuthor>
-  <o:Revision>18</o:Revision>
-  <o:TotalTime>16115</o:TotalTime>
+  <o:Revision>21</o:Revision>
+  <o:TotalTime>16310</o:TotalTime>
   <o:Created>2012-01-30T02:30:00Z</o:Created>
-  <o:LastSaved>2012-12-05T23:39:00Z</o:LastSaved>
+  <o:LastSaved>2012-12-13T02:53:00Z</o:LastSaved>
   <o:Pages>1</o:Pages>
-  <o:Words>3168</o:Words>
-  <o:Characters>18062</o:Characters>
+  <o:Words>3147</o:Words>
+  <o:Characters>17941</o:Characters>
   <o:Company>None</o:Company>
-  <o:Lines>150</o:Lines>
+  <o:Lines>149</o:Lines>
   <o:Paragraphs>42</o:Paragraphs>
-  <o:CharactersWithSpaces>21188</o:CharactersWithSpaces>
+  <o:CharactersWithSpaces>21046</o:CharactersWithSpaces>
   <o:Version>11.9999</o:Version>
  </o:DocumentProperties>
  <o:OfficeDocumentSettings>
@@ -315,7 +315,7 @@ ul
 	mso-bidi-language:#0400;}
 </style>
 <![endif]--><!--[if gte mso 9]><xml>
- <o:shapedefaults v:ext="edit" spidmax="16386"/>
+ <o:shapedefaults v:ext="edit" spidmax="17410"/>
 </xml><![endif]--><!--[if gte mso 9]><xml>
  <o:shapelayout v:ext="edit">
   <o:idmap v:ext="edit" data="1"/>
@@ -599,8 +599,7 @@ they don't affect generated code at all. </p>
 <p class=MsoNormal>As a post-processing phase in a build process, a CJD
 function or program makes a pass through source code, extracts the
 documentation comments, and from them generates a tree of HTML documents.
-Interested parties can then view these documents using conventional web
-browsers.</p>
+Interested parties can then view these documents using conventional web browsers.</p>
 
 <p class=MsoNormal>With respect to documentation comments themselves, the
 general idea is to provide a simple-minded syntax that makes salient elements
@@ -671,11 +670,12 @@ style='mso-tab-count:1'>      </span><span style='mso-spacerun:yes'>  
 </span>where\: </p>
 
 <p class=ProgText style='margin:0in;margin-bottom:.0001pt;background:#F3F3F3'><span
-style='mso-spacerun:yes'>         </span>@arg flows A sequence of flow nodes describing
-the </p>
+style='mso-spacerun:yes'>         </span>@arg flows A sequence of flow nodes
+describing the </p>
 
 <p class=ProgText style='margin:0in;margin-bottom:.0001pt;background:#F3F3F3'><span
-style='mso-spacerun:yes'>         </span>parsed content</p>
+style='mso-spacerun:yes'>     </span><span
+style='mso-spacerun:yes'>    </span>parsed content</p>
 
 <p class=ProgText style='margin:0in;margin-bottom:.0001pt;background:#F3F3F3'><span
 style='mso-spacerun:yes'>         </span>@arg remaining Any unparsed forms in
@@ -746,8 +746,8 @@ comment above is a nice example of a recursive documentation structure.</p>
 
 <p class=MsoNormal>For the gory details, see <a
 href="http://greenh.github.com/CJD/doc/User.html"><b style='mso-bidi-font-weight:
-normal'>the user guide</b></a>, which was laboriously prepared to belabor all the
-details. </p>
+normal'>the user guide</b></a>, which was laboriously prepared to belabor all
+the details. </p>
 
 <h3><a name="_Toc339870703">Can I put any just old thing in a CJD comment?</a></h3>
 
@@ -821,20 +821,20 @@ class=ProgTextChar><span style='mso-bidi-font-family:"Times New Roman"'>defonce<
 <span class=ProgTextChar><span style='mso-bidi-font-family:"Times New Roman"'>deftype</span></span>
 all work, and probably a few others that don't come to mind at the moment. </p>
 
-<p class=MsoNormal>Some kinds of artifacts have substantial internal
-structures—subartifacts—that are sufficiently notable to be worthy of CJD
-documentation comments above and beyond their containing structures. Protocols,
-for example, have methods, and records and types have method implementations.
-In cases such as these, CJD supports comments not only for the artifact as a
-whole but for its subartifacts as well.</p>
+<p class=MsoNormal>Some kinds of artifacts have substantial internal structures—subartifacts—that
+are sufficiently notable to be worthy of CJD documentation comments above and
+beyond their containing structures. Protocols, for example, have methods, and
+records and types have method implementations. In cases such as these, CJD
+supports comments not only for the artifact as a whole but for its subartifacts
+as well.</p>
 
 <p class=MsoNormal>Namespaces are a kind of artifact, too, and can have their
-own CJD comments. Finally, a project—or even a collection of projects—doesn't
-currently rate as an artifact per se, but can have usefully an overview comment
-for the project as a whole, too. We note in this regard that a Leiningen<span
-style='mso-spacerun:yes'>  </span><span class=ProgTextChar><span
-style='mso-bidi-font-family:"Times New Roman"'>project.cjd</span></span> file
-is a dandy place to store such a thing.</p>
+own CJD comments. Finally, a project doesn't currently rate as an artifact per
+se, but it can have usefully an overview comment for the project as a whole. We
+note in this regard that a Leiningen<span style='mso-spacerun:yes'>  </span><span
+class=ProgTextChar><span style='mso-bidi-font-family:"Times New Roman"'>project.cjd</span></span>
+file is a dandy place to store such a thing. <span
+style='mso-spacerun:yes'> </span></p>
 
 <h3><a name="_Toc339870706">Can I extend CJD to support artifacts I've defined?</a></h3>
 
@@ -847,19 +847,18 @@ style='mso-bidi-font-weight:normal'>user guide</b></a> . </p>
 Adding support for artifacts with no internal structure is very easy. Adding
 support for increasing amounts of internal structure—parameters, fields,
 methods, etc.—is correspondingly more work. Expect to have to build parsers for
-the input and HTML generators on the output side (though you may be able to
-leverage existing developments in either case). You may even find yourself
-doing strange things like adding code to support reflection on your artifacts'
-structure (been there, done that). None of which is impossible, of course, or
-even likely to strain your programming abilities, but it will feel like real
-work.</p>
+the input and HTML generators on the output side (though you may be able to leverage
+existing developments in either case). You may even find yourself doing strange
+things like adding code to support reflection on your artifacts' structure
+(been there, done that). None of which is impossible, of course, or even likely
+to strain your programming abilities, but it will feel like real work.</p>
 
 <h3><a name="_Toc339870707">Can CJD use my existing docstrings in lieu of CJD
 comments?</a></h3>
 
-<p class=MsoNormal>Yep. It even does an arguably semi-credible job of formatting
-them, though the results are not nearly as pretty as CJD comments. It doesn't
-currently do docstrings by default, though: you'll need to specify <span
+<p class=MsoNormal>Yep. It even does an arguably semi-credible job of
+formatting them, though the results are not nearly as pretty as CJD comments.
+It doesn't currently do docstrings by default, though: you'll need to specify <span
 class=ProgTextChar>:docstrings true</span> in the options to CJD. </p>
 
 <h3><a name="_Toc339870708">I think your output format stinks. Can I invent my
@@ -868,7 +867,7 @@ own?</a> </h3>
 <p class=MsoNormal>Knock yerself out, dude. You've got several opportunities.</p>
 
 <p class=MsoNormal>If your concerns are merely surface-cosmetic, like if you
-don't like the color scheme, you might get away with just overriding
+don't like the fonts or color scheme, you might get away with just overriding
 declarations in CJD's base CSS documents. Similarly, CJD provides a few hooks
 for such purposes as adding custom headers and footers. The user guide
 describes <a href="http://greenh.github.com/CJD/doc/User.html#custom"><b
@@ -880,15 +879,12 @@ style='mso-bidi-font-weight:normal'>how to do this kind of customization</b></a>
 the first pass involves reading and parsing input and creation of a rough
 abstract syntax tree for the Clojure program per se—or forest, actually, as
 there's a tree (shrub, more like) per namespace. This serves as the input to
-the HTML-generating back end. CJD comments per se are currently parsed as an
-immediate precursor to HTML generation.</p>
+the HTML-generating back end. CJD comments per se are currently parsed as an immediate
+precursor to HTML generation. </p>
 
-<p class=MsoNormal>Which means you could either hack the existing back end
-(ugly, but not intractable) or write your own. It wouldn't be hard to improve
-on what's there (the author admits his craven incompetence in the area—and
-expresses his profound gratitude to <a
-href="https://github.com/weavejester/hiccup"><b style='mso-bidi-font-weight:
-normal'>Hiccup</b></a>, which keeps it sane. Or as sane as it gets…). </p>
+<p class=MsoNormal>All of which means you could either hack the existing back
+end (ugly, but not intractable), or write your own. For this purpose, the
+source code is its own documentation. Enjoy!</p>
 
 <h3><a name="_Toc339870709">Does CJD work for ClojureScript or Clojure on CLR?</a></h3>
 
@@ -949,7 +945,7 @@ quickie aide-mémoire. </p>
 
 <p class=MsoNormal>By stretching things a bit, we might even concede that
 they're an adequate documentation form for small functions, such, for example,
-as make up the bulk of the <span class=ProgTextChar><span style='mso-bidi-font-family:
+as make up much of the <span class=ProgTextChar><span style='mso-bidi-font-family:
 "Times New Roman"'>clojure.core</span></span> namespace. But the suggestion
 about docstrings <a
 href="http://clojure.org/special_forms#Special%20Forms--%28def%20symbol%20init?%29"><b
@@ -966,7 +962,8 @@ much larger artifacts out there.</p>
 
 <p class=MsoNormal>Another perceived problem with docstrings is that even when
 the information is there, it's not always easy to find. Our poster child
-(whipping boy?) for this is the docstring for <span class=ProgTextChar><a
+(whipping boy?) for this has always been the docstring for <span
+class=ProgTextChar><a
 href="http://clojure.github.com/clojure/clojure.core-api.html#clojure.core/reduce"><b
 style='mso-bidi-font-weight:normal'>reduce</b></a></span>: it's easy enough to
 conclude that its first parameter is a function. Now… what are that function's
@@ -974,7 +971,8 @@ parameters, and in what order? Well, the information is there; it merely takes
 a bunch of digging to extract. Which, after you've had to look it up several
 times not only ceases to be fun, but starts costing a goodly chunk of
 productivity. Point is, adding some structure to the documentation and arriving
-at a more or less consistent presentation can make life easier for everyone.</p>
+at a more or less consistent presentation can make life much easier for the
+reader.</p>
 
 <p class=MsoNormal>Aside from all of the foregoing, some of us simply detest
 having to write and maintain hand-formatted simple-text-only documentation. And
@@ -994,10 +992,11 @@ href="http://www.softwarepreservation.org/projects/LISP/interlisp/Interlisp-Oct_
 style='font-weight:normal'>InterLisp Reference Manual</span></a></b> doesn't
 obviously have anything like doc strings. Common Lisp, as witnessed by Guy
 Steele's 1990 <b style='mso-bidi-font-weight:normal'><a
-href="http://www.amazon.com/Common-LISP-Language-Second-Steele/dp/1555580416/ref=sr_1_4?s=books&amp;ie=UTF8&amp;qid=1324058144&amp;sr=1-4"><span
-style='font-weight:normal'>Common Lisp: The Language, 2nd Ed.</span></a></b>,
-does.<span style='mso-spacerun:yes'>  </span>So, 1985 can't be <i
-style='mso-bidi-font-style:normal'>that</i> far off.</p>
+href="http://www.cs.cmu.edu/Groups/AI/html/cltl/clm/node229.html"><span
+style='font-weight:normal'>Common Lisp: The Language, 2nd Ed.</span></a></b>, seems
+to… and gives 1988 as the year it entered the standard.<span
+style='mso-spacerun:yes'>  </span>So, 1985 can't be <i style='mso-bidi-font-style:
+normal'>that</i> far off. </p>
 
 <h3><a name="_Toc339870715">Should I feel evil, unclean, or insufficient if I
 don't like CJD?</a></h3>
@@ -1057,34 +1056,32 @@ point. </p>
 <p class=MsoNormal>Same idea applies to data structures, too, and that's a huge
 driver here. For example, one of Clojure's best features is the ability it
 bestows on a programmer to easily structure and destructure data on an ad-hoc,
-as-needed basis. This makes it trivially easy to return and use multiple values
-from a function—which capability we personally use pervasively. But effects
-like multiple return values merely increase the demand for documentation (like,
-what order are a function's return values in? Same question like for
-parameters!), and the need for documentation structures to support them.</p>
+as-needed basis. This makes it trivially easy, for example, to return and use
+multiple values from a function—which capability we personally use pervasively.
+But effects like multiple return values merely increase the demand for
+documentation (like, what order are a function's return values in? Same
+question like for parameters!), and the need for documentation structures to
+support them.</p>
 
 <p class=MsoNormal>Third, syntactically speaking, Java doesn't extend. It
 defines a fixed set of stuff—classes, interfaces, enums, and annotations—and
-that's the sum total of all she wrote, period, finis, requiescat in pace, amen.
-Clojure, however, has macros, and macros can spawn all sorts of fun new
-artifacts, any of which may have their own needs and aspirations when it comes
-to documentation. From this it follows that CJD needs to extensible as well.
-Like, if your program has a <span class=ProgTextChar><span style='mso-bidi-font-family:
-"Times New Roman"'>defwhatsit</span></span> macro and you're creating <span
-class=ProgTextChar><span style='mso-bidi-font-family:"Times New Roman"'>whatsit</span></span>
-thingies all over the place, then CJD needs to be able to allow you to add the
-wherewithal to generate pretty documentation for your <span class=ProgTextChar><span
-style='mso-bidi-font-family:"Times New Roman"'>whatsits</span></span> as
-such.<span style='mso-spacerun:yes'>  </span></p>
+that's the sum total of all she wrote, period, finis, requiescat in pace, end
+of story, amen, over and out. Clojure, however, has macros, and macros can
+spawn all sorts of fun new artifacts, any of which may have their own needs and
+aspirations when it comes to documentation. From this it follows that CJD needs
+to extensible as well. Like, if your program has a <span class=ProgTextChar><span
+style='mso-bidi-font-family:"Times New Roman"'>defwhatsit</span></span> macro
+and you're creating <span class=ProgTextChar><span style='mso-bidi-font-family:
+"Times New Roman"'>whatsit</span></span> thingies all over the place, then CJD
+needs to be able to allow you to add the wherewithal to generate pretty
+documentation for your <span class=ProgTextChar><span style='mso-bidi-font-family:
+"Times New Roman"'>whatsits</span></span> as such.<span
+style='mso-spacerun:yes'>  </span></p>
 
 <p class=MsoNormal>Bottom line here is that Javadoc feels like a reasonable
-point of departure, but CJD follows its own path from there.</p>
+point of departure; but having departed, CJD follows its own path.</p>
 
-<p class=MsoNormal><o:p>&nbsp;</o:p></p>
-
-<p class=MsoNormal><o:p>&nbsp;</o:p></p>
-
-<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+<p class=MsoNormal style='margin-left:0in'><o:p>&nbsp;</o:p></p>
 
 <p class=MsoNormal><o:p>&nbsp;</o:p></p>
 
