@@ -51,7 +51,7 @@
       @returns 0 , if document generation appears to have succeeded, and 1 otherwise.
       )
 (defn cjd 
-  "  Extracts CJD comments from Clojure sources and generates a HTML documentation tree.
+  "Extracts CJD comments from Clojure sources and generates a HTML documentation tree.
    
 	Specify CJD options by placing them in a map associated with the :cjd-doc key in the
 	in the main project map. 

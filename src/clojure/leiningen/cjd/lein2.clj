@@ -12,7 +12,7 @@
       )
 (ns leiningen.cjd.lein2
   (:use
-    [cjd.exome]
+    ; [cjd.exome]
     [cjd.version]
     )
   (:require 
@@ -36,9 +36,9 @@
           s1 (or (:cjd-source project) (:source-paths project) "src")
           sources (if (coll? s1) s1 [s1])
           dest (or (:cjd-dest project) "doc")
-          ;  prj  (update-in project [:dependencies] conj ['cjd *cjd-version*])
+          prj  (update-in project [:dependencies] conj ['cjd *cjd-version*])
           ]
-      (println "-+-> eval-in" (:eval-in project))
-      (lein-eval/eval-in project (cjd-generator sources dest opts)))
+      (lein-eval/eval-in-project prj 
+         `(cjd.exome/cjd-generator ~sources ~dest ~opts) `(require 'cjd.exome)))
     (catch Throwable t (.printStackTrace t))))
 
