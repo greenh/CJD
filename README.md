@@ -80,7 +80,7 @@ what CJD is and does, and how it managed to get there.
 
 It works! 
 
-Well, after a fashion -- there are a few caveats. Some known problems, limitations, and gotchas:
+Well, after a fashion --- there are a few caveats. Some known problems, limitations, and gotchas:
 
 * It's currently just for Clojure running on a JVM -- no Clojure/CLR or 
 ClojureScript support at the moment.
@@ -88,7 +88,7 @@ ClojureScript support at the moment.
 * The current implementation's operation involves loading Clojure files to assist 
 its name resolution processes. Works like a charm, but there's a down side: 
 
-    + Clojure files must be (transitively) loadable...
+    + Namespaces being processed must be (transitively) loadable...
  
     + ...so CJD's classpath needs to include everything that your project depends on...
  
@@ -99,13 +99,16 @@ interface-compatible with Hiccup 0.x.
 
 <!-- xxx -->
 
-* It's currently tested principally with Clojure 1.4.0, but it's recently worked 
-with 1.3.0 (but not with 1.2.1). CJD does contain release-specific code, so this can be 
-an issue.
+* It's currently working with Clojure 1.4.0 and 1.3.0 (but not with 1.2.1). CJD does 
+contain release-specific code, so this can be an issue.
 
-* CJD incorporates a Leiningen plugin, but all is not completely well. Currently, the plugin
-seems to work pretty well with Leiningen 1.x, at least in relatively simple environments. 
-Leiningen 2.x support is underway, but is currently much afflicted with issues.
+    + The current release is (mostly) not compiled code, so loading the code is no ball of 
+fire.
+
+<!-- xxx -->
+
+* CJD incorporates a Leiningen plugin that adaptively does the right stuff for 
+both versions 1 and 2 of Leiningen. Both versions currently seem to work pretty well!
 
 * Error reporting is less than fully wonderful:
 
@@ -119,7 +122,7 @@ the location of the problem.
 
 <!-- xxx -->
 
-* It doesn't cover everything one can do with Clojure.
+* It doesn't cover everything one can do with Clojure (it comes pretty close).
 
     + CJD clearly accommodates most common syntactic variations (as a point of reference,
 it successfully makes it through the Clojure source code), 
