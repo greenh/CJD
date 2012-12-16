@@ -99,8 +99,10 @@ interface-compatible with Hiccup 0.x.
 
 <!-- xxx -->
 
-* It's currently working with Clojure 1.4.0 and 1.3.0 (but not with 1.2.1). CJD does 
-contain release-specific code, so this can be an issue.
+* It's currently working with Clojure 1.4.0 and 1.3.0 (but not with 1.2.1). 
+
+    + CJD does contain release-specific code, so the choice of Clojure version for running CJD 
+is not entirely arbitrary.
 
     + The current release is (mostly) not compiled code, so loading the code is no ball of 
 fire.
@@ -127,7 +129,7 @@ the location of the problem.
     + CJD clearly accommodates most common syntactic variations (as a point of reference,
 it successfully makes it through the Clojure source code), 
 but there's been no effort expended to ensure that
-coverage is fully comprehensive. This has occasionally been an issue in the reader variant
+coverage is fully comprehensive. This has occasionally given rise to issues in the reader variant
 CJD uses for comment parsing.
 
     + There's no way to accommodate anything that's dynamically or conditionally
