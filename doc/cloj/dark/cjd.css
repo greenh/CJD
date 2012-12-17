@@ -42,9 +42,7 @@ a:hover { text-decoration: underline }
 p { margin-top: 3pt; margin-bottom: 3pt;
 }
 
-.ns {
-	font-size: large; font-weight: bold;
-}
+.ns { font-size: large; font-weight: bold; color: white; }
 
 /* Summary table header */
 .sum-hdr {
