@@ -944,7 +944,10 @@
        (if-let [header (context-header context)] 
          (header context)
          (gen-leader context))
-       [:div.ns  (artifact-name-of ns-artifact)]
+       [:div  
+        (if-let [src-uri (resolve-source ns-artifact)]
+          [:a.ns { :href src-uri } (artifact-name-of ns-artifact)]
+          [:span.ns (artifact-name-of ns-artifact)])]
        (if (has-doc? ns-artifact)
          ; note that we generate the ns description with level = 1, so embedded
          ; form/fun documentation works right
